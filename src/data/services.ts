@@ -112,7 +112,7 @@ export const services: Service[] = [
         list: [
           "Homeowners downsizing or moving abroad",
           "Families clearing a relative's home (see probate clearance)",
-          "Landlords and letting agents between tenancies",
+          "Landlords and letting agents (see end of tenancy clearance)",
           "Estate agents preparing a property for sale",
           "Housing associations and property managers",
         ],
@@ -122,6 +122,12 @@ export const services: Service[] = [
         paras: [
           "Good-condition furniture and household items can often be reused rather than thrown away. Metals, cardboard, wood, electricals and garden waste are separated for recycling, and only what cannot be reused or recycled goes for licensed disposal.",
           "Upholstered sofas and armchairs are handled separately because of the persistent organic pollutants (POPs) rules — more on that on our sofa removal page.",
+        ],
+      },
+      {
+        h2: "Loft, cellar and under-stairs clearances",
+        paras: [
+          "Lofts are where decades of belongings end up — and where clearances get awkward: narrow hatches, loose boarding and heat in summer. We bring the right number of people to pass items down safely, and can clear just the loft ahead of a conversion, insulation work or a sale.",
         ],
       },
       {
@@ -137,12 +143,80 @@ export const services: Service[] = [
       { q: "What happens to items in good condition?", a: "Where items are suitable for reuse we aim to pass them on rather than dispose of them. Items that can't be reused are sorted for recycling first, with licensed disposal as the last resort." },
       { q: "Can you take everything, including the garden and shed?", a: "Yes — tell us about outbuildings, lofts and gardens at the quote stage so they are included in the price. Hazardous materials such as asbestos, gas bottles and chemicals need specialist handling and are quoted separately or referred on." },
     ],
-    related: ["probate-clearance", "furniture-removal", "shed-garage-clearance", "garden-waste-clearance"],
+    related: ["probate-clearance", "end-of-tenancy-clearance", "furniture-removal", "shed-garage-clearance"],
     customers: ["Homeowners", "Landlords", "Estate agents", "Executors"],
     keywords: {
       primary: "house clearance Watford",
       secondary: ["house clearance company Watford", "flat clearance Watford", "property clearance Watford", "home clearance Hertfordshire"],
       longTail: ["how long does a house clearance take", "house clearance before selling a house", "part house clearance near me", "loft clearance Watford"],
+    },
+  },
+  {
+    slug: "end-of-tenancy-clearance",
+    name: "End of Tenancy Clearance",
+    short: "End of tenancy clearance",
+    icon: "key",
+    group: "home",
+    h1: "End of Tenancy Clearance in Watford",
+    metaTitle: "End of Tenancy Clearance Watford | Landlords & Letting Agents",
+    metaDescription:
+      "End of tenancy clearances in Watford for landlords, letting agents and tenants — left-behind furniture, rubbish and garden waste cleared fast. Call 01293 549164.",
+    lead:
+      "Tenants gone, belongings and rubbish left behind, new tenants due in. We clear flats, houses and HMOs between lets — furniture, mattresses, bags, white goods and garden waste — so your cleaner and inventory clerk can get in on time.",
+    answer:
+      "An end of tenancy clearance removes everything left in a rental property when a tenancy ends — furniture, mattresses, appliances, rubbish and garden waste — so it can be cleaned, inspected and re-let. We work 24/7 with same-day collections, liaise with agents and key holders, and send photos of the cleared property.",
+    cardText: "Left-behind furniture and rubbish cleared between lets — for landlords, agents and tenants.",
+    takes: [
+      "Abandoned furniture and mattresses",
+      "Bags of rubbish and food waste",
+      "White goods and small electricals",
+      "Garden waste and broken garden furniture",
+      "Shed, loft and cupboard contents",
+      "Carpets removed ahead of refurbishment",
+    ],
+    blocks: [
+      {
+        h2: "Fast turnarounds between tenancies",
+        paras: [
+          "Every empty day costs rent. Because we operate 24 hours a day, 7 days a week and offer same-day collections, a clearance can usually be fitted in between check-out and the cleaner arriving — including evenings and weekends when agents' offices are closed.",
+          "Send photos of each room (or ask your agent or inventory clerk to) and we'll price the job before anyone travels.",
+        ],
+      },
+      {
+        h2: "Working with landlords and letting agents",
+        subs: [
+          { h3: "Key collection and return", text: "We can collect keys from your letting agent, use a key safe or meet a property manager on site, then return the keys afterwards." },
+          { h3: "Photo confirmation", text: "Before-and-after photos give you and the agent a record that the property was cleared, useful alongside the check-out report." },
+          { h3: "Portfolio landlords and HMOs", text: "Several properties or rooms can be cleared in one route. Shared houses often need bins and communal areas sorting too — see domestic waste collection." },
+          { h3: "Invoices", text: "Invoices can be made out to the landlord, the agent or the property management company." },
+        ],
+      },
+      {
+        h2: "Before you clear a former tenant's belongings",
+        paras: [
+          "Rubbish is one thing; a tenant's personal possessions are another. If a tenant has left belongings behind, landlords usually need to give written notice and a reasonable time to collect them before disposal (under the Torts (Interference with Goods) Act 1977). If the tenancy ended unusually — abandonment, eviction or a death — take advice from your agent or a solicitor before arranging a full clearance.",
+          "Anything that looks personal or valuable that we find during a clearance — documents, photos, keys, jewellery — is set aside and handed to you rather than cleared.",
+        ],
+      },
+      {
+        h2: "Clearances for outgoing tenants",
+        paras: [
+          "Moving out and running out of time? Tenants book us too — to avoid deductions from a deposit for items left behind, or to clear a garden or shed before the check-out inspection.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "How quickly can you clear a rental property?", a: "We operate 24/7 and offer same-day collections. Call early with photos and we'll confirm the earliest slot — often the same day." },
+      { q: "Can you work with our letting agent rather than us?", a: "Yes. We can take instructions and keys from your agent or property manager and send them photos once the property is clear." },
+      { q: "Can I just throw away what my tenant left behind?", a: "Not always. Personal belongings usually require written notice to the former tenant first. Rubbish and clearly abandoned waste are simpler — check with your agent or a solicitor if you're unsure." },
+      { q: "Do you also clean the property?", a: "We clear and sweep. If you need an end of tenancy clean, tell us when it's booked and we'll schedule the clearance first." },
+    ],
+    related: ["house-clearance", "mattress-disposal", "domestic-bin-collection", "same-day-rubbish-removal"],
+    customers: ["Landlords", "Letting agents", "Property managers", "HMO landlords", "Tenants"],
+    keywords: {
+      primary: "end of tenancy clearance Watford",
+      secondary: ["end of tenancy rubbish removal Watford", "rental property clearance Watford", "landlord clearance Hertfordshire", "tenant left belongings clearance"],
+      longTail: ["clearance for letting agents Watford", "what to do with belongings left by a tenant", "same day end of tenancy clearance", "HMO clearance Watford"],
     },
   },
   {
@@ -405,6 +479,7 @@ export const services: Service[] = [
     ],
     faqs: [
       { q: "Why is sofa removal more expensive than other furniture?", a: "Upholstered seating has to be separated and destroyed under the POPs rules, which costs more than general waste or wood recycling." },
+      { q: "How much does sofa removal cost in Watford?", a: "It depends on the size and number of pieces (a corner sofa costs more than an armchair), access, and whether other items are going too. Send a photo and we'll give you a fixed price — see our pricing page for what affects the cost." },
       { q: "Will the council take my sofa?", a: "Watford Borough Council's standard bulky waste service has excluded sofas and upholstered items, so check watford.gov.uk for the current position or book a private collection." },
       { q: "Can you take a sofa bed with the metal frame?", a: "Yes. Sofa beds are collected whole and handled as upholstered seating." },
     ],
@@ -457,7 +532,7 @@ export const services: Service[] = [
       { q: "Can you take the bed frame too?", a: "Yes, bed frames and divan bases can be collected in the same visit." },
       { q: "Can you take a stained or damaged mattress?", a: "Yes. It may not be suitable for recycling, but it will still be disposed of through licensed routes." },
     ],
-    related: ["furniture-removal", "sofa-removal", "bulky-waste-collection"],
+    related: ["furniture-removal", "sofa-removal", "end-of-tenancy-clearance"],
     customers: ["Homeowners", "Landlords", "HMO managers", "Holiday let hosts"],
     keywords: {
       primary: "mattress disposal Watford",
@@ -548,13 +623,14 @@ export const services: Service[] = [
     faqs: [
       { q: "Do I need to defrost the freezer first?", a: "Yes please — an empty, defrosted unit is safer to move and avoids water leaking through your home." },
       { q: "Can you disconnect an integrated fridge?", a: "Plumbed-in or integrated appliances should be disconnected by a qualified person before collection." },
+      { q: "Can you take a washing machine or cooker as well?", a: "Yes. Washing machines, tumble dryers, dishwashers, cookers and microwaves can all be collected in the same visit and sent for WEEE recycling. Have them disconnected first." },
       { q: "Will the retailer take my old fridge?", a: "Many retailers offer take-back when delivering a new appliance, sometimes for a fee. If yours doesn't, or you're not replacing it, book a collection." },
     ],
     related: ["bulky-waste-collection", "house-clearance", "office-clearance"],
     customers: ["Homeowners", "Landlords", "Offices", "Pubs and cafés"],
     keywords: {
       primary: "fridge freezer removal Watford",
-      secondary: ["fridge disposal Watford", "freezer collection Watford", "old fridge collection Hertfordshire"],
+      secondary: ["fridge disposal Watford", "freezer collection Watford", "old fridge collection Hertfordshire", "washing machine removal Watford", "appliance disposal Watford"],
       longTail: ["how to dispose of a fridge freezer", "American fridge freezer removal", "do I need to defrost a fridge before collection"],
     },
   },

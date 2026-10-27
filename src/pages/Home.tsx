@@ -90,7 +90,7 @@ export default function Home() {
               {business.name} removes household, garden, bulky and business waste across Watford and the surrounding towns. We handle the heavy part — carrying items down stairs, out of lofts and through gardens — then sort what we collect so reusable items and recyclable materials stay out of landfill.
             </p>
             <p>
-              It's a practical alternative to hiring a skip or booking a council bulky collection: no permit, no waiting for a slot, no limit to three items, and nothing left sitting on your drive.
+              Think of it as a licensed man-and-van rubbish removal service, and a practical alternative to hiring a skip (<Link to="/guides/skip-hire-vs-rubbish-removal/">skip vs rubbish removal</Link>) or booking a council bulky collection: no permit, no waiting for a slot, no limit to three items, and nothing left sitting on your drive.
             </p>
           </div>
         </div>
@@ -173,7 +173,7 @@ export default function Home() {
             <h3>Households</h3>
             <p>Clear-outs before a move, after a renovation, or simply to get the garage back. See <Link to="/house-clearance/">house clearance</Link> and <Link to="/furniture-removal/">furniture removal</Link>.</p>
             <h3>Landlords and letting agents</h3>
-            <p>End-of-tenancy clearances, abandoned belongings and mattresses between lets — arranged with key holders so you don't need to be there.</p>
+            <p><Link to="/end-of-tenancy-clearance/">End of tenancy clearances</Link>, abandoned belongings and mattresses between lets — arranged with key holders so you don't need to be there, 24/7.</p>
             <h3>Businesses</h3>
             <p><Link to="/office-clearance/">Office clearances</Link>, <Link to="/commercial-bin-collection/">commercial waste collections</Link> and <Link to="/builders-waste-removal/">builders' waste removal</Link>, with the waste paperwork businesses must keep.</p>
           </div>

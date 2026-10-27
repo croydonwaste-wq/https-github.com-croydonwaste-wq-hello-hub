@@ -7,7 +7,7 @@ import { Illustration } from "@/components/Illustration";
 import { serviceBySlug, services } from "@/data/services";
 import { locationBySlug } from "@/data/locations";
 import { withPhone, breadcrumbSchema, faqSchema, ORG_ID } from "@/lib/schema";
-import { absoluteUrl } from "@/data/business";
+import { absoluteUrl, business } from "@/data/business";
 import type { Location, Service } from "@/data/types";
 
 export default function LocationPage({ location: l }: { location: Location }) {
@@ -19,6 +19,18 @@ export default function LocationPage({ location: l }: { location: Location }) {
   const popular = l.popular.map(serviceBySlug).filter(Boolean) as Service[];
   const others = services.filter((s) => !l.popular.includes(s.slug));
   const nearby = l.nearby.map(locationBySlug).filter(Boolean) as Location[];
+  const place = l.town.split(" & ")[0];
+  const faqs = [
+    ...l.faqs,
+    {
+      q: `Do you offer same-day rubbish removal in ${place}?`,
+      a: `Yes. We operate 24 hours a day, 7 days a week and offer same-day collections in ${l.town}${business.phone ? ` — call ${business.phone} as early as you can` : ""}, or send the quote form with photos.`,
+    },
+    {
+      q: `How much does rubbish removal cost in ${place}?`,
+      a: "Prices depend on the volume of waste, the type of items (sofas, fridges and rubble cost more to dispose of) and access. We give a fixed quote from photos before any work starts — see our pricing page for details.",
+    },
+  ];
 
   const pageSchema = {
     "@context": "https://schema.org",
@@ -31,7 +43,7 @@ export default function LocationPage({ location: l }: { location: Location }) {
 
   return (
     <>
-      <Seo title={l.metaTitle} description={withPhone(l.metaDescription)} path={`/${l.slug}/`} schema={[pageSchema, breadcrumbSchema(crumbs), faqSchema(l.faqs)]} />
+      <Seo title={l.metaTitle} description={withPhone(l.metaDescription)} path={`/${l.slug}/`} schema={[pageSchema, breadcrumbSchema(crumbs), faqSchema(faqs)]} />
       <PageHero crumbs={crumbs} eyebrow={`${l.county} · ${l.postcodes.join(", ")}`} h1={l.h1} lead={l.lead} context={`rubbish removal in ${l.town}`} quote={{ heading: `Free quote in ${l.town.split(" & ")[0]}` }} />
 
       <div className="container grid gap-12 py-14 lg:grid-cols-[minmax(0,1fr)_320px]">
@@ -56,7 +68,7 @@ export default function LocationPage({ location: l }: { location: Location }) {
               ))}
             </p>
           </section>
-          <FaqList faqs={l.faqs} heading={`Rubbish removal in ${l.town}: FAQs`} />
+          <FaqList faqs={faqs} heading={`Rubbish removal in ${l.town}: FAQs`} />
         </div>
         <aside className="space-y-6 lg:sticky lg:top-28 lg:self-start">
           <div className="card p-6">

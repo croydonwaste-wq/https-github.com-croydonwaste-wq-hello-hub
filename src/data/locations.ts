@@ -75,7 +75,7 @@ export const locations: Location[] = [
         ],
       },
     ],
-    popular: ["furniture-removal", "mattress-disposal", "bulky-waste-collection", "house-clearance"],
+    popular: ["end-of-tenancy-clearance", "furniture-removal", "mattress-disposal", "bulky-waste-collection"],
     nearby: ["rubbish-removal-bushey", "rubbish-removal-croxley-green", "rubbish-removal-rickmansworth"],
     faqs: [
       { q: "Do you cover Carpenders Park?", a: "Yes, Carpenders Park and the wider WD19 area are covered." },
@@ -354,7 +354,7 @@ export const locations: Location[] = [
         ],
       },
     ],
-    popular: ["mattress-disposal", "furniture-removal", "domestic-bin-collection", "house-clearance"],
+    popular: ["end-of-tenancy-clearance", "mattress-disposal", "furniture-removal", "house-clearance"],
     nearby: ["rubbish-removal-st-albans", "rubbish-removal-harpenden"],
     faqs: [
       { q: "Can you clear several student houses in one day?", a: "Often, yes — give us the addresses and dates and we'll plan a route." },

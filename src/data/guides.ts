@@ -6,6 +6,65 @@ import type { Guide } from "./types";
  */
 export const guides: Guide[] = [
   {
+    slug: "skip-hire-vs-rubbish-removal",
+    title: "Skip hire vs rubbish removal: which is better?",
+    h1: "Skip Hire vs Man-and-Van Rubbish Removal: Which Should You Choose?",
+    metaTitle: "Skip Hire vs Rubbish Removal in Watford | Which Is Better?",
+    metaDescription:
+      "Skip or rubbish removal collection? A plain comparison of cost, permits, loading, timing and what you can put in each — to help Watford households choose.",
+    lead: "Both get rid of waste. Which one suits you depends on how much there is, how quickly it's produced and whether you have somewhere to put a skip.",
+    answer:
+      "For one-off clear-outs where the waste is ready now, a wait-and-load rubbish removal service is usually simpler and often cheaper: no permit, no skip on the drive and the loading is done for you. A skip can make more sense for long projects producing waste every day for weeks, where you have off-road space and are happy to load it yourself.",
+    published: "2026-10-28",
+    updated: "2026-10-28",
+    blocks: [
+      {
+        h2: "The key differences",
+        subs: [
+          { h3: "Loading", text: "Skip: you load it yourself. Rubbish removal: the team carries items out from inside the property and loads the van." },
+          { h3: "Space and permits", text: "Skip: needs a driveway, or a council permit if it sits on the road. Rubbish removal: nothing is left on site, so no permit is needed." },
+          { h3: "Timing", text: "Skip: hired for a set period, and waste goes in as it's produced. Rubbish removal: waste is collected in one visit — same day if needed." },
+          { h3: "What can go in", text: "Skips usually exclude items such as mattresses, fridges, TVs and sofas, or charge extra for them. A rubbish removal service can take these, sending each to the right treatment route." },
+          { h3: "Paying for space you don't use", text: "Skips are priced by size whether you fill them or not. Rubbish removal is priced on the volume actually collected." },
+        ],
+      },
+      {
+        h2: "When a skip is the better choice",
+        list: [
+          "A long renovation producing waste every day for weeks",
+          "Plenty of off-road space for the skip",
+          "Mostly heavy inert waste (rubble, soil) and you're happy to load it",
+        ],
+      },
+      {
+        h2: "When rubbish removal is the better choice",
+        list: [
+          "The waste is already there and you want it gone in one go",
+          "No driveway, or you'd need a road permit",
+          "Bulky or awkward items: sofas, mattresses, fridges, wardrobes",
+          "Items are upstairs, in a loft or at the back of the garden",
+          "You need it cleared today — for a handover, sale or tenancy",
+        ],
+      },
+      {
+        h2: "Whichever you choose, check the licence",
+        paras: [
+          "Skip companies and rubbish collectors both need to be registered waste carriers. Householders can be fined if their waste ends up fly-tipped, so ask for the registration details before you book.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Is a man and van cheaper than a skip?", a: "For small and medium one-off loads it often is, because you only pay for what's collected and there's no permit. For very large, long-running projects a skip can work out cheaper. Compare quotes for your actual volume." },
+      { q: "Do I need a permit for a skip in Watford?", a: "Only if the skip goes on the road or pavement rather than private land. The skip company normally applies to the council for you — check the cost and timescale with them." },
+    ],
+    related: ["builders-waste-removal", "house-clearance", "garden-waste-clearance"],
+    keywords: {
+      primary: "skip hire vs rubbish removal",
+      secondary: ["skip or man and van", "skip alternative Watford", "is a man and van cheaper than a skip"],
+      longTail: ["do I need a skip permit in Watford", "what can't go in a skip"],
+    },
+  },
+  {
     slug: "check-waste-carrier-licence",
     title: "How to check a waste carrier licence",
     h1: "How to Check a Waste Carrier Licence (and Avoid a Fly-Tipping Fine)",

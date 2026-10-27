@@ -16,6 +16,7 @@ export function Pricing() {
   const crumbs = [{ name: "Home", path: "/" }, { name: "Pricing", path: "/pricing/" }];
   const faqs: Faq[] = [
     { q: "Do you charge per item or per load?", a: "Larger jobs are priced by volume — how much of the van the waste fills — with adjustments for heavy or specially-handled items. Single-item collections are priced individually." },
+    { q: "Do you charge more for same-day or out-of-hours collections?", a: "We operate 24/7, and your quote reflects the job, the timing and the waste involved. The full price is always confirmed before we start." },
     { q: "Is labour included?", a: "Yes. Loading, carrying from inside the property and disposal are all included in the quote." },
     { q: "Will the price change on the day?", a: "Only if there's significantly more, or different, waste than described. If so we'll tell you before loading it, and you can decide." },
     { q: "How can I get the most accurate quote?", a: "Send photos of everything that's going, mention where it is (upstairs, loft, garden), and tell us about access such as stairs or parking." },

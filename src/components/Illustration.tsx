@@ -204,12 +204,13 @@ const Frame = ({ children, label, tint = C.sky }: { children: ReactNode; label: 
 
 export type Scene =
   | "van" | "house" | "probate" | "office" | "garden" | "furniture" | "sofa" | "mattress"
-  | "bulky" | "fridge" | "builders" | "shed" | "bins" | "trade" | "town" | "sameday";
+  | "tenancy" | "bulky" | "fridge" | "builders" | "shed" | "bins" | "trade" | "town" | "sameday";
 
 const scenes: Record<Scene, ReactNode> = {
   van: (<><Van x={40} y={140} s={1.05} /><Box x={290} y={206} /><Box x={330} y={206} w={40} h={34} /><Box x={306} y={176} w={40} h={30} /><Bag x={380} y={186} /><Bag x={414} y={194} s={0.85} /></>),
   sameday: (<><Van x={130} y={140} s={1.05} /><path d="M30 170h80M50 195h60M20 220h90" stroke={C.yellow} strokeWidth="8" strokeLinecap="round" /><circle cx="80" cy="80" r="40" fill={C.white} stroke={C.navy} strokeWidth="5" /><path d="M80 56v26l16 10" stroke={C.red} strokeWidth="6" strokeLinecap="round" fill="none" /></>),
   house: (<><House x={30} y={82} /><Sofa x={210} y={172} s={0.9} /><Box x={330} y={206} /><Box x={370} y={206} w={40} /><Box x={344} y={176} w={40} h={30} /><Bag x={420} y={190} s={0.8} /></>),
+  tenancy: (<><House x={30} y={82} /><Mattress x={214} y={128} /><Sofa x={262} y={172} s={0.8} /><Bag x={372} y={186} /><Bag x={408} y={192} s={0.85} /></>),
   probate: (<><House x={40} y={82} /><Key x={230} y={150} s={1.2} /><Box x={330} y={206} /><Box x={372} y={206} w={40} /><Box x={350} y={176} w={36} h={30} /></>),
   office: (<><Desk x={40} y={150} /><Chair x={180} y={178} /><Desk x={250} y={150} s={0.9} /><Box x={380} y={206} /><Box x={400} y={176} w={36} h={30} /></>),
   garden: (<><Tree x={40} y={136} /><Tree x={110} y={150} s={0.85} /><GreenPile x={200} y={200} /><Wheelbarrow x={330} y={186} /></>),
@@ -252,6 +253,7 @@ export const serviceScene: Record<string, Scene> = {
   "same-day-rubbish-removal": "sameday",
   "house-clearance": "house",
   "probate-clearance": "probate",
+  "end-of-tenancy-clearance": "tenancy",
   "office-clearance": "office",
   "garden-waste-clearance": "garden",
   "furniture-removal": "furniture",
