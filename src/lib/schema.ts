@@ -22,7 +22,17 @@ export function localBusinessSchema(): Json {
     ...(business.legalName ? { legalName: business.legalName } : {}),
     url: `${business.domain}/`,
     email: business.email,
-    ...(business.phone ? { telephone: business.phone } : {}),
+    ...(business.phone ? { telephone: business.phone.replace(/\s/g, "").replace(/^0/, "+44") } : {}),
+    ...(business.open247
+      ? {
+          openingHoursSpecification: {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+            opens: "00:00",
+            closes: "23:59",
+          },
+        }
+      : {}),
     ...(business.address ? { address: { "@type": "PostalAddress", addressCountry: "GB", ...business.address } } : {}),
     logo: absoluteUrl("/logo.svg"),
     image: absoluteUrl("/og-image.png"),
@@ -91,4 +101,11 @@ export function articleSchema(g: Guide): Json {
     mainEntityOfPage: absoluteUrl(`/guides/${g.slug}/`),
     inLanguage: "en-GB",
   };
+}
+
+/** Swap a generic closing CTA in a meta description for the click-to-call number. */
+export function withPhone(desc: string): string {
+  if (!business.phone || desc.includes(business.phone)) return desc;
+  const swapped = desc.replace(/\s*(?:(?:Request|Get|Ask for) (?:a |your )?(?:free|business)?[^.]*quote[^.]*|Free quotes?(?: on request)?)\.$/i, ` Call ${business.phone} 24/7.`);
+  return swapped.length <= 165 ? swapped : desc;
 }

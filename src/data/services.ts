@@ -8,6 +8,70 @@ import type { Service } from "./types";
  */
 export const services: Service[] = [
   {
+    slug: "same-day-rubbish-removal",
+    name: "Same-Day & 24/7 Rubbish Removal",
+    short: "Same-day removal",
+    icon: "clock",
+    group: "home",
+    h1: "Same-Day & 24 Hour Rubbish Removal in Watford",
+    metaTitle: "Same-Day Rubbish Removal Watford | 24/7 Waste Collection",
+    metaDescription:
+      "Same-day and 24 hour rubbish removal in Watford — evenings, weekends and urgent clear-outs. Licensed and insured. Call 01293 549164 or request a quote.",
+    lead:
+      "Rubbish that can't wait — a deadline on a key handover, a skip that didn't turn up, a tenant who left everything behind. We operate around the clock, 7 days a week, and offer same-day collections across Watford.",
+    answer:
+      "Yes — Watford Rubbish Clearance offers same-day rubbish removal and operates 24 hours a day, 7 days a week. The quickest way to secure a same-day slot is to call early and send photos of what needs to go, so the right van and team can be sent straight away.",
+    cardText: "Urgent, same-day and out-of-hours collections — 24 hours a day, 7 days a week.",
+    takes: [
+      "Urgent end-of-tenancy clear-outs",
+      "Rubbish before a sale completion or key return",
+      "Overflowing bins and bags",
+      "Furniture and appliances",
+      "Builders' waste holding up the next trade",
+      "Out-of-hours commercial clear-outs",
+    ],
+    blocks: [
+      {
+        h2: "When same-day rubbish removal makes sense",
+        list: [
+          "Keys must be returned to a landlord, agent or council today or tomorrow",
+          "A house sale is completing and the property must be empty",
+          "Tenants have moved out and left belongings or rubbish behind",
+          "Waste is blocking a renovation and the next trade arrives in the morning",
+          "A shop or office needs clearing outside trading hours",
+          "Rubbish is attracting pests or blocking a fire exit or shared hallway",
+        ],
+      },
+      {
+        h2: "How to get a same-day collection",
+        subs: [
+          { h3: "1. Call as early as you can", text: "Same-day slots depend on where our vans already are, so the earlier you call, the better the chance of a slot that suits you." },
+          { h3: "2. Send photos", text: "Photos let us confirm the price and send the right size van and team without a site visit." },
+          { h3: "3. Confirm access", text: "Tell us about parking, stairs, lifts and who will let us in — or arrange a key safe if you can't be there." },
+        ],
+      },
+      {
+        h2: "Evenings, nights and weekends",
+        paras: [
+          "Because we operate 24/7, collections can be arranged outside normal working hours — useful for businesses that can't have vans outside during trading, for blocks of flats with daytime parking pressure, and for anyone who can't take time off work.",
+          "Out-of-hours work is planned with noise and neighbours in mind; let us know about any building rules on quiet hours.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Can you really collect today?", a: "We offer same-day collections and operate 24/7. Availability depends on the time you call and the size of the job, so call early and we'll confirm the earliest slot straight away." },
+      { q: "Do you charge more for same-day or out-of-hours collections?", a: "Your quote reflects the job, the timing and the waste involved. We'll always confirm the full price before we start." },
+      { q: "Can you collect at night or on a Sunday?", a: "Yes. We operate 24 hours a day, 7 days a week — tell us the time that works for you." },
+    ],
+    related: ["house-clearance", "bulky-waste-collection", "domestic-bin-collection", "builders-waste-removal"],
+    customers: ["Tenants", "Landlords", "Estate agents", "Businesses", "Builders"],
+    keywords: {
+      primary: "same day rubbish removal Watford",
+      secondary: ["24 hour rubbish removal Watford", "urgent rubbish collection Watford", "emergency waste removal Hertfordshire"],
+      longTail: ["rubbish removal today near me", "weekend rubbish collection Watford", "out of hours waste collection"],
+    },
+  },
+  {
     slug: "house-clearance",
     name: "House Clearance",
     short: "House clearance",
@@ -361,7 +425,7 @@ export const services: Service[] = [
     h1: "Mattress Collection & Disposal in Watford",
     metaTitle: "Mattress Disposal Watford | Old Mattress Collection",
     metaDescription:
-      "Old mattress collection and disposal in Watford — single, double, king and divan bases collected from inside your home and sent for recycling where possible.",
+      "Mattress collection in Watford — single to super-king mattresses and divans collected from inside your home and recycled where possible. Call 01293 549164.",
     lead:
       "Single, double, king and super-king mattresses and divan bases collected from inside your home. We aim to send mattresses for recycling rather than landfill where a recycler can take them.",
     answer:
@@ -410,7 +474,7 @@ export const services: Service[] = [
     h1: "Bulky Waste Collection in Watford",
     metaTitle: "Bulky Waste Collection Watford | Large Item Removal",
     metaDescription:
-      "Private bulky waste collection in Watford — large household items collected from inside your home, including electricals and sofas the council may not take.",
+      "Bulky waste collection in Watford — large items collected from inside your home, including sofas and electricals the council won't take. Call 01293 549164.",
     lead:
       "Large household items that won't fit in your bin — furniture, appliances, sofas, carpets, bikes and exercise equipment — collected from wherever they are in the home.",
     answer:
@@ -503,7 +567,7 @@ export const services: Service[] = [
     h1: "Builders Waste Removal in Watford",
     metaTitle: "Builders Waste Removal Watford | Rubble & Renovation Waste",
     metaDescription:
-      "Builders waste and renovation rubbish removal in Watford — rubble, plasterboard, timber, old kitchens and bathrooms. A skip alternative with loading included.",
+      "Builders waste removal in Watford — rubble, plasterboard, timber and kitchen strip-outs. A skip alternative with loading included. Call 01293 549164 24/7.",
     lead:
       "Rubble, timber, plasterboard, old kitchens and bathroom suites removed from building sites and renovations — loaded by us, with no skip permit and no skip sitting on your drive.",
     answer:
@@ -600,7 +664,7 @@ export const services: Service[] = [
     h1: "Extra Domestic Rubbish Collection in Watford",
     metaTitle: "Domestic Bin Collection Watford | Extra Household Waste Pickups",
     metaDescription:
-      "Extra household rubbish collections in Watford for overflowing bins, side waste and post-party clear-ups — one-off or regular. Ask us what suits your home.",
+      "Extra household rubbish collections in Watford for overflowing bins, side waste and post-party clear-ups — one-off or regular. Call 01293 549164, 24/7.",
     lead:
       "When your household bins aren't enough — after a clear-out, a party, a missed collection or with a busy shared house — we collect the extra bagged waste, one-off or on a regular arrangement.",
     answer:

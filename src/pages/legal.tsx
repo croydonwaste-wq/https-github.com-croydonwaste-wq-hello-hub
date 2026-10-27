@@ -12,7 +12,7 @@ export function Privacy() {
   return (
     <>
       <Seo title="Privacy Policy | Watford Rubbish Clearance" description="How Watford Rubbish Clearance collects, uses and protects personal information submitted through this website." path="/privacy-policy/" />
-      <PageHero crumbs={crumbs} h1="Privacy Policy" lead={`Last updated ${LAST_UPDATED}.`} />
+      <PageHero crumbs={crumbs} h1="Privacy Policy" lead={`Last updated ${LAST_UPDATED}.`} quote={false} />
       <div className="container max-w-3xl py-14">
         <ContentBlocks
           blocks={[
@@ -51,7 +51,7 @@ export function Terms() {
   return (
     <>
       <Seo title="Terms of Service | Watford Rubbish Clearance" description="The terms that apply when you book a rubbish removal or clearance with Watford Rubbish Clearance: quotes, access, items we can't accept and cancellations." path="/terms/" />
-      <PageHero crumbs={crumbs} h1="Terms of Service" lead={`Last updated ${LAST_UPDATED}.`} />
+      <PageHero crumbs={crumbs} h1="Terms of Service" lead={`Last updated ${LAST_UPDATED}.`} quote={false} />
       <div className="container max-w-3xl py-14">
         <ContentBlocks
           blocks={[

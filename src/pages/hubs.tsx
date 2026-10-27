@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Seo } from "@/components/Seo";
 import { AnswerBox, ContentBlocks, CtaBand, FaqList, PageHero, ServiceCard } from "@/components/blocks";
 import { Icon } from "@/components/Icon";
+import { CoverageMap } from "@/components/Graphics";
 import { services, serviceGroups, serviceBySlug } from "@/data/services";
 import { locations, watfordAreas, widerAreas } from "@/data/locations";
 import { guides } from "@/data/guides";
@@ -25,13 +26,13 @@ export function ServicesHub() {
         path="/services/"
         schema={[itemList, breadcrumbSchema(crumbs)]}
       />
-      <PageHero crumbs={crumbs} eyebrow="Services" h1="Waste Clearance Services in Watford" lead="Whole-property clearances, single-item collections and business waste — choose the service closest to what you need, or just tell us what's going and we'll advise." />
+      <PageHero crumbs={crumbs} eyebrow="Services" h1="Waste Clearance Services in Watford" lead="Whole-property clearances, single-item collections and business waste — choose the service closest to what you need, or just tell us what's going and we'll advise." quote={{}} />
       <div className="container py-14">
         {serviceGroups.map((g) => (
           <section key={g.key} className="mb-14">
             <h2 className="section-title">{g.label}</h2>
             <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {services.filter((s) => s.group === g.key).map((s) => <ServiceCard key={s.slug} s={s} />)}
+              {services.filter((s) => s.group === g.key).map((s) => <ServiceCard key={s.slug} s={s} visual />)}
             </div>
           </section>
         ))}
@@ -54,12 +55,19 @@ export function AreasHub() {
     <>
       <Seo
         title="Areas We Cover | Rubbish Removal Watford & Hertfordshire"
-        description="Rubbish removal across Watford, Bushey, Oxhey, Croxley Green, Rickmansworth, Abbots Langley, Kings Langley, St Albans, Harpenden, Hatfield and Berkhamsted."
+        description="24/7 rubbish removal across Watford, Bushey, Oxhey, Croxley Green, Rickmansworth, Abbots Langley, St Albans, Harpenden and more. Call 01293 549164."
         path="/areas-we-cover/"
         schema={[breadcrumbSchema(crumbs), faqSchema(faqs)]}
       />
       <PageHero crumbs={crumbs} eyebrow="Coverage" h1="Areas We Cover for Rubbish Removal" lead="Based around Watford, we cover the surrounding towns and villages of south and west Hertfordshire, with wider coverage on request." />
       <div className="container space-y-14 py-14">
+        <section className="grid gap-10 lg:grid-cols-2 lg:items-center">
+          <div>
+            <h2 className="section-title">Our coverage around Watford</h2>
+            <p className="mt-3 leading-relaxed text-ink-700">We're based around Watford and work 24/7 across the surrounding towns, with same-day collections available. Choose a town for local information, or use the quote form with your postcode.</p>
+          </div>
+          <CoverageMap />
+        </section>
         <section>
           <h2 className="section-title">Watford</h2>
           <p className="mt-3 max-w-3xl leading-relaxed text-ink-700">

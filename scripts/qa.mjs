@@ -14,15 +14,17 @@ const files = [];
   }
 })(dist);
 
+const SKIP = new Set(["/thank-you/"]);
 const urlOf = (f) => "/" + path.relative(dist, path.dirname(f)).split(path.sep).filter(Boolean).join("/") + (path.dirname(f) === dist ? "" : "/");
 const sitemap = [...fs.readFileSync(path.join(dist, "sitemap.xml"), "utf8").matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].replace(DOMAIN, ""));
 const pages = new Set(files.map(urlOf));
 const problems = [];
 const titles = new Map(), descs = new Map(), h1s = new Map();
-const inbound = new Map([...pages].map((p) => [p, 0]));
+const inbound = new Map([...pages].filter((p) => !SKIP.has(p)).map((p) => [p, 0]));
 
 for (const f of files) {
   const url = urlOf(f);
+  if (SKIP.has(url)) continue;
   const html = fs.readFileSync(f, "utf8");
   const dec = (s) => s.replace(/&amp;/g, "&").replace(/&#x27;|&#39;/g, "'");
   const title = dec(html.match(/<title[^>]*>([^<]*)<\/title>/)?.[1] ?? "");

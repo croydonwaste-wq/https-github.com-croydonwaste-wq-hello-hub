@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import type { ContentBlock, Faq, Service } from "@/data/types";
 import { Icon } from "./Icon";
 import { ContactButtons } from "./ContactButtons";
+import { QuickQuoteCard } from "./QuoteForm";
+import { Illustration, serviceScene } from "./Illustration";
+import { business } from "@/data/business";
 
 export type Crumb = { name: string; path: string };
 
@@ -31,6 +34,7 @@ export function PageHero({
   h1,
   lead,
   context,
+  quote = {},
   children,
 }: {
   crumbs?: Crumb[];
@@ -38,21 +42,44 @@ export function PageHero({
   h1: string;
   lead: string;
   context?: string;
+  /** Compact quote form beside the heading; pass false to hide (legal pages, 404). */
+  quote?: false | { defaultService?: string; heading?: string };
   children?: ReactNode;
 }) {
   return (
     <section className="hero-bg relative overflow-hidden text-white">
-      <div className="container relative py-10 md:py-16">
+      <div className="container relative py-10 md:py-14">
         {crumbs && <Breadcrumbs items={crumbs} />}
-        <div className="mt-6 max-w-3xl">
-          {eyebrow && <p className="eyebrow text-signal-400">{eyebrow}</p>}
-          <h1 className="mt-2 font-display text-[2rem] font-extrabold leading-[1.08] tracking-tight sm:text-5xl">{h1}</h1>
-          <p className="mt-4 text-lg leading-relaxed text-navy-100">{lead}</p>
-          <ContactButtons tone="dark" context={context} className="mt-7" />
-          {children}
+        <div className={`mt-6 grid gap-8 ${quote ? "lg:grid-cols-[minmax(0,1fr)_400px] lg:items-start" : ""}`}>
+          <div className="max-w-3xl">
+            {eyebrow && <p className="eyebrow text-signal-400">{eyebrow}</p>}
+            <h1 className="mt-2 font-display text-[2rem] font-extrabold leading-[1.08] tracking-tight sm:text-5xl">{h1}</h1>
+            <p className="mt-4 text-lg leading-relaxed text-navy-100">{lead}</p>
+            <ContactButtons tone="dark" context={context} className="mt-7" />
+            <HeroBadges />
+            {children}
+          </div>
+          {quote && <QuickQuoteCard {...quote} />}
         </div>
       </div>
     </section>
+  );
+}
+
+/** Short confirmed-fact badges shown under hero CTAs. */
+export function HeroBadges() {
+  const items = [
+    business.open247 && "Open 24/7",
+    business.sameDay && "Same-day collections",
+    business.licensedWasteCarrier && "Licensed waste carrier",
+    business.publicLiability && `${business.publicLiability} public liability`,
+  ].filter(Boolean) as string[];
+  return (
+    <ul className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm text-navy-100">
+      {items.map((t) => (
+        <li key={t} className="flex items-center gap-1.5"><Icon name="check" className="h-4 w-4 text-signal-500" />{t}</li>
+      ))}
+    </ul>
   );
 }
 
@@ -109,9 +136,14 @@ export function FaqList({ faqs, heading = "Frequently asked questions" }: { faqs
   );
 }
 
-export function ServiceCard({ s, anchor }: { s: Service; anchor?: string }) {
+export function ServiceCard({ s, anchor, visual = false }: { s: Service; anchor?: string; visual?: boolean }) {
   return (
-    <Link to={`/${s.slug}/`} className="card group flex flex-col p-6">
+    <Link to={`/${s.slug}/`} className="card group flex flex-col overflow-hidden p-6">
+      {visual && (
+        <div className="-mx-6 -mt-6 mb-5 border-b border-ink-200 bg-navy-50 transition group-hover:bg-signal-100">
+          <Illustration scene={serviceScene[s.slug] ?? "van"} label="" className="rounded-none" />
+        </div>
+      )}
       <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-navy-50 text-navy-700 transition group-hover:bg-signal-500 group-hover:text-navy-950">
         <Icon name={s.icon} />
       </span>
@@ -181,10 +213,10 @@ export function TickList({ items, cols = 2 }: { items: string[]; cols?: 1 | 2 | 
 
 /** Honest trust points — operational commitments, not unverified credentials. */
 export const trustPoints = [
-  { icon: "shield" as const, title: "Licensed disposal", text: "Waste goes to authorised facilities, and we'll give you our carrier details and paperwork." },
+  { icon: "clock" as const, title: "Open 24/7, same-day", text: "Day, night or weekend — call early for the best chance of a same-day collection." },
+  { icon: "shield" as const, title: "Licensed & insured", text: "Licensed waste carrier with £5 million public liability cover. Waste goes to authorised facilities." },
   { icon: "pound" as const, title: "Price agreed first", text: "You get a quote before we start, based on what you actually need removed." },
-  { icon: "truck" as const, title: "We do the lifting", text: "Collected from any room, loft, garage or garden — not just the kerb." },
-  { icon: "recycle" as const, title: "Recycling first", text: "Items are sorted for reuse and recycling before anything goes for disposal." },
+  { icon: "recycle" as const, title: "We lift, we recycle", text: "Collected from any room, loft or garden, then sorted for reuse and recycling first." },
 ];
 
 export function TrustGrid() {

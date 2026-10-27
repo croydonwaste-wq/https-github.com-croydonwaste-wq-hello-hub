@@ -3,9 +3,10 @@ import { Seo } from "@/components/Seo";
 import { AnswerBox, ContentBlocks, CtaBand, FaqList, PageHero, ServiceCard } from "@/components/blocks";
 import { QuoteForm } from "@/components/QuoteForm";
 import { Icon } from "@/components/Icon";
+import { Illustration } from "@/components/Illustration";
 import { serviceBySlug, services } from "@/data/services";
 import { locationBySlug } from "@/data/locations";
-import { breadcrumbSchema, faqSchema, ORG_ID } from "@/lib/schema";
+import { withPhone, breadcrumbSchema, faqSchema, ORG_ID } from "@/lib/schema";
 import { absoluteUrl } from "@/data/business";
 import type { Location, Service } from "@/data/types";
 
@@ -30,12 +31,15 @@ export default function LocationPage({ location: l }: { location: Location }) {
 
   return (
     <>
-      <Seo title={l.metaTitle} description={l.metaDescription} path={`/${l.slug}/`} schema={[pageSchema, breadcrumbSchema(crumbs), faqSchema(l.faqs)]} />
-      <PageHero crumbs={crumbs} eyebrow={`${l.county} · ${l.postcodes.join(", ")}`} h1={l.h1} lead={l.lead} context={`rubbish removal in ${l.town}`} />
+      <Seo title={l.metaTitle} description={withPhone(l.metaDescription)} path={`/${l.slug}/`} schema={[pageSchema, breadcrumbSchema(crumbs), faqSchema(l.faqs)]} />
+      <PageHero crumbs={crumbs} eyebrow={`${l.county} · ${l.postcodes.join(", ")}`} h1={l.h1} lead={l.lead} context={`rubbish removal in ${l.town}`} quote={{ heading: `Free quote in ${l.town.split(" & ")[0]}` }} />
 
       <div className="container grid gap-12 py-14 lg:grid-cols-[minmax(0,1fr)_320px]">
         <div className="min-w-0 space-y-12">
-          <AnswerBox>{l.answer}</AnswerBox>
+          <div className="grid gap-6 md:grid-cols-[1.2fr_1fr] md:items-center">
+            <AnswerBox>{l.answer}</AnswerBox>
+            <Illustration scene="town" label={`Illustration: rubbish collection in ${l.town}`} />
+          </div>
           <ContentBlocks blocks={l.blocks} />
           <section aria-labelledby="popular">
             <h2 id="popular" className="section-title">Popular services in {l.town}</h2>

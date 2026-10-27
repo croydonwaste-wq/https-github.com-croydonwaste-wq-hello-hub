@@ -10,7 +10,8 @@ Prepared 27 October 2026. This document records what was researched, what was de
 | Competitor and reference sites (junkwize.com, reewaste.co.uk, competitor pages) | **Not reachable** — the build environment's network policy blocked direct page fetches. No competitor headings, meta or schema were inspected directly. |
 | Keyword tools / search volumes | Not available. **No search volumes are quoted anywhere.** Priorities are based on commercial intent and relevance. |
 | Google Search Console, Analytics, Google Business Profile | Not available |
-| Business-supplied facts | Name, domain, email, services, service areas, brand colours. **Landline, WhatsApp and address were placeholders and were not used.** |
+| Business-supplied facts | Name, domain, email, services, service areas, brand colours; later confirmed: phone 01293 549164, licensed waste carrier, 24/7 operation, same-day collections, £5m public liability. WhatsApp, address and carrier registration number not yet supplied. |
+| UI reference sites (croydonwaste.co.uk, scrapcarcollectionhampshire, guildfordrubbishremoval.co.uk) | **Not reachable** (network policy). Design uses creative freedom in the same genre: 24/7 top bar, hero quote form, graphics. |
 
 ## 2. Business & market summary
 
@@ -22,7 +23,7 @@ Prepared 27 October 2026. This document records what was researched, what was de
 ### Findings from search (snippets only)
 
 - The Watford SERP is crowded with **aggregators and directories** (LITTA, Clearabee, Checkatrade, Bark, Airtasker, rubbishwaste.co.uk, clearwaste.com). Independent local firms compete mainly through directory profiles. A fast, content-rich local site is a genuine differentiator.
-- A Checkatrade trade profile at `checkatrade.com/trades/watfordrubbishclearance` and a Trustpilot page for `watfordrubbish.co.uk` exist. **Neither has been confirmed as this business** — confirm before linking or quoting reviews.
+- Third-party profiles with similar names (a Checkatrade profile and a Trustpilot page for `watfordrubbish.co.uk`) **are not this business** — confirmed by the owner. They must never be linked or used for reviews.
 - **Watford Borough Council** bulky waste: at time of research, £57 for up to three items, excluding electricals and sofas/upholstered items (watford.gov.uk). This exclusion is a strong commercial angle for sofa, fridge and bulky pages and is cited with a "check current price" caveat.
 - **Regulatory angles** that competitors' directory listings rarely explain: householder duty of care and fly-tipping fixed penalties (typically £400, up to £600 in some councils); POPs rules for upholstered seating; WEEE for fridges; Simpler Recycling for businesses (10+ employees from 31 March 2025; micro-firms from 31 March 2027).
 - **Pricing landscape** (third-party, not used on-site as company prices): Checkatrade Herts man-and-van average c. £153; national guides put South East half-loads around £190–£320. Used only to confirm that a transparent "how pricing works" page is valuable.
@@ -47,6 +48,7 @@ There is **no separate `/rubbish-removal/` page** — it would compete directly 
 ```
 /                                   Homepage — rubbish removal & clearance Watford
 ├── /services/                      Services hub
+│   ├── /same-day-rubbish-removal/  (urgent / 24-hour intent)
 │   ├── /house-clearance/           ├── /probate-clearance/      ├── /office-clearance/
 │   ├── /garden-waste-clearance/    ├── /furniture-removal/      ├── /sofa-removal/
 │   ├── /mattress-disposal/         ├── /bulky-waste-collection/ ├── /fridge-freezer-removal/
@@ -67,6 +69,7 @@ There is **no separate `/rubbish-removal/` page** — it would compete directly 
 | Primary keyword cluster | URL | Intent | Primary CTA |
 |---|---|---|---|
 | rubbish removal / rubbish clearance / waste removal Watford | `/` | Local transactional | Quote |
+| same day / 24 hour / urgent rubbish removal Watford | `/same-day-rubbish-removal/` | Urgent transactional | Call |
 | house clearance, flat clearance, property clearance Watford | `/house-clearance/` | Local transactional | Quote |
 | probate / bereavement / deceased estate clearance | `/probate-clearance/` | Local transactional | Quote |
 | office clearance, office furniture removal | `/office-clearance/` | Commercial transactional | Quote |
@@ -118,83 +121,73 @@ Full primary/secondary/long-tail lists for every page are stored alongside the c
 | Buckinghamshire (Chesham), Hitchin | Unconfirmed regular coverage — hub only |
 | North London (Enfield, St John's Wood, Hampstead) | Different market, heavy London competition, unconfirmed — hub only |
 | County pages (`/hertfordshire/`) | Areas hub serves this intent |
-| "Same-day rubbish removal" page | Same-day availability not confirmed by the business |
 | Asbestos / hazardous waste removal | Not offered (specialist licence) — would mislead |
 | Skip hire | Not a service offered; addressed as "skip alternative" on builders page |
 | Programmatic service × every town pages | Thin, duplicative, cannibalising |
 
-## 7. What was built (Wave 1 + Wave 2 + part of Wave 4)
+## 7. What was built
 
-- **36 prerendered, indexable pages:** homepage, services hub, 13 service pages, areas hub, 10 location pages, pricing, about, contact, FAQs, guides hub, 3 guides, privacy policy, terms. Plus a `noindex` 404.
-- **Technical SEO:** static HTML for every route (content, meta and JSON-LD visible without JavaScript), unique titles (≤65 chars) and descriptions (110–165 chars), self-referencing canonicals on `https://www.` + trailing slash, `sitemap.xml`, `robots.txt`, Open Graph/Twitter tags, OG image, `lang="en-GB"`, semantic landmarks, skip link, one H1 per page, logical H2/H3.
-- **Schema:** `LocalBusiness` (no fake address/phone/ratings — fields appear automatically once confirmed), `WebSite`, `Service` per service page, `BreadcrumbList` on all inner pages, `FAQPage` where FAQs are visible, `Article` on guides, `ItemList` on services hub, `AboutPage`/`ContactPage`.
-- **Internal linking:** header/footer nav to every hub, service and town; service → related services, nearby towns and guides; town → popular services, all other services, nearby towns and Watford; guides → relevant commercial pages. QA confirms no orphans or broken internal links.
-- **Conversion:** sticky mobile action bar, header quote CTA, hero CTAs on every page, quote form on every commercial page (pre-selects the service), contact page with "what happens next".
-- **Design:** bespoke navy / signal-yellow / brick-red system from the brand colours, custom SVG logo mark, no stock photography (none supplied — no imagery is presented as the company's own work).
+- **37 prerendered, indexable pages:** homepage, services hub, 14 service pages (incl. same-day/24-hour), areas hub, 10 location pages, pricing, about, contact, FAQs, guides hub, 3 guides, privacy policy, terms. Plus `noindex` thank-you and 404 pages.
+- **Quote forms on every page** (except legal/thank-you): a short form (name, phone, postcode, service, note) in every page header, with the service pre-selected on service pages; a full form (adds email, load size, access, preferred date/time, details, **photo upload**) on the homepage, service, location, pricing and contact pages. Submissions go by FormSubmit to hello@watfordrubbishclearance.co.uk, the customer gets an automatic acknowledgement, and they land on /thank-you/. Spam protection: honeypot field. It works even before JavaScript loads.
+- **Call conversion:** 01293 549164 appears in the 24/7 top bar, the header ("Call 24/7"), hero buttons, the mobile sticky bar, forms, footer, schema (`+441293549164`) and commercial meta descriptions.
+- **Visual system:** a 24/7 top bar; a yellow facts strip (24/7 · same day · £5m cover · 14 services · 11 towns); 15 custom vector illustrations (one per service, plus van and town); illustrated service cards; a van load-size guide matching the form's "how much?" field; a "where does your rubbish go" flow; and a clickable coverage map (schematic). All vector, so text and graphics never blur.
+- **Technical SEO:** static HTML for every route, unique titles/descriptions, canonicals, `sitemap.xml`, `robots.txt`, OG/Twitter tags, OG image, `lang="en-GB"`, semantic landmarks, one H1 per page.
+- **Schema:** `LocalBusiness` with telephone and 24/7 `openingHoursSpecification` (no address, ratings or reviews), `WebSite`, `Service`, `BreadcrumbList`, `FAQPage`, `Article`, `ItemList`, `AboutPage`/`ContactPage`.
+- **Confirmed trust facts used in copy:** licensed waste carrier, £5 million public liability, open 24/7, same-day collections.
 
 ## 8. Outstanding business confirmations
 
-Fill these in `src/data/business.ts` — call/WhatsApp buttons, schema and footer details switch on automatically.
-
-1. **Landline** (enables header click-to-call, mobile call button, schema `telephone`).
-2. **WhatsApp number** (enables WhatsApp CTAs with prefilled message).
-3. **Address** — only if it is a public trading address; otherwise remain a service-area business.
-4. **Waste carrier registration number** (CBDU…) — the most important trust signal for this industry.
-5. **Legal entity / Companies House number.**
-6. **Opening hours** and whether same-day / next-day collections are offered.
-7. **Insurance** (public liability amount) — not mentioned on-site until confirmed.
-8. **Reviews** — Google Business Profile URL, and whether the Checkatrade `watfordrubbishclearance` profile belongs to this business. No reviews or ratings are shown until confirmed.
-9. **Services to confirm in detail:** domestic bin collection (regular contracts? bin cleaning?), commercial bin collection (scheduled bins vs one-off; food/glass streams), certified data destruction for office IT, confidential shredding.
-10. **Items not taken** (asbestos, clinical, gas bottles, chemicals, liquid paint) — written as standard exclusions; confirm.
-11. **Waste transfer notes / receipts** — copy states these are provided; confirm.
-12. **Coverage depth** for Bedfordshire, Buckinghamshire, Hitchin and North London.
-13. **Real photographs** of the team, vans and completed jobs (before/after).
-14. **Legal review** of the template privacy policy and terms.
+1. **Waste carrier registration number (CBDU…)** — the site says you're licensed, and the licence-check guide tells customers to ask for the number, so publishing it matters. Add it to `wasteCarrierNumber` in `src/data/business.ts`.
+2. **Phone area code** — 01293 is the Crawley code, not Watford (01923). It's used as instructed, but a Watford number would be a stronger local signal for customers and Google. Consider a 01923 number routed to the same line.
+3. **WhatsApp number** (turns on WhatsApp buttons automatically).
+4. **Google Business Profile** — none exists. Creating and verifying one is the biggest local-SEO gain available. Use the exact name, phone and site URL, set it up as a service-area business with no public address, and select "Open 24 hours".
+5. **Real photos** of vans, team and jobs to add to the illustrations (put them in `public/images/` and they can be dropped into the image slots).
+6. **Legal entity / Companies House number** if incorporated.
+7. **Service details to confirm:** domestic bin collection (regular contracts? bin cleaning?), commercial bins (scheduled vs one-off; food/glass), certified data destruction, items not taken (asbestos, clinical, gas bottles, chemicals), waste transfer notes.
+8. **Coverage depth** for Bedfordshire, Buckinghamshire, Hitchin and North London.
+9. **Legal review** of the template privacy policy and terms.
 
 ## 9. Outstanding integrations
 
-- **Quote form delivery:** set `VITE_FORM_ENDPOINT` (Formspree, Web3Forms, or a Supabase edge function in Lovable). Until then the form validates, then opens the visitor's email app with the enquiry prefilled — it does **not** pretend to have sent anything. Photo upload should be added with the backend.
-- Google Business Profile (create/verify; keep NAP identical to `business.ts`).
-- Google Search Console + submit `sitemap.xml`; Bing Webmaster Tools.
-- Analytics (cookie-free option recommended, or add consent banner).
-- Hosting: serve `dist/404.html` with HTTP 404 for unknown URLs, and redirect non-`www`/`http` to `https://www.` (host-level).
+- **FormSubmit activation (one-off):** the first real enquiry triggers an activation email to hello@watfordrubbishclearance.co.uk. Click the link in it, and every enquiry after that arrives normally. Do one test submission from the live site after deploying. Also confirm that multiple photos arrive (the form allows several; check FormSubmit delivers all of them). To use Formspree, Web3Forms or a Lovable/Supabase function instead, set `VITE_FORM_ENDPOINT`.
+- Google Business Profile, Search Console (submit `sitemap.xml`), Bing Webmaster Tools.
+- Analytics (cookie-free option recommended, or add a consent banner).
+- Hosting: return `dist/404.html` with HTTP 404 for unknown URLs; redirect non-`www`/`http` to `https://www.`.
 
 ## 10. QA findings
 
 | Check | Result |
 |---|---|
-| `npm run build` + `npm run qa` (36 pages) | Pass — no duplicate titles/descriptions/H1s, canonicals correct, all pages in sitemap, JSON-LD parses, no broken internal links, no orphans, no placeholder leaks |
-| Playwright, 12 key URLs × mobile (375px) & desktop (1366px) | 200, no horizontal overflow, no console errors or hydration errors |
-| Quote form — empty submit | 7 inline errors, focus moved to first invalid field |
-| Quote form — valid submit (no endpoint) | Email hand-off message shown; no false "sent" confirmation |
-| Call / WhatsApp links | **Not testable** — numbers not supplied; buttons hidden |
-| Email delivery via endpoint | **Not tested** — no endpoint configured |
-| Unknown URL on `vite preview` | Returns 200 + client-rendered 404 page; production host must be configured to return HTTP 404 |
+| `npm run build` + `npm run qa` (37 indexable pages) | Pass — no duplicate titles, descriptions or H1s; canonicals correct; all in sitemap; JSON-LD valid; no broken links or orphans |
+| Playwright, 15 URLs × mobile (375px) & desktop (1366px) | All 200, no horizontal overflow, no console or hydration errors; tel: links on every page |
+| Short form: empty submit | 3 inline errors, nothing sent |
+| Short form: valid submit (FormSubmit mocked) | multipart POST to formsubmit.co with name, phone, postcode, service (pre-selected), page, `_subject`, `_next`, `_honey` → redirected to /thank-you/ |
+| Full form: empty submit / valid submit with photo (mocked) | 5 inline errors / POST includes the photo attachment and auto-response → /thank-you/ |
+| Live email delivery | **Not tested** — a real submission would send to your inbox and needs the one-off activation click |
+| WhatsApp | Not applicable — no number yet |
 
 ## 11. Launch-readiness scorecard (honest, implementation-based)
 
-| Category | Score | Notes |
-|---|---|---|
-| Organic SEO | 84 | Strong on-page; no backlinks/GBP yet |
-| Local SEO | 68 | No phone, address, GBP or reviews — the biggest gap; cannot reach 90 without business data |
-| Technical SEO | 93 | Prerendered HTML, canonicals, sitemap, schema; host-level 404/redirects pending |
-| Keyword architecture | 92 | One URL per cluster, do-not-create list enforced |
-| Service coverage | 92 | All 13 supplied services built |
-| Location coverage | 82 | 10 justified towns; outer areas intentionally hub-only |
-| Long-tail coverage | 85 | Direct answers + FAQs; more guides in Wave 4 |
-| AI search readiness | 86 | Answer boxes, entity-consistent schema; lacks third-party corroboration |
-| Content quality | 85 | Original, specific, regulation-accurate; no real job photos/case studies yet |
-| Internal linking | 93 | No orphans; contextual links throughout |
-| Trust / E-E-A-T | 55 | No carrier number, reviews, insurance, photos or company details — **blocked on business confirmation** |
-| Conversion optimisation | 70 | Form + sticky CTAs work, but no phone/WhatsApp and no live form backend |
-| Mobile experience | 92 | Tested at 375px, sticky action bar, 48px targets |
-| **Overall launch readiness** | **78** | Ready to deploy as a foundation; Local SEO, Trust and Conversion need the confirmations in §8–9 before launch |
-
-Scores below 90 in Local SEO, Trust and Conversion are caused by missing business information, not by fixable implementation errors; they were not inflated. No score implies guaranteed rankings or AI citations.
+| Category | Before | Now | Notes |
+|---|---|---|---|
+| Organic SEO | 84 | 87 | Same-day page added, phone in metadata |
+| Local SEO | 68 | 74 | Phone + 24/7 hours in schema; still no Google Business Profile or reviews; 01293 area code is a weaker local signal |
+| Technical SEO | 93 | 93 | Host-level 404/redirects pending |
+| Keyword architecture | 92 | 93 | Urgency intent now has its own URL |
+| Service coverage | 92 | 94 | |
+| Location coverage | 82 | 84 | Coverage map links every town |
+| Long-tail coverage | 85 | 87 | Same-day, 24/7 and insurance questions answered |
+| AI search readiness | 86 | 88 | Consistent business details across schema and copy |
+| Content quality | 85 | 88 | Visual aids (load guide, waste journey) add genuine help |
+| Internal linking | 93 | 94 | |
+| Trust / E-E-A-T | 55 | 72 | Licensed, £5m insured, 24/7 confirmed; still missing carrier no., reviews and real photos |
+| Conversion optimisation | 70 | 91 | Click-to-call everywhere, form on every page, photo upload, working form delivery (needs activation) |
+| Mobile experience | 92 | 93 | Call + quote sticky bar, form above the fold |
+| **Overall launch readiness** | **78** | **86** | Launchable once the form is activated. Local SEO and Trust need a Google Business Profile, carrier number, reviews and photos to pass 90 |
 
 ## 12. Remaining priorities
 
-1. Supply items 1–4 in §8 and connect the form endpoint → re-run `npm run build && npm run qa`.
+1. Deploy, send one test enquiry and click FormSubmit's activation email; add the waste carrier number → re-run `npm run build && npm run qa`.
 2. Create/verify Google Business Profile with matching NAP; request reviews from real customers.
 3. Add real photos and 3–5 short case studies (e.g. "Probate clearance, Cassiobury, 3-bed semi").
 4. Wave 3: `house-clearance-st-albans`, `house-clearance-rickmansworth` once there are local jobs to describe; confirm Hitchin / Leighton Buzzard / Chesham demand.

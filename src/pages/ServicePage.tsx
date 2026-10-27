@@ -2,10 +2,11 @@ import { Link } from "react-router-dom";
 import { Seo } from "@/components/Seo";
 import { AnswerBox, ContentBlocks, CtaBand, FaqList, PageHero, ProcessSteps, ServiceCard, TickList } from "@/components/blocks";
 import { QuoteForm } from "@/components/QuoteForm";
+import { Illustration, serviceScene } from "@/components/Illustration";
 import { serviceBySlug } from "@/data/services";
 import { locations } from "@/data/locations";
 import { guides } from "@/data/guides";
-import { breadcrumbSchema, faqSchema, serviceSchema } from "@/lib/schema";
+import { withPhone, breadcrumbSchema, faqSchema, serviceSchema } from "@/lib/schema";
 import type { Service } from "@/data/types";
 
 export default function ServicePage({ service: s }: { service: Service }) {
@@ -22,19 +23,22 @@ export default function ServicePage({ service: s }: { service: Service }) {
     <>
       <Seo
         title={s.metaTitle}
-        description={s.metaDescription}
+        description={withPhone(s.metaDescription)}
         path={`/${s.slug}/`}
         schema={[serviceSchema(s), breadcrumbSchema(crumbs), faqSchema(s.faqs)]}
       />
-      <PageHero crumbs={crumbs} eyebrow="Watford & Hertfordshire" h1={s.h1} lead={s.lead} context={s.name.toLowerCase()} />
+      <PageHero crumbs={crumbs} eyebrow="Watford & Hertfordshire" h1={s.h1} lead={s.lead} context={s.name.toLowerCase()} quote={{ defaultService: s.name, heading: `Free ${s.short.toLowerCase()} quote` }} />
 
       <div className="container grid gap-12 py-14 lg:grid-cols-[minmax(0,1fr)_340px]">
         <div className="min-w-0 space-y-12">
           <AnswerBox>{s.answer}</AnswerBox>
 
-          <section aria-labelledby="takes">
-            <h2 id="takes" className="section-title">What we can take</h2>
-            <div className="mt-6"><TickList items={s.takes} /></div>
+          <section aria-labelledby="takes" className="grid gap-8 md:grid-cols-2 md:items-center">
+            <div>
+              <h2 id="takes" className="section-title">What we can take</h2>
+              <div className="mt-6"><TickList items={s.takes} cols={1} /></div>
+            </div>
+            <Illustration scene={serviceScene[s.slug] ?? "van"} label={`Illustration: ${s.name.toLowerCase()}`} />
           </section>
 
           <ContentBlocks blocks={s.blocks} />

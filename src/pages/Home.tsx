@@ -2,8 +2,10 @@ import { Link } from "react-router-dom";
 import { Seo } from "@/components/Seo";
 import { Icon } from "@/components/Icon";
 import { ContactButtons } from "@/components/ContactButtons";
-import { AnswerBox, CtaBand, FaqList, ProcessSteps, ServiceCard, TickList, TrustGrid } from "@/components/blocks";
-import { QuoteForm } from "@/components/QuoteForm";
+import { AnswerBox, CtaBand, HeroBadges, FaqList, ProcessSteps, ServiceCard, TickList, TrustGrid } from "@/components/blocks";
+import { QuickQuoteCard, QuoteForm } from "@/components/QuoteForm";
+import { CoverageMap, LoadSizeGuide, StatsStrip, WasteJourney } from "@/components/Graphics";
+import { Illustration } from "@/components/Illustration";
 import { services, serviceGroups } from "@/data/services";
 import { locations, watfordAreas } from "@/data/locations";
 import { guides } from "@/data/guides";
@@ -15,6 +17,14 @@ const homeFaqs: Faq[] = [
   {
     q: "How much does rubbish removal cost in Watford?",
     a: "The price depends on how much waste there is, what it is (sofas, fridges and rubble cost more to dispose of) and how easy it is to carry out. We quote from photos or a description before any work starts, so you know the cost up front. See our pricing page for what affects the price.",
+  },
+  {
+    q: "Do you offer same-day rubbish removal in Watford?",
+    a: "Yes. We operate 24 hours a day, 7 days a week and offer same-day collections. Call as early as you can, or send the quote form with photos, and we'll confirm the earliest slot.",
+  },
+  {
+    q: "Are you licensed and insured?",
+    a: "Yes. We are a licensed waste carrier and hold £5 million public liability insurance. Waste is taken to authorised facilities for reuse, recycling or disposal.",
   },
   {
     q: "What areas of Watford do you cover?",
@@ -30,7 +40,7 @@ const homeFaqs: Faq[] = [
   },
   {
     q: "How do I know my rubbish won't be fly-tipped?",
-    a: "Ask any collector for their waste carrier registration and check it on the Environment Agency's public register. We'll give you ours with your quote. Our guide explains how to check.",
+    a: "Ask any collector for their waste carrier registration and check it on the Environment Agency's public register. As a licensed waste carrier we'll give you our registration details on request. Our guide explains how to check.",
   },
 ];
 
@@ -39,14 +49,14 @@ export default function Home() {
     <>
       <Seo
         title="Rubbish Removal & Clearance Watford | Watford Rubbish Clearance"
-        description="Rubbish removal and clearances in Watford — house, garden, garage and office clearances, furniture, sofa and fridge collections. We do the lifting. Free quotes."
+        description="Rubbish removal & clearances in Watford, open 24/7 with same-day collections. Houses, gardens, offices, sofas & fridges. Call 01293 549164 for a free quote."
         path="/"
         schema={[localBusinessSchema(), websiteSchema(), faqSchema(homeFaqs)]}
       />
 
       {/* Hero */}
       <section className="hero-bg relative overflow-hidden text-white">
-        <div className="container relative grid gap-10 py-12 md:py-20 lg:grid-cols-[1.15fr_.85fr] lg:items-center">
+        <div className="container relative grid gap-10 py-12 md:py-20 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-center">
           <div>
             <p className="eyebrow inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-signal-400">
               <Icon name="pin" className="h-4 w-4" /> Watford &amp; Hertfordshire
@@ -58,28 +68,15 @@ export default function Home() {
               From a single sofa to a full house clearance — we carry it out, load it up and sort it for reuse and recycling. Homes, landlords and businesses across Watford and Hertfordshire.
             </p>
             <ContactButtons tone="dark" className="mt-8" />
-            <ul className="mt-8 grid max-w-xl gap-2 text-sm text-navy-100 sm:grid-cols-2">
-              {["Collected from any room — not just the kerb", "Quote agreed before we start", "Mixed loads in one visit", "Reuse and recycling first"].map((t) => (
-                <li key={t} className="flex items-center gap-2"><Icon name="check" className="h-4 w-4 text-signal-500" />{t}</li>
-              ))}
-            </ul>
+            <HeroBadges />
           </div>
-          <div className="relative hidden lg:block" aria-hidden="true">
-            <div className="absolute -inset-6 rotate-3 rounded-3xl bg-signal-500/90" />
-            <div className="relative rounded-3xl bg-white p-7 text-navy-900 shadow-2xl">
-              <p className="eyebrow text-brick-600">What we clear</p>
-              <ul className="mt-4 grid grid-cols-2 gap-3">
-                {services.slice(0, 8).map((s) => (
-                  <li key={s.slug} className="flex items-center gap-2.5 rounded-lg bg-navy-50 p-3 text-sm font-semibold">
-                    <Icon name={s.icon} className="h-5 w-5 text-navy-700" />{s.short}
-                  </li>
-                ))}
-              </ul>
-            </div>
+          <div id="quick-quote" className="scroll-mt-24">
+            <QuickQuoteCard heading="Free rubbish removal quote" />
           </div>
         </div>
       </section>
 
+      <StatsStrip />
       <section className="border-b border-ink-200 bg-white">
         <div className="container py-10"><TrustGrid /></div>
       </section>
@@ -97,9 +94,12 @@ export default function Home() {
             </p>
           </div>
         </div>
-        <AnswerBox title="How does rubbish removal work?">
-          Tell us what needs to go and where it is — photos help. We confirm a price, arrive at an agreed time, load everything ourselves and take it away for reuse, recycling or licensed disposal. You don't need to move anything outside.
-        </AnswerBox>
+        <div className="space-y-6">
+          <Illustration scene="van" label="Illustration: Watford Rubbish Clearance van being loaded with boxes and rubbish bags" />
+          <AnswerBox title="How does rubbish removal work?">
+            Tell us what needs to go and where it is — photos help. We confirm a price, arrive at an agreed time (24/7, same-day available), load everything ourselves and take it away for reuse, recycling or licensed disposal. You don't need to move anything outside.
+          </AnswerBox>
+        </div>
       </section>
 
       {/* Services */}
@@ -116,14 +116,17 @@ export default function Home() {
             <div key={g.key} className="mt-10">
               <h3 className="font-display text-sm font-bold uppercase tracking-wider text-navy-700">{g.label}</h3>
               <div className="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {services.filter((s) => s.group === g.key).map((s) => <ServiceCard key={s.slug} s={s} />)}
+                {services.filter((s) => s.group === g.key).map((s) => <ServiceCard key={s.slug} s={s} visual />)}
               </div>
             </div>
           ))}
         </div>
       </section>
 
-      <section className="container py-16"><ProcessSteps heading="How our rubbish removal service works" /></section>
+      <section className="container space-y-16 py-16">
+        <ProcessSteps heading="How our rubbish removal service works" />
+        <LoadSizeGuide />
+      </section>
 
       {/* Areas */}
       <section className="bg-navy-50 py-16" aria-labelledby="areas-heading">
@@ -138,10 +141,12 @@ export default function Home() {
               ))}
             </ul>
             <p className="mt-6 leading-relaxed text-ink-700">
-              Watford postcodes WD17, WD18, WD24 and WD25 are all covered. Not sure if we reach you? <Link to="/areas-we-cover/" className="link">See all areas we cover</Link>.
+              Watford postcodes WD17, WD18, WD19, WD24 and WD25 are all covered. Not sure if we reach you? <Link to="/areas-we-cover/" className="link">See all areas we cover</Link>.
             </p>
           </div>
-          <div>
+          <div className="space-y-8">
+            <CoverageMap />
+            <div>
             <h3 className="font-display text-lg font-bold text-navy-900">Nearby towns</h3>
             <ul className="mt-4 grid gap-3 sm:grid-cols-2">
               {locations.map((l) => (
@@ -153,9 +158,12 @@ export default function Home() {
                 </li>
               ))}
             </ul>
+            </div>
           </div>
         </div>
       </section>
+
+      <section className="container py-16"><WasteJourney /></section>
 
       {/* Who we help */}
       <section className="container grid gap-10 py-16 lg:grid-cols-2">

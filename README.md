@@ -26,18 +26,19 @@ npm run qa           # static SEO/link QA over dist/ (run after build)
 
 | What | File |
 |---|---|
-| Business details (phone, WhatsApp, address, carrier no.) | `src/data/business.ts` |
+| Business details (phone, WhatsApp, hours, insurance, carrier no.) | `src/data/business.ts` |
 | Service page content + keywords | `src/data/services.ts` |
 | Location page content + keywords | `src/data/locations.ts` |
 | Guides | `src/data/guides.ts` |
 | Route list (drives router, prerender and sitemap) | `src/routes.tsx` |
 | Structured data | `src/lib/schema.ts` |
+| Illustrations & graphics | `src/components/Illustration.tsx`, `src/components/Graphics.tsx` |
 
 Values left as `null` in `business.ts` have not been confirmed by the business. Features depending on them (call/WhatsApp buttons, address, schema fields) stay hidden until they are filled in — nothing is invented.
 
 ## Quote form
 
-Set `VITE_FORM_ENDPOINT` to a JSON-accepting endpoint (Formspree, Web3Forms, Supabase edge function). Without it, the form validates and opens the visitor's email app with the enquiry prefilled.
+Every page has a short quote form in its header; key pages also have a full form with photo upload. Forms POST to [FormSubmit](https://formsubmit.co) at `hello@watfordrubbishclearance.co.uk` (no account needed). The **first** submission sends an activation email to that inbox: click the link once and later enquiries are delivered. To use another provider, set `VITE_FORM_ENDPOINT` to any endpoint that accepts a multipart form POST.
 
 ## Hosting notes
 

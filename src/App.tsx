@@ -1,7 +1,9 @@
 import { useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { Layout } from "@/components/Layout";
-import { notFoundElement, routes } from "@/routes";
+import { notFoundElement, routes as indexable, utilityRoutes } from "@/routes";
+
+const routes = [...indexable, ...utilityRoutes];
 
 function ScrollManager() {
   const { pathname, hash } = useLocation();

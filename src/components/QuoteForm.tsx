@@ -1,185 +1,255 @@
-import { useState, type FormEvent } from "react";
-import { Link } from "react-router-dom";
-import { business, mailtoHref } from "@/data/business";
+import { useEffect, useId, useState, type FormEvent } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { absoluteUrl, business, telHref } from "@/data/business";
 import { services } from "@/data/services";
 
-type Fields = {
-  name: string;
-  phone: string;
-  email: string;
-  postcode: string;
-  service: string;
-  details: string;
-  date: string;
-  consent: boolean;
-  website: string; // honeypot
-};
+/**
+ * Quote form. Submits as a normal multipart POST (works before/without JavaScript and
+ * supports photo attachments) to `business.formEndpoint` — FormSubmit by default, which
+ * emails each enquiry to the business inbox and redirects to /thank-you/.
+ *
+ * - compact: name, phone, postcode, service, short note — sits in every page hero.
+ * - full:    adds email, load size, access, preferred date/time, details and photos.
+ */
+type Variant = "compact" | "full";
 
-const empty: Fields = { name: "", phone: "", email: "", postcode: "", service: "", details: "", date: "", consent: false, website: "" };
+const UK_POSTCODE = /^[A-Z]{1,2}\d[A-Z\d]?(\s*\d[A-Z]{2})?$/i;
+const MAX_PHOTO_BYTES = 10 * 1024 * 1024;
 
-const UK_POSTCODE = /^[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}$/i;
-const UK_POSTCODE_DISTRICT = /^[A-Z]{1,2}\d[A-Z\d]?$/i;
+export const loadSizes = [
+  "Single item",
+  "A few items / small load",
+  "Quarter van load",
+  "Half van load",
+  "Three-quarter van load",
+  "Full van load",
+  "More than one van load",
+  "Not sure – I'll send photos",
+];
 
-export function validate(f: Fields) {
-  const e: Partial<Record<keyof Fields, string>> = {};
-  if (f.name.trim().length < 2) e.name = "Please enter your name.";
-  const digits = f.phone.replace(/\D/g, "");
-  if (digits.length < 10 || digits.length > 13) e.phone = "Please enter a UK phone number we can call you back on.";
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email.trim())) e.email = "Please enter a valid email address.";
-  const pc = f.postcode.trim();
-  if (!UK_POSTCODE.test(pc) && !UK_POSTCODE_DISTRICT.test(pc)) e.postcode = "Please enter your postcode, e.g. WD17 1AA or WD17.";
-  if (!f.service) e.service = "Please choose a service.";
-  if (f.details.trim().length < 10) e.details = "Please tell us a little about what needs removing.";
-  if (!f.consent) e.consent = "Please confirm we can contact you about your quote.";
+export const accessOptions = [
+  "Ground floor / outside",
+  "Upstairs – lift available",
+  "Upstairs – no lift",
+  "Loft or basement",
+  "Garden, shed or garage",
+  "Mixed / several areas",
+];
+
+export const timeOptions = ["As soon as possible (same day)", "Morning", "Afternoon", "Evening", "Overnight / out of hours", "Flexible"];
+
+type Errors = Partial<Record<"name" | "phone" | "email" | "postcode" | "service" | "details" | "photos", string>>;
+
+export function validateQuote(data: FormData, variant: Variant): Errors {
+  const e: Errors = {};
+  const v = (k: string) => String(data.get(k) ?? "").trim();
+  if (v("name").length < 2) e.name = "Please enter your name.";
+  const digits = v("phone").replace(/\D/g, "");
+  if (digits.length < 10 || digits.length > 13) e.phone = "Please enter a phone number we can call you back on.";
+  if (!UK_POSTCODE.test(v("postcode"))) e.postcode = "Please enter your postcode, e.g. WD17 1AA.";
+  if (!v("service")) e.service = "Please choose what you need.";
+  if (variant === "full") {
+    const email = v("email");
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) e.email = "Please check your email address.";
+    if (v("details").length < 5) e.details = "Please tell us a little about what needs removing.";
+    const files = data.getAll("attachment").filter((f): f is File => f instanceof File && f.size > 0);
+    if (files.reduce((n, f) => n + f.size, 0) > MAX_PHOTO_BYTES) e.photos = "Photos are over 10MB in total — please choose fewer or smaller photos.";
+  }
   return e;
 }
 
-type Status = "idle" | "sending" | "sent" | "error" | "fallback";
+export function QuoteForm({ variant = "full", defaultService = "", title }: { variant?: Variant; defaultService?: string; title?: string }) {
+  const id = useId();
+  const { pathname } = useLocation();
+  const [errors, setErrors] = useState<Errors>({});
+  const [sending, setSending] = useState(false);
+  // Native browser validation until hydrated, then our own accessible messages.
+  const [enhanced, setEnhanced] = useState(false);
+  useEffect(() => setEnhanced(true), []);
 
-export function QuoteForm({ defaultService = "" }: { defaultService?: string }) {
-  const [f, setF] = useState<Fields>({ ...empty, service: defaultService });
-  const [errors, setErrors] = useState<Partial<Record<keyof Fields, string>>>({});
-  const [status, setStatus] = useState<Status>("idle");
-  const [startedAt] = useState(() => Date.now());
+  const compact = variant === "compact";
+  const fid = (k: string) => `${id}-${k}`;
 
-  const set = <K extends keyof Fields>(k: K, v: Fields[K]) => setF((p) => ({ ...p, [k]: v }));
-
-  const summary = () =>
-    [
-      `Name: ${f.name}`,
-      `Phone: ${f.phone}`,
-      `Email: ${f.email}`,
-      `Postcode: ${f.postcode.toUpperCase()}`,
-      `Service: ${f.service}`,
-      `Preferred date: ${f.date || "Flexible"}`,
-      "",
-      f.details,
-    ].join("\n");
-
-  async function onSubmit(ev: FormEvent) {
-    ev.preventDefault();
-    const e = validate(f);
+  function onSubmit(ev: FormEvent<HTMLFormElement>) {
+    const e = validateQuote(new FormData(ev.currentTarget), variant);
     setErrors(e);
     if (Object.keys(e).length) {
-      const first = document.getElementById(`q-${Object.keys(e)[0]}`);
-      first?.focus();
+      ev.preventDefault();
+      const firstKey = Object.keys(e)[0];
+      document.getElementById(fid(firstKey === "photos" ? "attachment" : firstKey))?.focus();
       return;
     }
-    // Spam protection: honeypot field and minimum fill time.
-    if (f.website || Date.now() - startedAt < 3000) {
-      setStatus("sent");
-      return;
-    }
-    if (!business.formEndpoint) {
-      // No backend configured: hand off to the visitor's email app rather than pretend to send.
-      setStatus("fallback");
-      window.location.href = mailtoHref(`Quote request: ${f.service} (${f.postcode.toUpperCase()})`, summary());
-      return;
-    }
-    setStatus("sending");
-    try {
-      const res = await fetch(business.formEndpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({ ...f, website: undefined, _subject: `Quote request: ${f.service}`, source: window.location.pathname }),
-      });
-      if (!res.ok) throw new Error(String(res.status));
-      setStatus("sent");
-      setF({ ...empty });
-    } catch {
-      setStatus("error");
-    }
+    setSending(true); // let the browser submit the form normally
   }
 
-  if (status === "sent") {
-    return (
-      <div role="status" className="rounded-xl border border-navy-100 bg-navy-50 p-6">
-        <h3 className="font-display text-xl font-bold text-navy-900">Thanks — your request has been sent</h3>
-        <p className="mt-2 text-ink-700">We'll be in touch to discuss your quote. If you have photos of the items, email them to <a className="link" href={mailtoHref("Photos for my quote")}>{business.email}</a> to speed things up.</p>
-      </div>
-    );
-  }
-
-  const field = "mt-1.5 block w-full rounded-lg border border-ink-200 bg-white px-3.5 py-3 text-base text-ink-900 shadow-sm focus:border-navy-600 focus:outline-none focus:ring-2 focus:ring-navy-600/30";
-  const err = (k: keyof Fields) =>
-    errors[k] ? (
-      <p id={`q-${k}-err`} className="mt-1 text-sm font-medium text-brick-600">{errors[k]}</p>
-    ) : null;
-  const aria = (k: keyof Fields) => ({ "aria-invalid": Boolean(errors[k]) || undefined, "aria-describedby": errors[k] ? `q-${k}-err` : undefined });
+  const field =
+    "mt-1 block w-full rounded-lg border border-ink-200 bg-white px-3.5 py-3 text-base text-ink-900 shadow-sm placeholder:text-ink-500/70 focus:border-navy-600 focus:outline-none focus:ring-2 focus:ring-navy-600/30";
+  const label = "text-sm font-semibold text-navy-900";
+  const err = (k: keyof Errors) =>
+    errors[k] ? <p id={fid(`${k}-err`)} className="mt-1 text-sm font-medium text-brick-600">{errors[k]}</p> : null;
+  const aria = (k: keyof Errors) => ({ "aria-invalid": Boolean(errors[k]) || undefined, "aria-describedby": errors[k] ? fid(`${k}-err`) : undefined });
+  const tel = telHref();
 
   return (
-    <form noValidate onSubmit={onSubmit} className="grid gap-4 sm:grid-cols-2" aria-label="Request a free quote">
+    <form
+      action={business.formEndpoint}
+      method="POST"
+      encType="multipart/form-data"
+      noValidate={enhanced}
+      onSubmit={onSubmit}
+      aria-label={title ?? "Request a free quote"}
+      className={compact ? "grid gap-3" : "grid gap-4 sm:grid-cols-2"}
+    >
+      {/* FormSubmit settings */}
+      <input type="hidden" name="_subject" value={`${compact ? "Quick quote" : "Quote request"} – ${business.name} website`} />
+      <input type="hidden" name="_next" value={absoluteUrl("/thank-you/")} />
+      <input type="hidden" name="_template" value="table" />
+      <input type="hidden" name="_captcha" value="false" />
+      {!compact && (
+        <input
+          type="hidden"
+          name="_autoresponse"
+          value={`Thanks for your quote request with ${business.name}. We'll be in touch shortly with a price.${business.phone ? ` For same-day or urgent jobs call ${business.phone} – we're open 24/7.` : ""}`}
+        />
+      )}
+      <input type="hidden" name="page" value={pathname} />
+      {/* Honeypot: real visitors never see or fill this. */}
+      <div className="hidden" aria-hidden="true">
+        <label htmlFor={fid("honey")}>Leave this empty</label>
+        <input id={fid("honey")} type="text" name="_honey" tabIndex={-1} autoComplete="off" />
+      </div>
+
       <div>
-        <label htmlFor="q-name" className="font-semibold text-navy-900">Your name</label>
-        <input id="q-name" name="name" autoComplete="name" className={field} value={f.name} onChange={(e) => set("name", e.target.value)} {...aria("name")} />
+        <label htmlFor={fid("name")} className={label}>Name</label>
+        <input id={fid("name")} name="name" required autoComplete="name" placeholder="Your name" className={field} {...aria("name")} />
         {err("name")}
       </div>
       <div>
-        <label htmlFor="q-phone" className="font-semibold text-navy-900">Phone number</label>
-        <input id="q-phone" name="phone" type="tel" inputMode="tel" autoComplete="tel" className={field} value={f.phone} onChange={(e) => set("phone", e.target.value)} {...aria("phone")} />
+        <label htmlFor={fid("phone")} className={label}>Phone</label>
+        <input id={fid("phone")} name="phone" type="tel" required inputMode="tel" autoComplete="tel" placeholder="Best number to call" className={field} {...aria("phone")} />
         {err("phone")}
       </div>
-      <div>
-        <label htmlFor="q-email" className="font-semibold text-navy-900">Email</label>
-        <input id="q-email" name="email" type="email" autoComplete="email" className={field} value={f.email} onChange={(e) => set("email", e.target.value)} {...aria("email")} />
-        {err("email")}
+      {!compact && (
+        <div>
+          <label htmlFor={fid("email")} className={label}>Email <span className="font-normal text-ink-500">(optional)</span></label>
+          <input id={fid("email")} name="email" type="email" autoComplete="email" placeholder="For your written quote" className={field} {...aria("email")} />
+          {err("email")}
+        </div>
+      )}
+      <div className={compact ? "grid grid-cols-2 gap-3" : ""}>
+        <div>
+          <label htmlFor={fid("postcode")} className={label}>Postcode</label>
+          <input id={fid("postcode")} name="postcode" required autoComplete="postal-code" placeholder="e.g. WD17 1AA" className={`${field} uppercase placeholder:normal-case`} {...aria("postcode")} />
+          {err("postcode")}
+        </div>
+        {compact && (
+          <div>
+            <label htmlFor={fid("service")} className={label}>Service</label>
+            <ServiceSelect id={fid("service")} className={field} defaultValue={defaultService} {...aria("service")} />
+            {err("service")}
+          </div>
+        )}
       </div>
-      <div>
-        <label htmlFor="q-postcode" className="font-semibold text-navy-900">Postcode</label>
-        <input id="q-postcode" name="postcode" autoComplete="postal-code" className={`${field} uppercase`} value={f.postcode} onChange={(e) => set("postcode", e.target.value)} {...aria("postcode")} />
-        {err("postcode")}
-      </div>
-      <div>
-        <label htmlFor="q-service" className="font-semibold text-navy-900">What do you need?</label>
-        <select id="q-service" name="service" className={field} value={f.service} onChange={(e) => set("service", e.target.value)} {...aria("service")}>
-          <option value="">Choose a service…</option>
-          <option value="Rubbish removal (general)">Rubbish removal (general)</option>
-          {services.map((s) => (
-            <option key={s.slug} value={s.name}>{s.name}</option>
-          ))}
-          <option value="Something else">Something else</option>
-        </select>
-        {err("service")}
-      </div>
-      <div>
-        <label htmlFor="q-date" className="font-semibold text-navy-900">Preferred date <span className="font-normal text-ink-500">(optional)</span></label>
-        <input id="q-date" name="date" type="date" className={field} value={f.date} onChange={(e) => set("date", e.target.value)} />
-      </div>
-      <div className="sm:col-span-2">
-        <label htmlFor="q-details" className="font-semibold text-navy-900">What needs removing?</label>
-        <p id="q-details-hint" className="text-sm text-ink-500">Rough list of items or amount, where they are (e.g. upstairs, loft, garden) and any access issues such as stairs or parking.</p>
-        <textarea id="q-details" name="details" rows={5} className={field} value={f.details} onChange={(e) => set("details", e.target.value)} {...aria("details")} />
+      {!compact && (
+        <>
+          <div>
+            <label htmlFor={fid("service")} className={label}>Service required</label>
+            <ServiceSelect id={fid("service")} className={field} defaultValue={defaultService} {...aria("service")} />
+            {err("service")}
+          </div>
+          <div>
+            <label htmlFor={fid("load")} className={label}>Roughly how much?</label>
+            <select id={fid("load")} name="load_size" className={field} defaultValue="">
+              <option value="">Choose a load size…</option>
+              {loadSizes.map((o) => <option key={o}>{o}</option>)}
+            </select>
+          </div>
+          <div>
+            <label htmlFor={fid("access")} className={label}>Where is it?</label>
+            <select id={fid("access")} name="access" className={field} defaultValue="">
+              <option value="">Choose location / access…</option>
+              {accessOptions.map((o) => <option key={o}>{o}</option>)}
+            </select>
+          </div>
+          <div>
+            <label htmlFor={fid("date")} className={label}>Preferred date <span className="font-normal text-ink-500">(optional)</span></label>
+            <input id={fid("date")} name="preferred_date" type="date" className={field} />
+          </div>
+          <div>
+            <label htmlFor={fid("time")} className={label}>Preferred time</label>
+            <select id={fid("time")} name="preferred_time" className={field} defaultValue="">
+              <option value="">Choose a time…</option>
+              {timeOptions.map((o) => <option key={o}>{o}</option>)}
+            </select>
+          </div>
+        </>
+      )}
+      <div className={compact ? "" : "sm:col-span-2"}>
+        <label htmlFor={fid("details")} className={label}>
+          {compact ? <>What needs removing? <span className="font-normal text-ink-500">(optional)</span></> : "What needs removing?"}
+        </label>
+        <textarea
+          id={fid("details")}
+          name="details"
+          rows={compact ? 2 : 4}
+          required={!compact}
+          placeholder={compact ? "e.g. sofa and 10 bags from a 1st-floor flat" : "List the items or describe the load, plus any access notes (stairs, parking, gates)."}
+          className={field}
+          {...aria("details")}
+        />
         {err("details")}
       </div>
-      <div className="hidden" aria-hidden="true">
-        <label htmlFor="q-website">Leave this field empty</label>
-        <input id="q-website" name="website" tabIndex={-1} autoComplete="off" value={f.website} onChange={(e) => set("website", e.target.value)} />
-      </div>
-      <div className="sm:col-span-2">
-        <label className="flex items-start gap-3 text-sm text-ink-700">
-          <input id="q-consent" type="checkbox" className="mt-0.5 h-5 w-5 rounded border-ink-200 accent-navy-700" checked={f.consent} onChange={(e) => set("consent", e.target.checked)} {...aria("consent")} />
-          <span>
-            I agree that {business.name} can use these details to respond to my quote request, as described in the <Link to="/privacy-policy/" className="link">privacy policy</Link>.
-          </span>
-        </label>
-        {err("consent")}
-      </div>
-      <div className="sm:col-span-2">
-        <button type="submit" className="btn-primary w-full sm:w-auto" disabled={status === "sending"}>
-          {status === "sending" ? "Sending…" : "Request my free quote"}
+      {!compact && (
+        <div className="sm:col-span-2">
+          <label htmlFor={fid("attachment")} className={label}>Photos <span className="font-normal text-ink-500">(optional — speeds up your quote)</span></label>
+          <input
+            id={fid("attachment")}
+            name="attachment"
+            type="file"
+            accept="image/*"
+            multiple
+            className="mt-1 block w-full rounded-lg border border-dashed border-navy-600/40 bg-navy-50 px-3.5 py-3 text-sm text-ink-700 file:mr-3 file:rounded-md file:border-0 file:bg-navy-800 file:px-3 file:py-2 file:font-semibold file:text-white"
+            {...aria("photos")}
+          />
+          {err("photos")}
+        </div>
+      )}
+      <div className={compact ? "" : "sm:col-span-2"}>
+        <button type="submit" className="btn-primary w-full" disabled={sending}>
+          {sending ? "Sending…" : compact ? "Get my free quote" : "Send my quote request"}
         </button>
-        {status === "error" && (
-          <p role="alert" className="mt-3 text-sm font-medium text-brick-600">
-            Sorry, something went wrong sending your request. Please email <a className="link" href={mailtoHref("Quote request", summary())}>{business.email}</a> instead.
-          </p>
-        )}
-        {status === "fallback" && (
-          <p role="status" className="mt-3 text-sm text-ink-700">
-            Your email app should have opened with your details filled in — just press send. If nothing happened, email <a className="link" href={mailtoHref("Quote request", summary())}>{business.email}</a>.
-          </p>
-        )}
-        <p className="mt-3 text-sm text-ink-500">Photos help us quote accurately — you can attach them to your email reply.</p>
+        <p className="mt-2 text-xs leading-relaxed text-ink-500">
+          We'll only use your details to reply to your enquiry — see our <Link to="/privacy-policy/" className="underline">privacy policy</Link>.
+          {tel && compact && (
+            <> Prefer to talk? Call <a href={tel} className="font-semibold text-navy-800 underline">{business.phone}</a>, 24/7.</>
+          )}
+        </p>
       </div>
     </form>
+  );
+}
+
+function ServiceSelect({ id, className, defaultValue, ...rest }: { id: string; className: string; defaultValue: string } & Record<string, unknown>) {
+  return (
+    <select id={id} name="service" required className={className} defaultValue={defaultValue} {...rest}>
+      <option value="">Choose…</option>
+      <option value="Rubbish removal (general)">Rubbish removal (general)</option>
+      {services.map((s) => <option key={s.slug} value={s.name}>{s.name}</option>)}
+      <option value="Something else">Something else</option>
+    </select>
+  );
+}
+
+/** Card wrapper used in page heroes so every page has a quote form above the fold. */
+export function QuickQuoteCard({ defaultService = "", heading = "Get a free quote" }: { defaultService?: string; heading?: string }) {
+  return (
+    <div className="rounded-2xl bg-white p-5 text-ink-900 shadow-2xl ring-1 ring-black/5 sm:p-6">
+      <div className="flex items-center justify-between gap-3">
+        <h2 className="font-display text-xl font-extrabold text-navy-900">{heading}</h2>
+        {business.sameDay && <span className="rounded-full bg-signal-500 px-2.5 py-1 text-[0.7rem] font-bold uppercase tracking-wide text-navy-950">Same-day</span>}
+      </div>
+      <p className="mt-1 text-sm text-ink-700">Tell us what's going — we'll call you back with a price.</p>
+      <div className="mt-4"><QuoteForm variant="compact" defaultService={defaultService} title={heading} /></div>
+    </div>
   );
 }

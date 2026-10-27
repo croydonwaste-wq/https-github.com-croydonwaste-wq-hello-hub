@@ -3,7 +3,7 @@ import { renderToString } from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server";
 import { HelmetProvider, type HelmetServerState } from "react-helmet-async";
 import App from "./App";
-import { routes } from "./routes";
+import { routes, utilityRoutes } from "./routes";
 
 export function render(url: string) {
   const helmetContext: { helmet?: HelmetServerState } = {};
@@ -22,3 +22,5 @@ export function render(url: string) {
 }
 
 export const routeMeta = routes.map(({ path, priority, changefreq }) => ({ path, priority, changefreq }));
+
+export const utilityPaths = utilityRoutes.map((r) => r.path);

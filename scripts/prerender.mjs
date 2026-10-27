@@ -9,7 +9,7 @@ const dist = path.join(root, "dist");
 const DOMAIN = "https://www.watfordrubbishclearance.co.uk";
 
 const template = fs.readFileSync(path.join(dist, "index.html"), "utf8");
-const { render, routeMeta } = await import(pathToFileURL(path.join(root, "dist-server/entry-server.js")).href);
+const { render, routeMeta, utilityPaths } = await import(pathToFileURL(path.join(root, "dist-server/entry-server.js")).href);
 
 const write = (url, html) => {
   const file = url === "/404/" ? path.join(dist, "404.html") : path.join(dist, url, "index.html");
@@ -17,7 +17,7 @@ const write = (url, html) => {
   fs.writeFileSync(file, html);
 };
 
-for (const { path: url } of [...routeMeta, { path: "/404/" }]) {
+for (const url of [...routeMeta.map((r) => r.path), ...utilityPaths, "/404/"]) {
   const { html, head } = render(url);
   write(url, template.replace("<!--app-head-->", head).replace("<!--app-html-->", html));
 }

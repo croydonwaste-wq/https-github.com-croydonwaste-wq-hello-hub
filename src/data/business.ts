@@ -2,43 +2,54 @@
  * Single source of truth for business identity (NAP) and verified facts.
  *
  * Anything set to `null` has NOT been confirmed by the business. Components hide
- * features that depend on a null value (e.g. no call button without a phone
- * number) so the site never publishes invented details. Fill these in once
- * confirmed and every page, CTA and schema block updates automatically.
+ * features that depend on a null value (e.g. no WhatsApp button without a number)
+ * so the site never publishes invented details. Fill these in once confirmed and
+ * every page, CTA and schema block updates automatically.
  */
 export const business = {
   name: "Watford Rubbish Clearance",
-  legalName: null as string | null, // BUSINESS CONFIRMATION REQUIRED (Ltd company name / Companies House no.)
+  /** Confirmed by the business: trades as Watford Rubbish Clearance. Add Ltd name / Companies House no. if incorporated. */
+  legalName: null as string | null,
   companyNumber: null as string | null,
   domain: "https://www.watfordrubbishclearance.co.uk",
   email: "hello@watfordrubbishclearance.co.uk",
 
-  /** Landline in display format, e.g. "01923 000000". BUSINESS CONFIRMATION REQUIRED */
-  phone: null as string | null,
-  /** Mobile/WhatsApp in international format without "+" or spaces, e.g. "447700900000". BUSINESS CONFIRMATION REQUIRED */
+  /** Confirmed by the business. */
+  phone: "01293 549164" as string | null,
+  /** Mobile/WhatsApp in international format without "+" or spaces, e.g. "447700900000". Not yet supplied. */
   whatsapp: null as string | null,
-  /** Only publish if customers can visit or it is the registered trading address. BUSINESS CONFIRMATION REQUIRED */
+  /** Only publish if customers can visit or it is the registered trading address. Not supplied — service-area business. */
   address: null as null | {
     streetAddress: string;
     addressLocality: string;
     postalCode: string;
     addressRegion: string;
   },
-  /** Environment Agency upper-tier waste carrier registration, e.g. "CBDU123456". BUSINESS CONFIRMATION REQUIRED */
+  /** Confirmed: licensed waste carrier. Registration number (e.g. "CBDU123456") not yet supplied. */
+  licensedWasteCarrier: true,
   wasteCarrierNumber: null as string | null,
-  /** e.g. "Mon–Sat 7am–7pm". BUSINESS CONFIRMATION REQUIRED */
-  openingHours: null as string | null,
-  /** Public profiles (Google Business Profile, Checkatrade, Facebook…). Add only confirmed URLs. */
+  /** Confirmed by the business. */
+  openingHours: "Open 24 hours, 7 days a week",
+  open247: true,
+  /** Confirmed by the business. */
+  sameDay: true,
+  /** Confirmed by the business. */
+  publicLiability: "£5 million",
+  /** Public profiles (Google Business Profile, Facebook…). None yet — business confirmed no GBP or Checkatrade. */
   sameAs: [] as string[],
 
-  /** Endpoint that accepts the quote form as JSON (Formspree, Web3Forms, Supabase edge function…). */
-  formEndpoint: (import.meta.env.VITE_FORM_ENDPOINT as string | undefined) || null,
+  /**
+   * Quote form handler. Defaults to FormSubmit (no account needed: the first submission sends an
+   * activation email to `email`, which must be confirmed once). Override with VITE_FORM_ENDPOINT.
+   */
+  formEndpoint:
+    (import.meta.env.VITE_FORM_ENDPOINT as string | undefined) || "https://formsubmit.co/hello@watfordrubbishclearance.co.uk",
 } as const;
 
 export const hasPhone = () => Boolean(business.phone);
 export const hasWhatsApp = () => Boolean(business.whatsapp);
 
-export const telHref = () => (business.phone ? `tel:${business.phone.replace(/[^\d+]/g, "")}` : null);
+export const telHref = () => (business.phone ? `tel:${business.phone.replace(/\s/g, "").replace(/^0/, "+44")}` : null);
 
 export const whatsappHref = (message = "Hi, I'd like a quote for a rubbish clearance.") =>
   business.whatsapp ? `https://wa.me/${business.whatsapp}?text=${encodeURIComponent(message)}` : null;

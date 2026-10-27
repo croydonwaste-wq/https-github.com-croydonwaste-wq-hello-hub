@@ -3,7 +3,7 @@ import Home from "@/pages/Home";
 import ServicePage from "@/pages/ServicePage";
 import LocationPage from "@/pages/LocationPage";
 import { AreasHub, GuidePage, GuidesHub, ServicesHub } from "@/pages/hubs";
-import { About, Contact, Faqs, NotFound, Pricing } from "@/pages/info";
+import { About, Contact, Faqs, NotFound, Pricing, ThankYou } from "@/pages/info";
 import { Privacy, Terms } from "@/pages/legal";
 import { services } from "@/data/services";
 import { locations } from "@/data/locations";
@@ -27,5 +27,8 @@ export const routes: AppRoute[] = [
   { path: "/privacy-policy/", element: <Privacy />, priority: 0.2, changefreq: "yearly" },
   { path: "/terms/", element: <Terms />, priority: 0.2, changefreq: "yearly" },
 ];
+
+/** Reachable but not indexed or listed in the sitemap. */
+export const utilityRoutes: AppRoute[] = [{ path: "/thank-you/", element: <ThankYou />, priority: 0, changefreq: "yearly" }];
 
 export const notFoundElement = <NotFound />;

@@ -3,6 +3,8 @@ import { Seo } from "@/components/Seo";
 import { AnswerBox, ContentBlocks, CtaBand, FaqList, PageHero, ProcessSteps, TrustGrid } from "@/components/blocks";
 import { QuoteForm } from "@/components/QuoteForm";
 import { Icon } from "@/components/Icon";
+import { LoadSizeGuide, WasteJourney } from "@/components/Graphics";
+import { Illustration } from "@/components/Illustration";
 import { business, mailtoHref, telHref, whatsappHref } from "@/data/business";
 import { services } from "@/data/services";
 import { locations } from "@/data/locations";
@@ -22,16 +24,17 @@ export function Pricing() {
     <>
       <Seo
         title="Rubbish Removal Prices Watford | How Our Quotes Work"
-        description="How much does rubbish removal cost in Watford? What affects the price of a clearance, which items cost more to dispose of, and how to get an accurate free quote."
+        description="How much does rubbish removal cost in Watford? What affects the price, load sizes, items that cost more to dispose of — and a free quote on 01293 549164."
         path="/pricing/"
         schema={[breadcrumbSchema(crumbs), faqSchema(faqs)]}
       />
-      <PageHero crumbs={crumbs} eyebrow="Pricing" h1="Rubbish Removal Prices in Watford" lead="Clear, upfront quotes based on what you actually need removing — with labour, loading and disposal included." />
+      <PageHero crumbs={crumbs} eyebrow="Pricing" h1="Rubbish Removal Prices in Watford" lead="Clear, upfront quotes based on what you actually need removing — with labour, loading and disposal included." quote={{ heading: "Get your price" }} />
       <div className="container grid gap-12 py-14 lg:grid-cols-[minmax(0,1fr)_340px]">
         <div className="min-w-0 space-y-12">
           <AnswerBox title="How much does rubbish removal cost?">
             The cost of rubbish removal depends on three things: how much waste there is (measured by how much of the van it fills), what it is (some items cost more to dispose of legally) and how long it takes to load. We give you a fixed quote from photos or a description before any work starts.
           </AnswerBox>
+          <LoadSizeGuide heading="Load sizes at a glance" />
           <ContentBlocks
             blocks={[
               {
@@ -125,6 +128,8 @@ export function About() {
               {
                 h2: "What you can expect from us",
                 list: [
+                  "Availability 24 hours a day, 7 days a week, including same-day collections",
+                  "A licensed waste carrier with £5 million public liability insurance",
                   "A quote agreed before any work starts",
                   "Arrival at the agreed time, with the right number of people for the job",
                   "Care with your property — floors, walls and banisters",
@@ -135,7 +140,9 @@ export function About() {
             ]}
           />
         </div>
-        <aside className="card self-start p-6">
+        <aside className="space-y-6 self-start">
+          <Illustration scene="van" label="Illustration: Watford Rubbish Clearance van loaded with boxes and bags" />
+          <div className="card p-6">
           <h2 className="font-display text-lg font-bold text-navy-900">Business details</h2>
           <dl className="mt-4 space-y-3 text-sm">
             <div><dt className="font-semibold text-navy-900">Trading name</dt><dd className="text-ink-700">{business.name}</dd></div>
@@ -143,11 +150,15 @@ export function About() {
             {business.wasteCarrierNumber && <div><dt className="font-semibold text-navy-900">Waste carrier registration</dt><dd className="text-ink-700">{business.wasteCarrierNumber}</dd></div>}
             <div><dt className="font-semibold text-navy-900">Email</dt><dd><a className="link" href={mailtoHref()}>{business.email}</a></dd></div>
             {business.phone && <div><dt className="font-semibold text-navy-900">Phone</dt><dd><a className="link" href={telHref()!}>{business.phone}</a></dd></div>}
+            <div><dt className="font-semibold text-navy-900">Hours</dt><dd className="text-ink-700">{business.openingHours}</dd></div>
+            <div><dt className="font-semibold text-navy-900">Licensing</dt><dd className="text-ink-700">Licensed waste carrier</dd></div>
+            <div><dt className="font-semibold text-navy-900">Insurance</dt><dd className="text-ink-700">{business.publicLiability} public liability</dd></div>
             <div><dt className="font-semibold text-navy-900">Area</dt><dd className="text-ink-700">Watford and Hertfordshire</dd></div>
           </dl>
+          </div>
         </aside>
       </div>
-      <section className="bg-paper py-14"><div className="container"><TrustGrid /></div></section>
+      <section className="bg-paper py-14"><div className="container space-y-14"><TrustGrid /><WasteJourney /></div></section>
       <CtaBand heading="Let's get it cleared" text="Request a free quote for your clearance or collection." />
     </>
   );
@@ -162,11 +173,11 @@ export function Contact() {
     <>
       <Seo
         title="Contact & Free Quote | Watford Rubbish Clearance"
-        description="Request a free rubbish removal or clearance quote in Watford. Use our quick quote form or email us — photos help us price your job accurately."
+        description="Request a free rubbish removal quote in Watford. Call 01293 549164 (open 24/7) or use our quote form — photos help us price your job accurately."
         path="/contact/"
         schema={[contactSchema, localBusinessSchema(), breadcrumbSchema(crumbs)]}
       />
-      <PageHero crumbs={crumbs} eyebrow="Contact" h1="Get a Free Rubbish Removal Quote" lead="Tell us what needs to go and where. We'll come back to you with a price — no obligation." />
+      <PageHero crumbs={crumbs} eyebrow="Contact" h1="Get a Free Rubbish Removal Quote" lead="Tell us what needs to go and where. We'll come back to you with a price — no obligation. Open 24/7, with same-day collections available." quote={false} />
       <div className="container grid gap-10 py-14 lg:grid-cols-[minmax(0,1fr)_320px]">
         <section id="quote" aria-labelledby="form-heading" className="card scroll-mt-28 p-6 md:p-8">
           <h2 id="form-heading" className="font-display text-2xl font-bold text-navy-900">Quote request</h2>
@@ -202,7 +213,9 @@ export function Faqs() {
   const crumbs = [{ name: "Home", path: "/" }, { name: "FAQs", path: "/faqs/" }];
   const general: Faq[] = [
     { q: "What areas do you cover?", a: `Watford and the surrounding towns including ${locations.map((l) => l.town).join(", ")}, with wider Hertfordshire, Bedfordshire, Buckinghamshire and North London coverage on request.` },
-    { q: "How do I book?", a: "Request a quote using the form on our contact page or by email. Once you're happy with the price, we agree a collection time." },
+    { q: "How do I book?", a: `Call ${business.phone} at any time, or use the quote form on any page. Once you're happy with the price, we agree a collection time.` },
+    { q: "Do you offer same-day and out-of-hours collections?", a: "Yes. We operate 24 hours a day, 7 days a week and offer same-day collections — call early for the best choice of times." },
+    { q: "Are you licensed and insured?", a: "Yes. We're a licensed waste carrier with £5 million public liability insurance." },
     { q: "Do I need to be home?", a: "Not always. Many jobs are done with access arranged through a key holder, agent or key safe, as long as we've agreed exactly what's being removed." },
     { q: "Do you recycle?", a: "Yes. Waste is sorted so reusable items and recyclable materials are kept out of landfill wherever possible." },
     { q: "What can't you take?", a: "Asbestos, clinical waste, gas bottles, chemicals, liquid paints and other hazardous waste need specialist handling. Ask us and we'll point you in the right direction." },
@@ -252,6 +265,30 @@ export function NotFound() {
           <li><Link to="/services/" className="btn border border-navy-900/15 text-navy-900">Services</Link></li>
           <li><Link to="/contact/" className="btn border border-navy-900/15 text-navy-900">Get a quote</Link></li>
         </ul>
+      </section>
+    </>
+  );
+}
+
+/** FormSubmit redirects here after a successful quote request. */
+export function ThankYou() {
+  const tel = telHref();
+  return (
+    <>
+      <Seo title="Thank You | Watford Rubbish Clearance" description="Thanks for your quote request — we'll be in touch shortly." path="/thank-you/" noindex />
+      <section className="container max-w-2xl py-20 text-center">
+        <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#3F8F4E] text-white"><Icon name="check" className="h-8 w-8" /></span>
+        <h1 className="mt-6 font-display text-4xl font-extrabold text-navy-900">Thanks — we've got your request</h1>
+        <p className="mt-4 text-lg text-ink-700">
+          We'll be in touch shortly with a price. If you haven't sent photos yet, reply to our email or send them to{" "}
+          <a className="link" href={mailtoHref("Photos for my quote")}>{business.email}</a>.
+        </p>
+        {tel && (
+          <p className="mt-6 text-ink-700">
+            Need it gone today? Call <a href={tel} className="font-display text-xl font-bold text-brick-600">{business.phone}</a> — we're open 24/7.
+          </p>
+        )}
+        <Link to="/" className="btn-primary mt-8">Back to the homepage</Link>
       </section>
     </>
   );

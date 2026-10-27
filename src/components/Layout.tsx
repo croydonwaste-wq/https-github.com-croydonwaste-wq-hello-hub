@@ -16,6 +16,25 @@ const nav = [
   { to: "/contact/", label: "Contact" },
 ];
 
+function TopBar() {
+  const tel = telHref();
+  return (
+    <div className="bg-navy-950 text-[0.8rem] text-navy-100">
+      <div className="container flex h-9 items-center justify-between gap-4">
+        <p className="flex items-center gap-2 truncate">
+          <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#4ADE80] opacity-75" /><span className="relative inline-flex h-2 w-2 rounded-full bg-[#4ADE80]" /></span>
+          <span className="font-semibold text-white">Open 24/7</span>
+          <span className="hidden sm:inline">· Same-day collections across Watford &amp; Hertfordshire</span>
+        </p>
+        <p className="flex items-center gap-4">
+          <span className="hidden md:inline">Licensed waste carrier · {business.publicLiability} insured</span>
+          {tel && <a href={tel} className="font-bold text-signal-400 hover:text-white" data-cta="call-topbar">{business.phone}</a>}
+        </p>
+      </div>
+    </div>
+  );
+}
+
 function Header() {
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
@@ -47,8 +66,8 @@ function Header() {
         <div className="flex items-center gap-2">
           {tel && (
             <a href={tel} className="hidden items-center gap-2 font-display text-lg font-bold text-navy-900 md:flex" data-cta="call-header">
-              <Icon name="phone" className="h-5 w-5 text-brick-500" />
-              {business.phone}
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brick-50 text-brick-500"><Icon name="phone" className="h-5 w-5" /></span>
+              <span className="flex flex-col leading-tight"><span className="text-[0.65rem] font-semibold uppercase tracking-wider text-ink-500">Call 24/7</span>{business.phone}</span>
             </a>
           )}
           <Link to="/contact/#quote" className="btn-primary hidden !py-2.5 sm:inline-flex">
@@ -196,6 +215,7 @@ export function Layout({ children }: { children: ReactNode }) {
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-white focus:px-4 focus:py-2">
         Skip to content
       </a>
+      <TopBar />
       <Header />
       <main id="main" className="flex-1">
         {children}
