@@ -29,6 +29,10 @@ const paths: Record<IconName, string> = {
   menu: "M4 7h16M4 12h16M4 17h16",
   close: "M6 6l12 12M18 6L6 18",
   chevron: "M9 6l6 6-6 6",
+  tub: "M3 11h18v4a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4zM6 11V8a2 2 0 0 1 2-2M9 6c0-1 1-2 2-2M7 19l-1 2M17 19l1 2",
+  piano: "M3 5h18v14H3zM3 12h18M7 12v7M11 12v7M15 12v7M6 12v4M10 12v4M14 12v4M18 12v4",
+  stack: "M4 14h8v6H4zM12 14h8v6h-8zM7 8h9v6H7zM9 3h6v5H9z",
+  handshake: "M2 11l4-4 4 2 3-2 4 1 5 3M6 7v6l5 4 3-1 2 1 4-4M11 17l-2 2M14 16l-1 2",
   doc: "M6 3h9l4 4v14H6zM14 3v5h5M9 13h6M9 17h6",
 };
 

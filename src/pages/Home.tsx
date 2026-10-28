@@ -175,13 +175,15 @@ export default function Home() {
             <h3>Landlords and letting agents</h3>
             <p><Link to="/end-of-tenancy-clearance/">End of tenancy clearances</Link>, abandoned belongings and mattresses between lets — arranged with key holders so you don't need to be there, 24/7.</p>
             <h3>Businesses</h3>
-            <p><Link to="/office-clearance/">Office clearances</Link>, <Link to="/commercial-bin-collection/">commercial waste collections</Link> and <Link to="/builders-waste-removal/">builders' waste removal</Link>, with the waste paperwork businesses must keep.</p>
+            <p><Link to="/office-clearance/">Office clearances</Link>, <Link to="/commercial-bin-collection/">commercial bin and overflow collections</Link> and <Link to="/builders-waste-removal/">builders' waste removal</Link>, with the waste paperwork businesses must keep. Regular customers can work with us on <Link to="/contract-waste-services/">contract or account</Link>.</p>
+            <h3>Sensitive clearances</h3>
+            <p>Patient, discreet <Link to="/hoarder-clearance/">hoarder clearances</Link> and <Link to="/probate-clearance/">probate clearances</Link>, working with families, landlords and support services.</p>
           </div>
         </div>
         <div className="card p-6 md:p-8">
           <h2 className="font-display text-xl font-bold text-navy-900">Things we're often asked to take</h2>
           <div className="mt-5">
-            <TickList items={["Sofas and armchairs", "Mattresses and beds", "Fridges and freezers", "Washing machines", "Garden waste and soil", "Old kitchens and bathrooms", "Carpets and underlay", "Office furniture and IT", "Boxes, bags and loft clutter"]} />
+            <TickList items={["Sofas and armchairs", "Mattresses and beds", "Fridges and freezers", "Washing machines", "Garden waste and soil", "Old kitchens and bathrooms", "Carpets and underlay", "Office furniture and IT", "Hot tubs and pianos", "Boxes, bags and loft clutter"]} />
           </div>
           <p className="mt-5 text-sm text-ink-500">Asbestos, clinical waste, gas bottles and chemicals need specialist handling — ask us first.</p>
         </div>

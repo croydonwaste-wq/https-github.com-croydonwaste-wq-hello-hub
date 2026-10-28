@@ -94,4 +94,8 @@ export type IconName =
   | "menu"
   | "close"
   | "chevron"
-  | "doc";
+  | "doc"
+  | "tub"
+  | "piano"
+  | "stack"
+  | "handshake";

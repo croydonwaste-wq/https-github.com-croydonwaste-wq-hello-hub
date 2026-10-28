@@ -159,3 +159,25 @@ The business confirmed it covers everything within **30 miles of Watford town ce
 **Verification:** build plus `npm run qa` pass on 43 pages. In Playwright, the 4 new pages, the areas page and the homepage return 200 at 375px and 1366px, with one H1, no overflow, no console errors and both quote forms present.
 
 **Next town candidates (Wave 2–3, build one at a time as demand shows):** Luton & Dunstable, Stevenage & Hitchin, High Wycombe, Uxbridge & Ruislip, Edgware & Barnet. A page for every town within 30 miles would create thin doorway pages and is deliberately not planned.
+
+## 9. Update — 28 October 2026: remaining services confirmed and implemented
+
+The business confirmed it offers **hoarder clearance, hot tub removal and piano removal**, plus **commercial and domestic bin collections, overflow collections, and contract and account work**. Nothing is now awaiting service confirmation.
+
+| Opportunity | Decision | URL / location | Primary keyword | Cannibalisation check |
+|---|---|---|---|---|
+| Hoarder clearance | CREATE NEW SERVICE PAGE ★★★★★ | `/hoarder-clearance/` | hoarder clearance Watford | LOW — distinct sensitive intent; house clearance links to it |
+| Hot tub removal | CREATE NEW SERVICE PAGE ★★★★ | `/hot-tub-removal/` | hot tub removal Watford | LOW — item-specific, very different process (draining, disconnection, cutting up) |
+| Piano removal & disposal | CREATE NEW SERVICE PAGE ★★★ | `/piano-removal/` | piano removal Watford | LOW — states clearly it's disposal, not piano moving |
+| Contract & account work | CREATE INDUSTRY / COMMERCIAL PAGE ★★★★★ | `/contract-waste-services/` | waste collection contract Watford | LOW — B2B recurring and account intent; the commercial bin page keeps the one-off and trade-bin intent |
+| Domestic overflow collections | IMPROVE EXISTING PAGE | `/domestic-bin-collection/` — new "Overflow collections" H2, H1 and title updated | overflow waste collection Watford | Avoided a separate page that would compete with this one |
+| Commercial overflow and contracts | IMPROVE EXISTING PAGE | `/commercial-bin-collection/` — "Scheduled contracts or one-off" and "Commercial overflow collections" H2s; meta description with phone | commercial waste collection Watford | — |
+| Bin store clearance (managing agents) | ADD SECTION, NOT A NEW URL | H2 on `/contract-waste-services/` | bin store clearance Watford | Would overlap with contract and domestic pages |
+
+**Each new page has:** unique H1/H2/H3 structure, a direct-answer box, a "what we can take" list, a custom illustration, 3–4 FAQs, Service + FAQ + Breadcrumb schema, a hero quote form with the service pre-selected, the full quote form with photo upload, a meta description with 01293 549164, and related-service links.
+
+**Internal links added:** house clearance → hoarder; garden waste → hot tub; furniture → piano; bulky waste → hot tub and piano; domestic and commercial bins → contracts; the homepage "Who we help" section → contracts and hoarder clearance; the homepage "often asked to take" list → hot tubs and pianos. All new pages are also on the services hub, homepage service cards and footer.
+
+**Verification:** build plus `npm run qa` pass on 47 pages, with no duplicate titles, descriptions or H1s, no broken links or orphans, and valid JSON-LD. In Playwright, all 4 new pages and 4 changed pages return 200 at 375px and 1366px, with one H1, no overflow, no console errors, and both quote forms present with the correct service pre-selected.
+
+**Remaining Wave 2–3 (unchanged):** further town pages within the 30-mile radius (Luton & Dunstable, Stevenage & Hitchin, High Wycombe, Uxbridge & Ruislip, Edgware & Barnet) and service-in-town pages (e.g. house clearance St Albans) once real local jobs, photos or reviews exist. Google Business Profile, reviews and the waste carrier number remain the top non-page priorities.
