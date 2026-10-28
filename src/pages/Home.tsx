@@ -67,12 +67,10 @@ export default function Home() {
             <p className="mt-5 max-w-xl text-lg leading-relaxed text-navy-100">
               From a single sofa to a full house clearance — we carry it out, load it up and sort it for reuse and recycling. Homes, landlords and businesses across Watford and Hertfordshire.
             </p>
-            <ContactButtons tone="dark" className="mt-8" />
+            <ContactButtons tone="dark" className="mt-8" placement="hero" />
             <HeroBadges />
           </div>
-          <div id="quick-quote" className="scroll-mt-24">
-            <QuickQuoteCard heading="Free rubbish removal quote" />
-          </div>
+          <QuickQuoteCard heading="Free rubbish removal quote" />
         </div>
       </section>
 

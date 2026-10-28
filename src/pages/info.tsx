@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Seo } from "@/components/Seo";
 import { AnswerBox, ContentBlocks, CtaBand, FaqList, PageHero, ProcessSteps, TrustGrid } from "@/components/blocks";
@@ -11,6 +12,7 @@ import { COVERAGE_RADIUS_MILES } from "@/data/locations";
 import { guides } from "@/data/guides";
 import { breadcrumbSchema, faqSchema, ORG_ID, localBusinessSchema } from "@/lib/schema";
 import type { Faq } from "@/data/types";
+import { track } from "@/lib/tracking";
 
 export function Pricing() {
   const crumbs = [{ name: "Home", path: "/" }, { name: "Pricing", path: "/pricing/" }];
@@ -283,6 +285,8 @@ export function NotFound() {
 /** FormSubmit redirects here after a successful quote request. */
 export function ThankYou() {
   const tel = telHref();
+  // FormSubmit only redirects here after accepting a submission, so this is the confirmed lead.
+  useEffect(() => track("generate_lead", { lead_type: "quote_form" }), []);
   return (
     <>
       <Seo title="Thank You | Watford Rubbish Clearance" description="Thanks for your quote request — we'll be in touch shortly." path="/thank-you/" noindex />

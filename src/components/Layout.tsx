@@ -4,8 +4,11 @@ import { business, telHref, whatsappHref, mailtoHref } from "@/data/business";
 import { services, serviceGroups } from "@/data/services";
 import { locations } from "@/data/locations";
 import { guides } from "@/data/guides";
+import { useQuoteHref } from "@/lib/useQuoteHref";
+import { GTM_ID } from "@/lib/tracking";
 import { Logo } from "./Logo";
 import { Icon } from "./Icon";
+import { ConsentBanner, OPEN_CONSENT_EVENT } from "./ConsentBanner";
 
 const nav = [
   { to: "/services/", label: "Services" },
@@ -39,6 +42,7 @@ function Header() {
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
   const tel = telHref();
+  const quoteHref = useQuoteHref();
   useEffect(() => setOpen(false), [pathname]);
 
   return (
@@ -70,7 +74,7 @@ function Header() {
               <span className="flex flex-col leading-tight"><span className="text-[0.65rem] font-semibold uppercase tracking-wider text-ink-500">Call 24/7</span>{business.phone}</span>
             </a>
           )}
-          <Link to="/contact/#quote" className="btn-primary hidden !py-2.5 sm:inline-flex">
+          <Link to={quoteHref} className="btn-primary hidden !py-2.5 sm:inline-flex" data-cta="quote-header">
             Free quote
           </Link>
           <button
@@ -99,6 +103,14 @@ function Header() {
               </li>
             ))}
           </ul>
+          <div className="container grid gap-3 border-t border-ink-100 py-4 sm:grid-cols-2">
+            <Link to={quoteHref} onClick={() => setOpen(false)} className="btn-primary" data-cta="quote-menu">Get a free quote</Link>
+            {tel && (
+              <a href={tel} className="btn border border-navy-900/15 text-navy-900" data-cta="call-menu">
+                <Icon name="phone" className="h-5 w-5" /> Call {business.phone} · 24/7
+              </a>
+            )}
+          </div>
         </nav>
       )}
     </header>
@@ -177,6 +189,11 @@ function Footer() {
           <ul className="flex gap-4">
             <li><Link to="/privacy-policy/" className="hover:text-white">Privacy policy</Link></li>
             <li><Link to="/terms/" className="hover:text-white">Terms</Link></li>
+            {GTM_ID && (
+              <li>
+                <button type="button" className="hover:text-white" onClick={() => window.dispatchEvent(new Event(OPEN_CONSENT_EVENT))}>Cookie settings</button>
+              </li>
+            )}
           </ul>
         </div>
       </div>
@@ -186,26 +203,34 @@ function Footer() {
 
 /** Sticky mobile action bar — the main mobile conversion route. */
 function MobileBar() {
+  const { pathname } = useLocation();
   const tel = telHref();
-  const wa = whatsappHref();
+  const quoteHref = useQuoteHref();
+  // Prefill WhatsApp with the service or town of the page the visitor is on.
+  const slug = pathname.replace(/\//g, "");
+  const topic = services.find((s) => s.slug === slug)?.name.toLowerCase() ?? `rubbish removal${(() => {
+    const town = locations.find((l) => l.slug === slug)?.town;
+    return town ? ` in ${town}` : "";
+  })()}`;
+  const wa = whatsappHref(`Hello, I'd like a quote for ${topic}. Please could you advise availability? My postcode is: `);
   const items = [
     tel && { href: tel, label: "Call", icon: "phone" as const, external: false },
     wa && { href: wa, label: "WhatsApp", icon: "whatsapp" as const, external: true },
     !tel && !wa && { href: mailtoHref(), label: "Email", icon: "mail" as const, external: false },
   ].filter(Boolean) as { href: string; label: string; icon: "phone" | "whatsapp" | "mail"; external: boolean }[];
   return (
-    <div className="fixed inset-x-0 bottom-0 z-40 grid border-t border-ink-200 bg-white shadow-[0_-4px_16px_rgba(7,23,51,.08)] md:hidden" style={{ gridTemplateColumns: `repeat(${items.length + 1}, minmax(0, 1fr))` }}>
+    <nav aria-label="Quick contact" className="fixed inset-x-0 bottom-0 z-40 grid border-t border-ink-200 bg-white shadow-[0_-4px_16px_rgba(7,23,51,.08)] md:hidden" style={{ gridTemplateColumns: `repeat(${items.length + 1}, minmax(0, 1fr))` }}>
       {items.map((it) => (
-        <a key={it.label} href={it.href} {...(it.external ? { target: "_blank", rel: "noopener" } : {})} className="flex flex-col items-center gap-0.5 py-2.5 text-xs font-semibold text-navy-900">
+        <a key={it.label} href={it.href} {...(it.external ? { target: "_blank", rel: "noopener" } : {})} data-cta={`${it.icon === "phone" ? "call" : it.icon === "mail" ? "email" : "whatsapp"}-mobile-bar`} className="flex min-h-[56px] flex-col items-center justify-center gap-0.5 py-2 text-xs font-semibold text-navy-900">
           <Icon name={it.icon} className="h-5 w-5" />
           {it.label}
         </a>
       ))}
-      <Link to="/contact/#quote" className="flex flex-col items-center gap-0.5 bg-brick-500 py-2.5 text-xs font-semibold text-white">
+      <Link to={quoteHref} data-cta="quote-mobile-bar" className="flex min-h-[56px] flex-col items-center justify-center gap-0.5 bg-brick-500 py-2 text-xs font-semibold text-white">
         <Icon name="doc" className="h-5 w-5" />
         Free quote
       </Link>
-    </div>
+    </nav>
   );
 }
 
@@ -222,6 +247,7 @@ export function Layout({ children }: { children: ReactNode }) {
       </main>
       <Footer />
       <MobileBar />
+      <ConsentBanner />
     </div>
   );
 }

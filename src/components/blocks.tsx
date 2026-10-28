@@ -55,7 +55,7 @@ export function PageHero({
             {eyebrow && <p className="eyebrow text-signal-400">{eyebrow}</p>}
             <h1 className="mt-2 font-display text-[2rem] font-bold leading-[1.08] tracking-tight sm:text-5xl">{h1}</h1>
             <p className="mt-4 text-lg leading-relaxed text-navy-100">{lead}</p>
-            <ContactButtons tone="dark" context={context} className="mt-7" />
+            <ContactButtons tone="dark" context={context} className="mt-7" placement="hero" />
             <HeroBadges />
             {children}
           </div>
@@ -189,7 +189,7 @@ export function CtaBand({ heading, text, context }: { heading: string; text: str
           <h2 className="font-display text-2xl font-bold sm:text-3xl">{heading}</h2>
           <p className="mt-2 text-navy-100">{text}</p>
         </div>
-        <ContactButtons tone="dark" context={context} />
+        <ContactButtons tone="dark" context={context} placement="cta-band" />
       </div>
     </section>
   );

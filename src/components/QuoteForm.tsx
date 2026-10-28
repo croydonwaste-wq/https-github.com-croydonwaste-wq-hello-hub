@@ -1,7 +1,8 @@
-import { useEffect, useId, useState, type FormEvent } from "react";
+import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { absoluteUrl, business, telHref } from "@/data/business";
 import { services } from "@/data/services";
+import { getAttribution, track, type Attribution } from "@/lib/tracking";
 
 /**
  * Quote form. Submits as a normal multipart POST (works before/without JavaScript and
@@ -9,7 +10,10 @@ import { services } from "@/data/services";
  * emails each enquiry to the business inbox and redirects to /thank-you/.
  *
  * - compact: name, phone, postcode, service, short note — sits in every page hero.
- * - full:    adds email, load size, access, preferred date/time, details and photos.
+ * - full:    adds email, customer type, load size, access, preferred date/time, details, photos,
+ *            plus a qualifying question that depends on the service chosen (see `followUp`).
+ *
+ * Each enquiry also carries the page it was sent from and the visit's lead source.
  */
 type Variant = "compact" | "full";
 
@@ -35,6 +39,54 @@ export const accessOptions = [
   "Garden, shed or garage",
   "Mixed / several areas",
 ];
+
+export const customerTypes = [
+  "Homeowner or tenant",
+  "Landlord or letting agent",
+  "Executor or family member",
+  "Business or office",
+  "Builder or tradesperson",
+  "Other",
+];
+
+const commercialServices = new Set(services.filter((s) => s.group === "commercial").map((s) => s.name));
+const propertyServices = new Set(
+  ["house-clearance", "end-of-tenancy-clearance", "probate-clearance", "hoarder-clearance"].map((slug) => services.find((s) => s.slug === slug)?.name),
+);
+const builderService = services.find((s) => s.slug === "builders-waste-removal")?.name;
+
+/** The one extra question worth asking for this service — kept to a single optional select. */
+function followUp(service: string, customerType: string): { name: string; label: string; options: string[] } | null {
+  if (service === builderService)
+    return {
+      name: "waste_type",
+      label: "Main type of waste",
+      options: ["Rubble, bricks or soil", "Plasterboard", "Timber and mixed build waste", "Kitchen or bathroom strip-out", "Mixed – I'll send photos"],
+    };
+  if (propertyServices.has(service))
+    return {
+      name: "on_site",
+      label: "Will someone be at the property?",
+      options: ["Yes, I'll be there", "A key holder or agent", "Access by key safe", "Not sure yet"],
+    };
+  if (commercialServices.has(service) || customerType === "Business or office" || customerType === "Builder or tradesperson")
+    return {
+      name: "frequency",
+      label: "One-off or regular?",
+      options: ["One-off job", "Regular collections", "Not sure yet – happy to discuss"],
+    };
+  return null;
+}
+
+/** Placeholder hints for services where specific details change the price. */
+const detailHints: Record<string, string> = {
+  "hot-tub-removal": "Size and make if known, whether it's drained and disconnected, and the route from the garden to the road.",
+  "piano-removal": "Upright or grand, which floor it's on, and any steps or narrow doorways on the way out.",
+  "fridge-freezer-removal": "How many appliances, and whether they're fridges, freezers, American-style or washing machines.",
+  "builders-waste-removal": "Roughly how many bags or how much loose waste, and whether it's bagged, on a drive or in the house.",
+  "office-clearance": "Number of desks, chairs, cabinets and any IT equipment, which floor, and lift or loading-bay access.",
+  "commercial-bin-collection": "Type of business, roughly how many bags per week, and any trade waste currently going in the wrong bin.",
+};
 
 export const timeOptions = ["As soon as possible (same day)", "Morning", "Afternoon", "Evening", "Overnight / out of hours", "Flexible"];
 
@@ -63,22 +115,41 @@ export function QuoteForm({ variant = "full", defaultService = "", title }: { va
   const { pathname } = useLocation();
   const [errors, setErrors] = useState<Errors>({});
   const [sending, setSending] = useState(false);
+  const [service, setService] = useState(defaultService);
+  const [customerType, setCustomerType] = useState("");
+  const [attribution, setAttribution] = useState<Attribution>({});
+  const started = useRef(false);
   // Native browser validation until hydrated, then our own accessible messages.
   const [enhanced, setEnhanced] = useState(false);
-  useEffect(() => setEnhanced(true), []);
+  useEffect(() => {
+    setEnhanced(true);
+    setAttribution(getAttribution());
+  }, []);
 
   const compact = variant === "compact";
   const fid = (k: string) => `${id}-${k}`;
+  const extra = compact ? null : followUp(service, customerType);
+  const slug = services.find((s) => s.name === service)?.slug ?? "";
+
+  function onFocus() {
+    if (started.current) return;
+    started.current = true;
+    track("quote_form_start", { form_variant: variant });
+  }
 
   function onSubmit(ev: FormEvent<HTMLFormElement>) {
-    const e = validateQuote(new FormData(ev.currentTarget), variant);
+    const data = new FormData(ev.currentTarget);
+    const e = validateQuote(data, variant);
     setErrors(e);
     if (Object.keys(e).length) {
       ev.preventDefault();
+      track("quote_form_error", { form_variant: variant, error_fields: Object.keys(e).join(",") });
       const firstKey = Object.keys(e)[0];
       document.getElementById(fid(firstKey === "photos" ? "attachment" : firstKey))?.focus();
       return;
     }
+    // A valid submission leaving the page. The confirmed lead is `generate_lead` on /thank-you/.
+    track("quote_form_submit", { form_variant: variant, service: String(data.get("service") ?? "") });
     setSending(true); // let the browser submit the form normally
   }
 
@@ -97,6 +168,7 @@ export function QuoteForm({ variant = "full", defaultService = "", title }: { va
       encType="multipart/form-data"
       noValidate={enhanced}
       onSubmit={onSubmit}
+      onFocus={onFocus}
       aria-label={title ?? "Request a free quote"}
       className={compact ? "grid gap-3" : "grid gap-4 sm:grid-cols-2"}
     >
@@ -113,6 +185,12 @@ export function QuoteForm({ variant = "full", defaultService = "", title }: { va
         />
       )}
       <input type="hidden" name="page" value={pathname} />
+      {/* Lead source for this visit (filled in after load; see lib/tracking). */}
+      {attribution.source && <input type="hidden" name="lead_source" value={attribution.source} />}
+      {attribution.landing_page && <input type="hidden" name="landing_page" value={attribution.landing_page} />}
+      {(["referrer", "utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "gclid"] as const).map((k) =>
+        attribution[k] ? <input key={k} type="hidden" name={k} value={attribution[k]} /> : null,
+      )}
       {/* Honeypot: real visitors never see or fill this. */}
       <div className="hidden" aria-hidden="true">
         <label htmlFor={fid("honey")}>Leave this empty</label>
@@ -145,7 +223,7 @@ export function QuoteForm({ variant = "full", defaultService = "", title }: { va
         {compact && (
           <div>
             <label htmlFor={fid("service")} className={label}>Service</label>
-            <ServiceSelect id={fid("service")} className={field} defaultValue={defaultService} {...aria("service")} />
+            <ServiceSelect id={fid("service")} className={field} value={service} onChange={setService} {...aria("service")} />
             {err("service")}
           </div>
         )}
@@ -154,18 +232,34 @@ export function QuoteForm({ variant = "full", defaultService = "", title }: { va
         <>
           <div>
             <label htmlFor={fid("service")} className={label}>Service required</label>
-            <ServiceSelect id={fid("service")} className={field} defaultValue={defaultService} {...aria("service")} />
+            <ServiceSelect id={fid("service")} className={field} value={service} onChange={setService} {...aria("service")} />
             {err("service")}
           </div>
           <div>
-            <label htmlFor={fid("load")} className={label}>Roughly how much?</label>
+            <label htmlFor={fid("customer")} className={label}>Who is it for? <span className="font-normal text-ink-500">(optional)</span></label>
+            <select id={fid("customer")} name="customer_type" className={field} value={customerType} onChange={(ev) => setCustomerType(ev.target.value)}>
+              <option value="">Choose…</option>
+              {customerTypes.map((o) => <option key={o}>{o}</option>)}
+            </select>
+          </div>
+          {extra && (
+            <div>
+              <label htmlFor={fid("extra")} className={label}>{extra.label} <span className="font-normal text-ink-500">(optional)</span></label>
+              <select id={fid("extra")} key={extra.name} name={extra.name} className={field} defaultValue="">
+                <option value="">Choose…</option>
+                {extra.options.map((o) => <option key={o}>{o}</option>)}
+              </select>
+            </div>
+          )}
+          <div>
+            <label htmlFor={fid("load")} className={label}>Roughly how much? <span className="font-normal text-ink-500">(optional)</span></label>
             <select id={fid("load")} name="load_size" className={field} defaultValue="">
               <option value="">Choose a load size…</option>
               {loadSizes.map((o) => <option key={o}>{o}</option>)}
             </select>
           </div>
           <div>
-            <label htmlFor={fid("access")} className={label}>Where is it?</label>
+            <label htmlFor={fid("access")} className={label}>Where is it? <span className="font-normal text-ink-500">(optional)</span></label>
             <select id={fid("access")} name="access" className={field} defaultValue="">
               <option value="">Choose location / access…</option>
               {accessOptions.map((o) => <option key={o}>{o}</option>)}
@@ -176,7 +270,7 @@ export function QuoteForm({ variant = "full", defaultService = "", title }: { va
             <input id={fid("date")} name="preferred_date" type="date" className={field} />
           </div>
           <div>
-            <label htmlFor={fid("time")} className={label}>Preferred time</label>
+            <label htmlFor={fid("time")} className={label}>Preferred time <span className="font-normal text-ink-500">(optional)</span></label>
             <select id={fid("time")} name="preferred_time" className={field} defaultValue="">
               <option value="">Choose a time…</option>
               {timeOptions.map((o) => <option key={o}>{o}</option>)}
@@ -193,7 +287,7 @@ export function QuoteForm({ variant = "full", defaultService = "", title }: { va
           name="details"
           rows={compact ? 2 : 4}
           required={!compact}
-          placeholder={compact ? "e.g. sofa and 10 bags from a 1st-floor flat" : "List the items or describe the load, plus any access notes (stairs, parking, gates)."}
+          placeholder={compact ? "e.g. sofa and 10 bags from a 1st-floor flat" : detailHints[slug] ?? "List the items or describe the load, plus any access notes (stairs, parking, gates)."}
           className={field}
           {...aria("details")}
         />
@@ -215,6 +309,11 @@ export function QuoteForm({ variant = "full", defaultService = "", title }: { va
         </div>
       )}
       <div className={compact ? "" : "sm:col-span-2"}>
+        {!compact && (
+          <p className="mb-3 text-sm text-ink-700">
+            <strong className="text-navy-900">What happens next:</strong> we check your details and photos, then call or email with a price. No obligation — nothing is booked until you agree the price.
+          </p>
+        )}
         <button type="submit" className="btn-primary w-full" disabled={sending}>
           {sending ? "Sending…" : compact ? "Get my free quote" : "Send my quote request"}
         </button>
@@ -229,9 +328,15 @@ export function QuoteForm({ variant = "full", defaultService = "", title }: { va
   );
 }
 
-function ServiceSelect({ id, className, defaultValue, ...rest }: { id: string; className: string; defaultValue: string } & Record<string, unknown>) {
+function ServiceSelect({
+  id,
+  className,
+  value,
+  onChange,
+  ...rest
+}: { id: string; className: string; value: string; onChange: (v: string) => void } & Record<string, unknown>) {
   return (
-    <select id={id} name="service" required className={className} defaultValue={defaultValue} {...rest}>
+    <select id={id} name="service" required className={className} value={value} onChange={(ev) => onChange(ev.target.value)} {...rest}>
       <option value="">Choose…</option>
       <option value="Rubbish removal (general)">Rubbish removal (general)</option>
       {services.map((s) => <option key={s.slug} value={s.name}>{s.name}</option>)}
@@ -243,7 +348,7 @@ function ServiceSelect({ id, className, defaultValue, ...rest }: { id: string; c
 /** Card wrapper used in page heroes so every page has a quote form above the fold. */
 export function QuickQuoteCard({ defaultService = "", heading = "Get a free quote" }: { defaultService?: string; heading?: string }) {
   return (
-    <div className="overflow-hidden rounded-lg bg-white text-ink-900 shadow-[0_24px_60px_-20px_rgba(0,0,0,.45)] ring-1 ring-black/5">
+    <div id="quick-quote" className="scroll-mt-28 overflow-hidden rounded-lg bg-white text-ink-900 shadow-[0_24px_60px_-20px_rgba(0,0,0,.45)] ring-1 ring-black/5">
       <div className="h-1 bg-brick-500" />
       <div className="p-5 sm:p-6">
         <div className="flex items-start justify-between gap-3">

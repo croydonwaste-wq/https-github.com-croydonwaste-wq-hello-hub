@@ -1,10 +1,11 @@
 import { Seo } from "@/components/Seo";
 import { ContentBlocks, PageHero } from "@/components/blocks";
 import { business } from "@/data/business";
+import { GTM_ID } from "@/lib/tracking";
 
 // Template legal copy. BUSINESS CONFIRMATION REQUIRED: have these reviewed and add
 // the legal entity, registered address and ICO registration (if applicable).
-const LAST_UPDATED = "27 October 2026";
+const LAST_UPDATED = "28 October 2026";
 
 export function Privacy() {
   const crumbs = [{ name: "Home", path: "/" }, { name: "Privacy policy", path: "/privacy-policy/" }];
@@ -19,7 +20,10 @@ export function Privacy() {
             { h2: "Who we are", paras: [`${controller} ("we") is the data controller for personal information collected through ${business.domain.replace("https://", "")}. Contact us at ${business.email}.`] },
             {
               h2: "What we collect",
-              paras: ["When you request a quote we collect your name, phone number, email address, postcode, the service you need, a description of the job and any preferred date. If you email us photos, we receive those too."],
+              paras: [
+                "When you request a quote we collect your name, phone number, email address, postcode, the service you need, who the job is for, a description of the job, access details and any preferred date. If you send photos, we receive those too.",
+                "Your request also tells us which page you sent it from and how you found the website (for example a Google search, an advert or a link, including any campaign tags in the web address). We use this only to understand which pages and advertising bring enquiries. It is not stored on your device.",
+              ],
             },
             {
               h2: "How we use it",
@@ -32,7 +36,14 @@ export function Privacy() {
             },
             { h2: "Who we share it with", paras: ["Only with service providers that help us run the business (for example email and form-handling providers), and authorities where the law requires it."] },
             { h2: "How long we keep it", paras: ["Enquiries that don't lead to a booking are deleted within 12 months. Records relating to completed jobs are kept for as long as required for legal, accounting and waste-regulation purposes."] },
-            { h2: "Cookies", paras: ["This website does not use advertising or analytics cookies. If that changes, we will update this policy and ask for consent where required."] },
+            {
+              h2: "Cookies",
+              paras: [
+                GTM_ID
+                  ? "We use Google Analytics (through Google Tag Manager) to measure which pages lead to enquiries, but only if you accept analytics cookies. They are off until you choose, and you can change your choice at any time with the \"Cookie settings\" link at the foot of every page. Your choice itself is remembered on your device."
+                  : "This website does not use advertising or analytics cookies. If that changes, we will update this policy and ask for consent first.",
+              ],
+            },
             {
               h2: "Your rights",
               paras: [

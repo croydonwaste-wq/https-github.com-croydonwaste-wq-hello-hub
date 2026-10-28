@@ -6,14 +6,15 @@ import { notFoundElement, routes as indexable, utilityRoutes } from "@/routes";
 const routes = [...indexable, ...utilityRoutes];
 
 function ScrollManager() {
-  const { pathname, hash } = useLocation();
+  const { pathname, hash, key } = useLocation();
   useEffect(() => {
     if (hash) {
       document.getElementById(hash.slice(1))?.scrollIntoView();
     } else {
       window.scrollTo(0, 0);
     }
-  }, [pathname, hash]);
+    // `key` changes on every navigation, so tapping "Free quote" again re-scrolls to the form.
+  }, [pathname, hash, key]);
   return null;
 }
 

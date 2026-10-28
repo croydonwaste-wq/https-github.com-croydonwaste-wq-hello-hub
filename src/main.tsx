@@ -4,7 +4,12 @@ import { BrowserRouter } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import App from "./App";
 import { routes, utilityRoutes } from "./routes";
+import { captureAttribution, initAnalytics, installClickTracking } from "./lib/tracking";
 import "./index.css";
+
+captureAttribution();
+installClickTracking();
+initAnalytics();
 
 const container = document.getElementById("root")!;
 const app = (
