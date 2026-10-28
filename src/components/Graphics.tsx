@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { business } from "@/data/business";
-import { locations } from "@/data/locations";
+import { COVERAGE_RADIUS_MILES, locations } from "@/data/locations";
 import { services } from "@/data/services";
 import { Icon } from "./Icon";
 import { VanLoad } from "./Illustration";
@@ -12,7 +12,7 @@ export function StatsStrip() {
     { big: "Same day", small: "Collections available" },
     { big: business.publicLiability ?? "", small: "Public liability cover" },
     { big: String(services.length), small: "Clearance services" },
-    { big: `${locations.length + 1}`, small: "Towns with local pages" },
+    { big: `${COVERAGE_RADIUS_MILES} miles`, small: "Radius around Watford" },
   ].filter((s) => s.big);
   return (
     <section aria-label="Key facts" className="relative bg-signal-500">
@@ -94,16 +94,20 @@ export function WasteJourney() {
 
 /** Approximate compass positions around Watford (schematic, not to scale). */
 const mapPos: Record<string, [number, number]> = {
-  "rubbish-removal-bushey": [62, 66],
-  "rubbish-removal-oxhey": [47, 74],
-  "rubbish-removal-croxley-green": [34, 56],
-  "rubbish-removal-rickmansworth": [18, 64],
-  "rubbish-removal-abbots-langley": [50, 30],
-  "rubbish-removal-kings-langley": [34, 22],
-  "rubbish-removal-st-albans": [74, 24],
-  "rubbish-removal-harpenden": [72, 8],
-  "rubbish-removal-hatfield": [90, 30],
-  "rubbish-removal-berkhamsted": [12, 12],
+  "rubbish-removal-berkhamsted": [16, 14],
+  "rubbish-removal-hemel-hempstead": [38, 4],
+  "rubbish-removal-harpenden": [66, 4],
+  "rubbish-removal-kings-langley": [26, 26],
+  "rubbish-removal-abbots-langley": [50, 34],
+  "rubbish-removal-st-albans": [77, 18],
+  "rubbish-removal-hatfield": [85, 32],
+  "rubbish-removal-amersham": [15, 42],
+  "rubbish-removal-croxley-green": [32, 50],
+  "rubbish-removal-rickmansworth": [19, 62],
+  "rubbish-removal-borehamwood": [83, 52],
+  "rubbish-removal-bushey": [72, 68],
+  "rubbish-removal-oxhey": [36, 78],
+  "rubbish-removal-harrow": [64, 86],
 };
 
 export function CoverageMap() {

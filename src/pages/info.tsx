@@ -213,7 +213,7 @@ export function Contact() {
 export function Faqs() {
   const crumbs = [{ name: "Home", path: "/" }, { name: "FAQs", path: "/faqs/" }];
   const general: Faq[] = [
-    { q: "What areas do you cover?", a: `Watford and the surrounding towns including ${locations.map((l) => l.town).join(", ")}, with wider Hertfordshire, Bedfordshire, Buckinghamshire and North London coverage on request.` },
+    { q: "What areas do you cover?", a: `Watford and the surrounding towns including ${locations.map((l) => l.town).join(", ")}, and everywhere else within 30 miles of Watford town centre.` },
     { q: "How do I book?", a: `Call ${business.phone} at any time, or use the quote form on any page. Once you're happy with the price, we agree a collection time.` },
     { q: "Do you offer same-day and out-of-hours collections?", a: "Yes. We operate 24 hours a day, 7 days a week and offer same-day collections — call early for the best choice of times." },
     { q: "Are you licensed and insured?", a: "Yes. We're a licensed waste carrier with £5 million public liability insurance." },

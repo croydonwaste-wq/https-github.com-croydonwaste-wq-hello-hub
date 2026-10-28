@@ -37,7 +37,7 @@ export const locations: Location[] = [
       },
     ],
     popular: ["garden-waste-clearance", "house-clearance", "furniture-removal", "shed-garage-clearance"],
-    nearby: ["rubbish-removal-oxhey", "rubbish-removal-st-albans"],
+    nearby: ["rubbish-removal-oxhey", "rubbish-removal-borehamwood", "rubbish-removal-harrow"],
     faqs: [
       { q: "Do you cover Bushey Heath as well as Bushey?", a: "Yes — Bushey, Bushey Heath and the surrounding WD23 area." },
       { q: "Is Bushey covered by Watford council?", a: "No, Bushey is in Hertsmere, which runs its own waste services. Our private collections work the same either way." },
@@ -76,7 +76,7 @@ export const locations: Location[] = [
       },
     ],
     popular: ["end-of-tenancy-clearance", "furniture-removal", "mattress-disposal", "bulky-waste-collection"],
-    nearby: ["rubbish-removal-bushey", "rubbish-removal-croxley-green", "rubbish-removal-rickmansworth"],
+    nearby: ["rubbish-removal-bushey", "rubbish-removal-harrow", "rubbish-removal-croxley-green", "rubbish-removal-rickmansworth"],
     faqs: [
       { q: "Do you cover Carpenders Park?", a: "Yes, Carpenders Park and the wider WD19 area are covered." },
       { q: "Can you clear a flat after tenants move out?", a: "Yes — tell us what has been left and send photos for a quick quote." },
@@ -154,7 +154,7 @@ export const locations: Location[] = [
       },
     ],
     popular: ["house-clearance", "probate-clearance", "garden-waste-clearance", "furniture-removal"],
-    nearby: ["rubbish-removal-croxley-green", "rubbish-removal-oxhey"],
+    nearby: ["rubbish-removal-croxley-green", "rubbish-removal-oxhey", "rubbish-removal-amersham"],
     faqs: [
       { q: "Do you cover Chorleywood and Moor Park?", a: "Yes, both are covered as part of our Rickmansworth area." },
       { q: "Can you clear a large house before it goes on the market?", a: "Yes — tell us your marketing or completion date and we'll plan around it." },
@@ -232,7 +232,7 @@ export const locations: Location[] = [
       },
     ],
     popular: ["garden-waste-clearance", "shed-garage-clearance", "house-clearance", "commercial-bin-collection"],
-    nearby: ["rubbish-removal-abbots-langley", "rubbish-removal-berkhamsted"],
+    nearby: ["rubbish-removal-abbots-langley", "rubbish-removal-hemel-hempstead", "rubbish-removal-berkhamsted"],
     faqs: [
       { q: "Do you cover Chipperfield?", a: "Yes, Chipperfield and the villages around Kings Langley are covered." },
       { q: "Can you remove an old shed in Kings Langley?", a: "Yes — most timber sheds can be dismantled and removed in one visit." },
@@ -394,7 +394,7 @@ export const locations: Location[] = [
       },
     ],
     popular: ["house-clearance", "builders-waste-removal", "garden-waste-clearance", "probate-clearance"],
-    nearby: ["rubbish-removal-kings-langley"],
+    nearby: ["rubbish-removal-kings-langley", "rubbish-removal-hemel-hempstead", "rubbish-removal-amersham"],
     faqs: [
       { q: "Do you cover Tring?", a: "Yes, Tring and the HP23 area are covered." },
       { q: "Can you clear a cottage with no parking outside?", a: "Yes — tell us how far the van will be from the door so we bring the right team." },
@@ -403,6 +403,187 @@ export const locations: Location[] = [
       primary: "rubbish removal Berkhamsted",
       secondary: ["rubbish removal Tring", "house clearance Berkhamsted", "rubbish clearance Northchurch"],
       longTail: ["garden waste removal Berkhamsted", "builders waste removal Tring"],
+    },
+  },
+  {
+    slug: "rubbish-removal-hemel-hempstead",
+    town: "Hemel Hempstead",
+    county: "Hertfordshire",
+    h1: "Rubbish Removal in Hemel Hempstead",
+    metaTitle: "Rubbish Removal Hemel Hempstead | House & Business Clearances",
+    metaDescription:
+      "Rubbish removal in Hemel Hempstead — house, garden and office clearances, furniture and bulky waste. Open 24/7 with same-day collections. Call 01293 549164.",
+    lead: "Household, garden and business waste cleared across Hemel Hempstead — from Boxmoor and the Old Town to Adeyfield, Leverstock Green and the Maylands business area.",
+    answer:
+      "Watford Rubbish Clearance collects household, garden and commercial waste across Hemel Hempstead (HP1, HP2, HP3). We operate 24/7 with same-day collections, load everything from inside the property, and quote a fixed price from photos before we start.",
+    areas: ["Old Town", "Boxmoor", "Apsley", "Adeyfield", "Leverstock Green", "Grovehill", "Gadebridge", "Bennetts End", "Warners End", "Maylands"],
+    postcodes: ["HP1", "HP2", "HP3"],
+    blocks: [
+      {
+        h2: "New Town homes and gardens",
+        paras: [
+          "Much of Hemel Hempstead was built as a post-war New Town, organised into neighbourhoods of family houses with gardens, garages and lofts. That makes garden clearances, garage clear-outs and furniture collections the most common jobs here — often combined into a single visit.",
+          "Hemel sits in Dacorum, so council bulky collection rules differ from Watford's. If what you need to get rid of doesn't fit the council service — too many items, sofas, electricals or items inside the house — a private collection takes the lot in one go.",
+        ],
+      },
+      {
+        h2: "Business waste in Maylands",
+        paras: [
+          "The Maylands business area on the east of the town is home to offices, warehouses and trade units. We handle office clearances, one-off excess waste after refits or stock clear-outs, and out-of-hours collections so loading bays stay free during the working day.",
+        ],
+      },
+      {
+        h2: "Boxmoor and the Old Town",
+        paras: [
+          "Older terraces and cottages in Boxmoor and around the Old Town High Street can mean narrow streets and limited parking. Let us know about access when you ask for a quote so we can plan the right van and team.",
+        ],
+      },
+    ],
+    popular: ["garden-waste-clearance", "shed-garage-clearance", "office-clearance", "house-clearance"],
+    nearby: ["rubbish-removal-kings-langley", "rubbish-removal-berkhamsted", "rubbish-removal-st-albans"],
+    faqs: [
+      { q: "Do you cover the Maylands business area?", a: "Yes — offices, warehouses and units in Maylands are covered for clearances and commercial waste, including out-of-hours collections." },
+      { q: "Is Hemel Hempstead covered by Watford council?", a: "No, Hemel Hempstead is in Dacorum, which runs its own waste services. Our private collections work the same anywhere within 30 miles of Watford." },
+    ],
+    keywords: {
+      primary: "rubbish removal Hemel Hempstead",
+      secondary: ["rubbish clearance Hemel Hempstead", "house clearance Hemel Hempstead", "waste removal Hemel Hempstead"],
+      longTail: ["office clearance Maylands Hemel", "garden waste collection Hemel Hempstead", "same day rubbish removal Hemel"],
+    },
+  },
+  {
+    slug: "rubbish-removal-borehamwood",
+    town: "Borehamwood & Radlett",
+    county: "Hertfordshire",
+    h1: "Rubbish Removal in Borehamwood, Elstree & Radlett",
+    metaTitle: "Rubbish Removal Borehamwood & Radlett | Waste Clearance",
+    metaDescription:
+      "Rubbish removal in Borehamwood, Elstree, Radlett and Shenley — house, garden and office clearances and bulky items. Open 24/7. Call 01293 549164 for a quote.",
+    lead: "Rubbish collections and clearances across Borehamwood, Elstree, Radlett and Shenley, just east of Bushey.",
+    answer:
+      "We provide rubbish removal across Borehamwood and Elstree (WD6) and Radlett and Shenley (WD7) — household clearances, garden waste, furniture and bulky items, and business waste. Available 24/7 with same-day collections and fixed quotes from photos.",
+    areas: ["Borehamwood", "Elstree", "Radlett", "Shenley", "Well End"],
+    postcodes: ["WD6", "WD7"],
+    blocks: [
+      {
+        h2: "Borehamwood and Elstree",
+        paras: [
+          "Borehamwood mixes flats near Shenley Road with family houses on the estates around it. Flat clearances, mattress and sofa collections and end of tenancy clear-outs are common, as are out-of-hours collections for businesses and production companies working around the town's film and TV studios.",
+        ],
+      },
+      {
+        h2: "Radlett and Shenley",
+        paras: [
+          "Radlett's larger detached houses and long gardens bring bigger jobs: downsizing clearances, garden overhauls and garage clear-outs. We plan these around sales and completion dates and can work through a property room by room so anything being kept is set aside first.",
+        ],
+      },
+      {
+        h2: "Hertsmere council collections vs private removal",
+        paras: [
+          "Borehamwood, Elstree, Radlett and Shenley are all in Hertsmere, which runs its own bulky waste service. For a few eligible items left outside, that can be the cheapest option; for mixed loads, upholstered seating or items that need carrying out, a private collection is usually simpler.",
+        ],
+      },
+    ],
+    popular: ["house-clearance", "end-of-tenancy-clearance", "furniture-removal", "garden-waste-clearance"],
+    nearby: ["rubbish-removal-bushey", "rubbish-removal-st-albans", "rubbish-removal-harrow"],
+    faqs: [
+      { q: "Do you cover Elstree and Shenley?", a: "Yes — Elstree, Shenley and the whole WD6 and WD7 area." },
+      { q: "Can you clear a property for a production or studio company?", a: "Yes. We collect commercial waste with the paperwork businesses need, and can work out of hours to suit filming or set schedules." },
+    ],
+    keywords: {
+      primary: "rubbish removal Borehamwood",
+      secondary: ["rubbish removal Radlett", "rubbish clearance Elstree", "house clearance Borehamwood", "waste removal Shenley"],
+      longTail: ["flat clearance Borehamwood", "garden waste removal Radlett", "same day rubbish removal Borehamwood"],
+    },
+  },
+  {
+    slug: "rubbish-removal-harrow",
+    town: "Harrow & Stanmore",
+    county: "North London",
+    h1: "Rubbish Removal in Harrow, Stanmore & Pinner",
+    metaTitle: "Rubbish Removal Harrow, Stanmore & Pinner | Clearances",
+    metaDescription:
+      "Rubbish removal in Harrow, Stanmore, Pinner and Wealdstone — house clearances, furniture, garden and builders waste. 24/7, same-day. Call 01293 549164.",
+    lead: "House clearances, furniture and bulky item collections, garden waste and builders' rubbish across Harrow, Stanmore, Pinner, Wealdstone and Harrow Weald.",
+    answer:
+      "Watford Rubbish Clearance covers the London Borough of Harrow — including Harrow, Stanmore, Pinner, Wealdstone and Harrow Weald (HA1, HA2, HA3, HA5, HA7). We collect from inside the property, operate 24/7 with same-day collections, and quote a fixed price before we start.",
+    areas: ["Harrow on the Hill", "Wealdstone", "Harrow Weald", "Stanmore", "Pinner", "Hatch End", "Kenton", "Rayners Lane"],
+    postcodes: ["HA1", "HA2", "HA3", "HA5", "HA7"],
+    blocks: [
+      {
+        h2: "Interwar semis, lofts and extensions",
+        paras: [
+          "Much of Harrow, Pinner and Stanmore is 1920s–30s suburban housing — semi-detached homes with lofts, garages and rear gardens, many of which are being extended or converted. That means a steady mix of loft clearances, renovation waste and garden clearances, often where there's no room for a skip on the drive.",
+        ],
+      },
+      {
+        h2: "Parking zones and access",
+        paras: [
+          "Parts of Harrow have controlled parking zones, particularly around town centres and stations. Tell us the parking situation when you ask for a quote — a visitor permit or a driveway space can make a collection quicker.",
+        ],
+      },
+      {
+        h2: "Council or private collection?",
+        paras: [
+          "Harrow Council runs its own bulky waste service with its own rules on items and collection points. A private collection suits mixed loads, items that need carrying out from upstairs, and anything you need gone the same day.",
+        ],
+      },
+    ],
+    popular: ["house-clearance", "builders-waste-removal", "garden-waste-clearance", "furniture-removal"],
+    nearby: ["rubbish-removal-bushey", "rubbish-removal-oxhey", "rubbish-removal-borehamwood"],
+    faqs: [
+      { q: "Do you cover Pinner and Hatch End?", a: "Yes — Pinner, Hatch End and the HA5 area, along with the rest of the London Borough of Harrow." },
+      { q: "Can you collect where there's permit parking?", a: "Yes. Let us know the parking rules and whether a visitor permit is available, and we'll plan the collection around them." },
+    ],
+    keywords: {
+      primary: "rubbish removal Harrow",
+      secondary: ["rubbish removal Stanmore", "rubbish removal Pinner", "house clearance Harrow", "rubbish clearance Wealdstone"],
+      longTail: ["loft clearance Harrow", "builders waste removal Harrow", "same day rubbish collection Harrow"],
+    },
+  },
+  {
+    slug: "rubbish-removal-amersham",
+    town: "Amersham & Chesham",
+    county: "Buckinghamshire",
+    h1: "Rubbish Removal in Amersham & Chesham",
+    metaTitle: "Rubbish Removal Amersham & Chesham | House & Garden Clearances",
+    metaDescription:
+      "Rubbish removal in Amersham, Chesham and Little Chalfont — house clearances, garden waste, furniture and garage clear-outs. Open 24/7. Call 01293 549164.",
+    lead: "House clearances, garden waste, furniture collections and garage clear-outs across Amersham, Chesham, Little Chalfont and the surrounding Chiltern villages.",
+    answer:
+      "We cover Amersham (HP6, HP7) and Chesham (HP5) in Buckinghamshire, along with Little Chalfont and nearby villages. Typical jobs are full house clearances, large garden clearances and garage clear-outs, available 24/7 with same-day collections.",
+    areas: ["Amersham-on-the-Hill", "Old Amersham", "Chesham", "Chesham Bois", "Little Chalfont", "Chalfont St Giles"],
+    postcodes: ["HP5", "HP6", "HP7", "HP8"],
+    blocks: [
+      {
+        h2: "Larger homes and Chiltern gardens",
+        paras: [
+          "Homes around Amersham, Chesham Bois and the Chalfonts often have big, mature gardens and outbuildings — so hedge and tree cuttings, old sheds and summerhouses, and garage clear-outs make up much of our work here. Combining them into one visit keeps costs down.",
+        ],
+      },
+      {
+        h2: "Old Amersham and Chesham town centres",
+        paras: [
+          "Old Amersham's historic high street and Chesham's older terraces can mean tight access and limited parking. We plan around this, and send the right size van and team for the job.",
+        ],
+      },
+      {
+        h2: "Buckinghamshire Council or a private collection?",
+        paras: [
+          "Amersham and Chesham are served by Buckinghamshire Council, which has its own bulky waste and recycling arrangements. A private collection is the practical option for mixed loads, upholstered seating and items that need carrying out from inside.",
+        ],
+      },
+    ],
+    popular: ["house-clearance", "garden-waste-clearance", "shed-garage-clearance", "probate-clearance"],
+    nearby: ["rubbish-removal-rickmansworth", "rubbish-removal-berkhamsted"],
+    faqs: [
+      { q: "Do you cover Little Chalfont and Chalfont St Giles?", a: "Yes — both are covered along with Amersham, Chesham and the surrounding villages." },
+      { q: "Can you remove an old summerhouse or shed?", a: "Yes, most timber sheds and summerhouses can be dismantled and removed in the same visit." },
+    ],
+    keywords: {
+      primary: "rubbish removal Amersham",
+      secondary: ["rubbish removal Chesham", "house clearance Amersham", "garden clearance Chesham", "rubbish clearance Little Chalfont"],
+      longTail: ["shed removal Amersham", "garden waste collection Chesham", "house clearance Chesham"],
     },
   },
 ];
@@ -426,9 +607,13 @@ export const watfordAreas = [
 ];
 
 /** Wider areas the business has listed as served. Coverage depth: BUSINESS CONFIRMATION REQUIRED. */
+/** Business-confirmed coverage: a 30-mile radius of Watford town centre. */
+export const COVERAGE_RADIUS_MILES = 30;
+
+/** Further towns within the radius, listed on the Areas hub without standalone pages. */
 export const widerAreas: { region: string; towns: string[] }[] = [
-  { region: "Hertfordshire", towns: ["Hitchin", "Welwyn", "Wheathampstead", "Redbourn", "Tring"] },
-  { region: "Bedfordshire", towns: ["Leighton Buzzard", "Houghton Regis", "Toddington", "Caddington"] },
-  { region: "Buckinghamshire", towns: ["Chesham"] },
-  { region: "North London", towns: ["Enfield", "St John's Wood", "Hampstead"] },
+  { region: "Hertfordshire", towns: ["Hitchin", "Stevenage", "Hertford", "Welwyn Garden City", "Potters Bar", "Tring", "Redbourn", "Wheathampstead"] },
+  { region: "Bedfordshire", towns: ["Luton", "Dunstable", "Leighton Buzzard", "Houghton Regis", "Toddington", "Caddington"] },
+  { region: "Buckinghamshire", towns: ["High Wycombe", "Beaconsfield", "Gerrards Cross", "Aylesbury", "Great Missenden"] },
+  { region: "North & West London", towns: ["Edgware", "Barnet", "Enfield", "Hendon", "Uxbridge", "Ruislip", "Hampstead", "St John's Wood"] },
 ];

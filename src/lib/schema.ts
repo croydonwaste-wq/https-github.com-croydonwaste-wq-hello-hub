@@ -13,6 +13,11 @@ export function localBusinessSchema(): Json {
     { "@type": "City", name: "Watford" },
     ...locations.map((l) => ({ "@type": "Place", name: l.town })),
     { "@type": "AdministrativeArea", name: "Hertfordshire" },
+    {
+      "@type": "GeoCircle",
+      geoMidpoint: { "@type": "GeoCoordinates", latitude: 51.6565, longitude: -0.3955 },
+      geoRadius: 48280, // 30 miles in metres — business-confirmed service radius
+    },
   ];
   return {
     "@context": "https://schema.org",

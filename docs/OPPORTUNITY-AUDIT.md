@@ -137,3 +137,25 @@ Watford is the primary market. The confirmed phone is 01293 549164, and every co
 2. Create the Google Business Profile — the biggest local-pack lever, and "near me" depends on it.
 3. Collect genuine reviews and job photos; they unlock the service × town pages.
 4. Add the waste carrier registration number.
+
+## 8. Update — 28 October 2026: coverage confirmed as a 30-mile radius of Watford town centre
+
+The business confirmed it covers everything within **30 miles of Watford town centre**. That answers the Hemel Hempstead and Borehamwood/Radlett questions, and brings in Harrow and Amersham/Chesham too. Hoarder clearance, hot tub removal and piano removal are **still unconfirmed** and have not been built.
+
+**New town pages built** (each with local detail — council, housing, access, business areas — plus 4 FAQs including same-day and cost, quote forms, breadcrumbs and FAQ schema):
+
+| URL | Primary keyword | Why it qualifies |
+|---|---|---|
+| `/rubbish-removal-hemel-hempstead/` | rubbish removal Hemel Hempstead | Largest town near Watford; Dacorum council; New Town housing; Maylands business area |
+| `/rubbish-removal-borehamwood/` | rubbish removal Borehamwood (+ Radlett, Elstree, Shenley) | Hertsmere; next to Bushey; flats plus large Radlett homes |
+| `/rubbish-removal-harrow/` | rubbish removal Harrow (+ Stanmore, Pinner) | Large NW London market about 6–8 miles away; interwar housing, lofts and extensions; parking zones |
+| `/rubbish-removal-amersham/` | rubbish removal Amersham (+ Chesham) | Buckinghamshire Council; large gardens and outbuildings; Chesham was already on your list |
+
+**Other changes**
+- The 30-mile radius now appears on the areas page, homepage, FAQs, the facts strip ("30 miles — radius around Watford") and in the structured data (`GeoCircle`, 48,280 m from Watford town centre).
+- The areas page lists further towns inside the radius without their own pages: Hitchin, Stevenage, Hertford, Welwyn Garden City, Potters Bar, Luton, Dunstable, Leighton Buzzard, High Wycombe, Beaconsfield, Gerrards Cross, Aylesbury, Edgware, Barnet, Enfield, Hendon, Uxbridge, Ruislip and others.
+- The coverage map now shows 14 towns. The new pages are linked from neighbouring towns (Bushey → Borehamwood and Harrow; Kings Langley and Berkhamsted → Hemel; Rickmansworth and Berkhamsted → Amersham; Oxhey → Harrow).
+
+**Verification:** build plus `npm run qa` pass on 43 pages. In Playwright, the 4 new pages, the areas page and the homepage return 200 at 375px and 1366px, with one H1, no overflow, no console errors and both quote forms present.
+
+**Next town candidates (Wave 2–3, build one at a time as demand shows):** Luton & Dunstable, Stevenage & Hitchin, High Wycombe, Uxbridge & Ruislip, Edgware & Barnet. A page for every town within 30 miles would create thin doorway pages and is deliberately not planned.

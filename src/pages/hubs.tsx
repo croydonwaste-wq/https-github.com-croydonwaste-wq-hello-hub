@@ -48,23 +48,23 @@ export function ServicesHub() {
 export function AreasHub() {
   const crumbs = [{ name: "Home", path: "/" }, { name: "Areas we cover", path: "/areas-we-cover/" }];
   const faqs = [
-    { q: "Do you cover my postcode?", a: "We cover all Watford postcodes (WD17, WD18, WD19, WD24, WD25) and the surrounding towns listed on this page. If your area isn't listed, ask — we'll tell you straight away whether we can help." },
+    { q: "Do you cover my postcode?", a: "We cover everywhere within 30 miles of Watford town centre — all Watford postcodes (WD17, WD18, WD19, WD24, WD25), the towns on this page, and as far as Luton, Aylesbury, High Wycombe and North and West London. If you're unsure, send your postcode and we'll confirm straight away." },
     { q: "Do you charge more for areas further from Watford?", a: "Travel time can be a factor in the quote for areas further out. We'll always confirm the full price before booking." },
   ];
   return (
     <>
       <Seo
         title="Areas We Cover | Rubbish Removal Watford & Hertfordshire"
-        description="24/7 rubbish removal across Watford, Bushey, Oxhey, Croxley Green, Rickmansworth, Abbots Langley, St Albans, Harpenden and more. Call 01293 549164."
+        description="Rubbish removal within 30 miles of Watford — Hemel Hempstead, St Albans, Bushey, Borehamwood, Harrow, Amersham and more. Open 24/7. Call 01293 549164."
         path="/areas-we-cover/"
         schema={[breadcrumbSchema(crumbs), faqSchema(faqs)]}
       />
-      <PageHero crumbs={crumbs} eyebrow="Coverage" h1="Areas We Cover for Rubbish Removal" lead="Based around Watford, we cover the surrounding towns and villages of south and west Hertfordshire, with wider coverage on request." />
+      <PageHero crumbs={crumbs} eyebrow="Coverage" h1="Areas We Cover for Rubbish Removal" lead="We cover everywhere within 30 miles of Watford town centre — across Hertfordshire and into Bedfordshire, Buckinghamshire and North and West London — 24/7, with same-day collections." />
       <div className="container space-y-14 py-14">
         <section className="grid gap-10 lg:grid-cols-2 lg:items-center">
           <div>
             <h2 className="section-title">Our coverage around Watford</h2>
-            <p className="mt-3 leading-relaxed text-ink-700">We're based around Watford and work 24/7 across the surrounding towns, with same-day collections available. Choose a town for local information, or use the quote form with your postcode.</p>
+            <p className="mt-3 leading-relaxed text-ink-700">We cover a 30-mile radius of Watford town centre, 24/7, with same-day collections available. Choose a town for local information, or use the quote form with your postcode.</p>
           </div>
           <CoverageMap />
         </section>
@@ -90,9 +90,9 @@ export function AreasHub() {
           </div>
         </section>
         <section>
-          <h2 className="section-title">Wider coverage</h2>
+          <h2 className="section-title">Everywhere within 30 miles of Watford</h2>
           <p className="mt-3 max-w-3xl leading-relaxed text-ink-700">
-            We also take on work further afield, particularly larger clearances. Get in touch with your postcode and we'll confirm availability.
+            Our service area is a 30-mile radius of Watford town centre. As well as the towns above, that includes:
           </p>
           <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {widerAreas.map((r) => (

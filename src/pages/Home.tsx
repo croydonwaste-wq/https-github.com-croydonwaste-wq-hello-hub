@@ -28,7 +28,7 @@ const homeFaqs: Faq[] = [
   },
   {
     q: "What areas of Watford do you cover?",
-    a: `All of Watford, including ${watfordAreas.slice(1, 7).join(", ")} and more — plus Bushey, Oxhey, Croxley Green, Rickmansworth, Abbots Langley and further across Hertfordshire.`,
+    a: `All of Watford, including ${watfordAreas.slice(1, 7).join(", ")} and more — plus everywhere within 30 miles of Watford town centre, including Bushey, Hemel Hempstead, St Albans, Borehamwood, Harrow and Amersham.`,
   },
   {
     q: "Do I need to bring everything outside?",
@@ -141,7 +141,7 @@ export default function Home() {
               ))}
             </ul>
             <p className="mt-6 leading-relaxed text-ink-700">
-              Watford postcodes WD17, WD18, WD19, WD24 and WD25 are all covered. Not sure if we reach you? <Link to="/areas-we-cover/" className="link">See all areas we cover</Link>.
+              Watford postcodes WD17, WD18, WD19, WD24 and WD25 are all covered, and we travel anywhere within 30 miles of Watford town centre. Not sure if we reach you? <Link to="/areas-we-cover/" className="link">See all areas we cover</Link>.
             </p>
           </div>
           <div className="space-y-8">
