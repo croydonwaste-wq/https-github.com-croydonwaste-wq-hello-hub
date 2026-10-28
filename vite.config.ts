@@ -3,7 +3,7 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 
 export default defineConfig({
-  server: { host: "::", port: 8080 },
+  server: { host: true, port: Number(process.env.PORT) || 8080 },
   plugins: [react()],
   resolve: { alias: { "@": path.resolve(__dirname, "./src") } },
   // Bundle CJS-only deps into the prerender (SSR) build to avoid ESM interop issues.

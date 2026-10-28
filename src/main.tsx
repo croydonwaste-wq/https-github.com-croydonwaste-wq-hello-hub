@@ -20,7 +20,7 @@ const app = (
 // Pages are prerendered at build time, so hydrate the matching markup. If a host serves
 // another page's HTML (e.g. an SPA fallback for an unknown URL), render fresh instead.
 const path = window.location.pathname.endsWith("/") ? window.location.pathname : `${window.location.pathname}/`;
-const prerendered = container.hasChildNodes() && ([...routes, ...utilityRoutes].some((r) => r.path === path) || document.title.startsWith("Page not found"));
+const prerendered = container.firstElementChild !== null && ([...routes, ...utilityRoutes].some((r) => r.path === path) || document.title.startsWith("Page not found"));
 if (prerendered) hydrateRoot(container, app);
 else {
   container.innerHTML = "";
