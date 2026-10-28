@@ -22,7 +22,7 @@ export function ServicesHub() {
     <>
       <Seo
         title="Rubbish Clearance Services in Watford | Watford Rubbish Clearance"
-        description="All our waste clearance services in Watford: house, office, garden, garage and probate clearances; furniture, sofa, mattress and fridge removal; trade waste."
+        description="All our clearance services within 30 miles of Watford — house, hoarder and office clearances, sofas, hot tubs, pianos, trade bins. Call 01293 549164."
         path="/services/"
         schema={[itemList, breadcrumbSchema(crumbs)]}
       />

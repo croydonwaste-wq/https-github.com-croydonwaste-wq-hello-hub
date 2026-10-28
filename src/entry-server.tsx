@@ -21,6 +21,6 @@ export function render(url: string) {
   return { html, head };
 }
 
-export const routeMeta = routes.map(({ path, priority, changefreq }) => ({ path, priority, changefreq }));
+export const routeMeta = routes.map(({ path, priority, changefreq, lastmod }) => ({ path, priority, changefreq, lastmod }));
 
 export const utilityPaths = utilityRoutes.map((r) => r.path);
