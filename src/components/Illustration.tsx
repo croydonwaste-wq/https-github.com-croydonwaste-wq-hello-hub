@@ -6,13 +6,13 @@
 import type { ReactNode } from "react";
 
 const C = {
-  navy: "#0B2147",
-  navy2: "#1A4290",
-  blue: "#2456B8",
-  sky: "#E4ECFA",
-  sky2: "#F2F6FD",
-  yellow: "#FFC629",
-  red: "#E0291E",
+  navy: "#0A1D3F",
+  navy2: "#1E3F7A",
+  blue: "#2B55A0",
+  sky: "#E6ECF6",
+  sky2: "#F4F7FB",
+  yellow: "#E9B949",
+  red: "#C21D25",
   green: "#3F8F4E",
   green2: "#6DB36B",
   brown: "#8A5A3B",
@@ -193,11 +193,16 @@ export const Key = (p: P) => (
 
 const Frame = ({ children, label, tint = C.sky }: { children: ReactNode; label: string; tint?: string }) => (
   <svg viewBox="0 0 480 300" {...(label ? { role: "img", "aria-label": label } : { "aria-hidden": true })} className="h-auto w-full">
-    <rect width="480" height="300" rx="20" fill={tint} />
-    <circle cx="410" cy="62" r="30" fill={C.yellow} opacity=".9" />
-    <path d="M40 70c20-12 44-12 60 0M300 50c18-10 40-10 56 0" stroke={C.white} strokeWidth="10" strokeLinecap="round" fill="none" />
-    <rect y="240" width="480" height="60" fill={C.navy} opacity=".08" />
-    <rect y="238" width="480" height="4" fill={C.navy} opacity=".15" />
+    <defs>
+      <linearGradient id="wrc-bg" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stopColor={C.sky2} />
+        <stop offset="1" stopColor={tint} />
+      </linearGradient>
+    </defs>
+    <rect width="480" height="300" fill="url(#wrc-bg)" />
+    <path d="M0 60h480M0 120h480M0 180h480M80 0v240M160 0v240M240 0v240M320 0v240M400 0v240" stroke={C.navy} strokeOpacity=".04" />
+    <rect y="240" width="480" height="60" fill={C.navy} opacity=".06" />
+    <rect y="239" width="480" height="2" fill={C.navy} opacity=".18" />
     {children}
   </svg>
 );
@@ -211,9 +216,9 @@ const scenes: Record<Scene, ReactNode> = {
   sameday: (<><Van x={130} y={140} s={1.05} /><path d="M30 170h80M50 195h60M20 220h90" stroke={C.yellow} strokeWidth="8" strokeLinecap="round" /><circle cx="80" cy="80" r="40" fill={C.white} stroke={C.navy} strokeWidth="5" /><path d="M80 56v26l16 10" stroke={C.red} strokeWidth="6" strokeLinecap="round" fill="none" /></>),
   house: (<><House x={30} y={82} /><Sofa x={210} y={172} s={0.9} /><Box x={330} y={206} /><Box x={370} y={206} w={40} /><Box x={344} y={176} w={40} h={30} /><Bag x={420} y={190} s={0.8} /></>),
   hoarder: (<><Box x={40} y={206} /><Box x={84} y={206} w={40} /><Box x={124} y={206} /><Box x={56} y={174} w={40} h={32} /><Box x={98} y={174} /><Box x={74} y={142} w={40} h={32} /><Box x={88} y={110} w={36} h={32} /><Bag x={180} y={186} /><Bag x={212} y={192} s={0.85} /><Box x={250} y={206} /><Box x={262} y={176} w={36} h={30} /><Chair x={320} y={178} /><Bag x={380} y={186} /><Box x={410} y={206} w={36} /></>),
-  hottub: (<><rect x="60" y="160" width="190" height="80" rx="14" fill="#8A5A3B" /><rect x="66" y="166" width="178" height="12" rx="6" fill="#C58B5A" />{[90, 120, 150, 180, 210].map((x) => <line key={x} x1={x} y1="180" x2={x} y2="236" stroke="#6B4429" strokeWidth="3" />)}<path d="M78 160c20-18 134-18 154 0" fill="#2456B8" opacity=".85" /><rect x="270" y="196" width="60" height="44" rx="4" fill="#9AA3B2" /><circle cx="300" cy="218" r="10" fill="#E4ECFA" /><path d="M340 240l30-40 30 40z" fill="#C58B5A" /><Bag x={410} y={186} /></>),
+  hottub: (<><rect x="60" y="160" width="190" height="80" rx="14" fill="#8A5A3B" /><rect x="66" y="166" width="178" height="12" rx="6" fill="#C58B5A" />{[90, 120, 150, 180, 210].map((x) => <line key={x} x1={x} y1="180" x2={x} y2="236" stroke="#6B4429" strokeWidth="3" />)}<path d="M78 160c20-18 134-18 154 0" fill="#2B55A0" opacity=".85" /><rect x="270" y="196" width="60" height="44" rx="4" fill="#9AA3B2" /><circle cx="300" cy="218" r="10" fill="#E6ECF6" /><path d="M340 240l30-40 30 40z" fill="#C58B5A" /><Bag x={410} y={186} /></>),
   piano: (<><rect x="70" y="110" width="200" height="130" rx="6" fill="#1F2937" /><rect x="80" y="120" width="180" height="40" rx="3" fill="#374151" /><rect x="78" y="170" width="184" height="26" fill="#FFFFFF" />{Array.from({ length: 15 }, (_, i) => <line key={i} x1={78 + i * 12.3} y1="170" x2={78 + i * 12.3} y2="196" stroke="#CBD2DC" strokeWidth="1.5" />)}{[0, 1, 3, 4, 5, 7, 8, 10, 11, 12].map((i) => <rect key={i} x={86 + i * 12.3} y="170" width="7" height="16" fill="#1F2937" />)}<rect x="80" y="196" width="10" height="44" fill="#111827" /><rect x="250" y="196" width="10" height="44" fill="#111827" /><rect x="300" y="200" width="60" height="16" rx="3" fill="#1F2937" /><rect x="306" y="216" width="6" height="24" fill="#111827" /><rect x="348" y="216" width="6" height="24" fill="#111827" /><Box x={390} y={206} /></>),
-  contract: (<><TradeBin x={40} y={150} /><WheelieBin x={180} y={150} color="#1F2937" /><WheelieBin x={236} y={150} color="#2456B8" /><Bag x={296} y={186} /><rect x="340" y="110" width="90" height="120" rx="8" fill="#FFFFFF" stroke="#0B2147" strokeWidth="3" /><rect x="362" y="100" width="46" height="18" rx="4" fill="#0B2147" />{[136, 160, 184, 208].map((y) => <g key={y}><path d={`M354 ${y}l6 6 10-12`} stroke="#3F8F4E" strokeWidth="4" fill="none" strokeLinecap="round" /><rect x="378" y={y - 2} width="40" height="6" rx="3" fill="#CBD2DC" /></g>)}</>),
+  contract: (<><TradeBin x={40} y={150} /><WheelieBin x={180} y={150} color="#1F2937" /><WheelieBin x={236} y={150} color="#2B55A0" /><Bag x={296} y={186} /><rect x="340" y="110" width="90" height="120" rx="8" fill="#FFFFFF" stroke="#0A1D3F" strokeWidth="3" /><rect x="362" y="100" width="46" height="18" rx="4" fill="#0A1D3F" />{[136, 160, 184, 208].map((y) => <g key={y}><path d={`M354 ${y}l6 6 10-12`} stroke="#3F8F4E" strokeWidth="4" fill="none" strokeLinecap="round" /><rect x="378" y={y - 2} width="40" height="6" rx="3" fill="#CBD2DC" /></g>)}</>),
   tenancy: (<><House x={30} y={82} /><Mattress x={214} y={128} /><Sofa x={262} y={172} s={0.8} /><Bag x={372} y={186} /><Bag x={408} y={192} s={0.85} /></>),
   probate: (<><House x={40} y={82} /><Key x={230} y={150} s={1.2} /><Box x={330} y={206} /><Box x={372} y={206} w={40} /><Box x={350} y={176} w={36} h={30} /></>),
   office: (<><Desk x={40} y={150} /><Chair x={180} y={178} /><Desk x={250} y={150} s={0.9} /><Box x={380} y={206} /><Box x={400} y={176} w={36} h={30} /></>),
@@ -232,7 +237,7 @@ const scenes: Record<Scene, ReactNode> = {
 
 export function Illustration({ scene, label, className = "" }: { scene: Scene; label: string; className?: string }) {
   return (
-    <figure className={`overflow-hidden rounded-2xl ${className}`}>
+    <figure className={`overflow-hidden rounded-lg ${className}`}>
       <Frame label={label}>{scenes[scene]}</Frame>
     </figure>
   );

@@ -259,7 +259,7 @@ export function NotFound() {
       <Seo title="Page not found | Watford Rubbish Clearance" description="The page you were looking for couldn't be found." path="/404/" noindex />
       <section className="container py-24 text-center">
         <p className="eyebrow text-brick-600">404</p>
-        <h1 className="mt-2 font-display text-4xl font-extrabold text-navy-900">This page has been cleared away</h1>
+        <h1 className="mt-2 font-display text-4xl font-bold text-navy-900">This page has been cleared away</h1>
         <p className="mx-auto mt-4 max-w-lg text-ink-700">We couldn't find that page. Try one of these instead:</p>
         <ul className="mt-8 flex flex-wrap justify-center gap-3">
           <li><Link to="/" className="btn-primary">Home</Link></li>
@@ -279,7 +279,7 @@ export function ThankYou() {
       <Seo title="Thank You | Watford Rubbish Clearance" description="Thanks for your quote request — we'll be in touch shortly." path="/thank-you/" noindex />
       <section className="container max-w-2xl py-20 text-center">
         <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#3F8F4E] text-white"><Icon name="check" className="h-8 w-8" /></span>
-        <h1 className="mt-6 font-display text-4xl font-extrabold text-navy-900">Thanks — we've got your request</h1>
+        <h1 className="mt-6 font-display text-4xl font-bold text-navy-900">Thanks — we've got your request</h1>
         <p className="mt-4 text-lg text-ink-700">
           We'll be in touch shortly with a price. If you haven't sent photos yet, reply to our email or send them to{" "}
           <a className="link" href={mailtoHref("Photos for my quote")}>{business.email}</a>.

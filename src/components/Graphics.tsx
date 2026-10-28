@@ -15,12 +15,12 @@ export function StatsStrip() {
     { big: `${COVERAGE_RADIUS_MILES} miles`, small: "Radius around Watford" },
   ].filter((s) => s.big);
   return (
-    <section aria-label="Key facts" className="relative bg-signal-500">
-      <div className="container grid grid-cols-2 gap-px overflow-hidden py-0 sm:grid-cols-3 lg:grid-cols-5">
+    <section aria-label="Key facts" className="border-y border-navy-800 bg-navy-900">
+      <div className="container grid grid-cols-2 divide-navy-800 sm:grid-cols-3 lg:grid-cols-5 lg:divide-x">
         {stats.map((s) => (
-          <div key={s.small} className="px-2 py-6 text-center">
-            <p className="font-display text-2xl font-extrabold text-navy-950 sm:text-3xl">{s.big}</p>
-            <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-navy-900/80">{s.small}</p>
+          <div key={s.small} className="px-3 py-7 text-center">
+            <p className="font-display text-2xl font-bold tracking-tight text-white sm:text-[1.75rem]">{s.big}</p>
+            <p className="mt-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-signal-400">{s.small}</p>
           </div>
         ))}
       </div>
@@ -72,10 +72,10 @@ export function WasteJourney() {
       <ol className="mt-8 grid gap-3 md:grid-cols-5">
         {journey.map((j, i) => (
           <li key={j.title} className="relative">
-            <div className={`flex h-full flex-col rounded-xl p-5 ${j.color}`}>
+            <div className={`flex h-full flex-col rounded-lg p-5 ${j.color}`}>
               <span className="flex items-center gap-2">
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/20"><Icon name={j.icon} className="h-5 w-5" /></span>
-                <span className="font-display text-sm font-extrabold opacity-70">0{i + 1}</span>
+                <span className="font-display text-sm font-bold opacity-70">0{i + 1}</span>
               </span>
               <h3 className="mt-3 font-display text-lg font-bold">{j.title}</h3>
               <p className="mt-1 text-sm opacity-90">{j.text}</p>
@@ -92,49 +92,60 @@ export function WasteJourney() {
   );
 }
 
-/** Approximate compass positions around Watford (schematic, not to scale). */
+/** Approximate compass positions around Watford (schematic, not to scale), as % of a square map. */
+const CENTRE: [number, number] = [50, 52];
 const mapPos: Record<string, [number, number]> = {
-  "rubbish-removal-berkhamsted": [16, 14],
-  "rubbish-removal-hemel-hempstead": [38, 4],
-  "rubbish-removal-harpenden": [66, 4],
-  "rubbish-removal-kings-langley": [26, 26],
-  "rubbish-removal-abbots-langley": [50, 34],
-  "rubbish-removal-st-albans": [77, 18],
-  "rubbish-removal-hatfield": [85, 32],
-  "rubbish-removal-amersham": [15, 42],
-  "rubbish-removal-croxley-green": [32, 50],
-  "rubbish-removal-rickmansworth": [19, 62],
-  "rubbish-removal-borehamwood": [83, 52],
-  "rubbish-removal-bushey": [72, 68],
-  "rubbish-removal-oxhey": [36, 78],
-  "rubbish-removal-harrow": [64, 86],
+  "rubbish-removal-luton": [46, 5],
+  "rubbish-removal-stevenage": [80, 7],
+  "rubbish-removal-hemel-hempstead": [24, 13],
+  "rubbish-removal-harpenden": [62, 16],
+  "rubbish-removal-st-albans": [79, 24],
+  "rubbish-removal-kings-langley": [38, 25],
+  "rubbish-removal-berkhamsted": [15, 23],
+  "rubbish-removal-high-wycombe": [16, 33],
+  "rubbish-removal-abbots-langley": [57, 33],
+  "rubbish-removal-hatfield": [87, 38],
+  "rubbish-removal-croxley-green": [38, 40],
+  "rubbish-removal-amersham": [16, 46],
+  "rubbish-removal-borehamwood": [84, 50],
+  "rubbish-removal-rickmansworth": [20, 59],
+  "rubbish-removal-bushey": [72, 64],
+  "rubbish-removal-oxhey": [38, 72],
+  "rubbish-removal-uxbridge": [17, 75],
+  "rubbish-removal-edgware": [80, 78],
+  "rubbish-removal-harrow": [56, 87],
 };
 
 export function CoverageMap() {
   return (
     <figure className="relative">
-      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-navy-900">
-        <svg viewBox="0 0 100 75" className="absolute inset-0 h-full w-full" aria-hidden="true" preserveAspectRatio="none">
-          {[12, 24, 36].map((r) => <ellipse key={r} cx="50" cy="48" rx={r} ry={r * 0.75} fill="none" stroke="#FFC629" strokeOpacity=".22" strokeWidth=".4" strokeDasharray="1.5 1.2" />)}
-          {Object.values(mapPos).map(([x, y], i) => <line key={i} x1="50" y1="48" x2={x} y2={y * 0.75 + 3} stroke="#2456B8" strokeWidth=".35" />)}
+      <div className="relative aspect-square w-full overflow-hidden rounded-lg bg-navy-900 ring-1 ring-navy-800">
+        <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full" aria-hidden="true">
+          <defs>
+            <pattern id="map-grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M10 0H0V10" fill="none" stroke="#fff" strokeOpacity=".05" strokeWidth=".3" /></pattern>
+          </defs>
+          <rect width="100" height="100" fill="url(#map-grid)" />
+          {[14, 28, 42].map((r) => <circle key={r} cx={CENTRE[0]} cy={CENTRE[1]} r={r} fill="none" stroke="#E9B949" strokeOpacity=".25" strokeWidth=".3" strokeDasharray="1.2 1" />)}
+          {Object.values(mapPos).map(([x, y], i) => <line key={i} x1={CENTRE[0]} y1={CENTRE[1]} x2={x} y2={y} stroke="#2B55A0" strokeOpacity=".7" strokeWidth=".3" />)}
+          <text x="97" y="97" textAnchor="end" fontSize="2.6" fill="#E9B949" fillOpacity=".7" fontFamily="Inter, sans-serif">30-mile radius</text>
         </svg>
-        <Link to="/" className="absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center" style={{ left: "50%", top: "64%" }}>
-          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-brick-500 text-white shadow-lg ring-4 ring-white/30"><Icon name="pin" className="h-6 w-6" /></span>
-          <span className="mt-1 rounded bg-white px-2 py-0.5 text-xs font-extrabold text-navy-900">Watford</span>
+        <Link to="/" aria-label="Rubbish removal Watford" className="absolute flex flex-col items-center" style={{ left: `${CENTRE[0]}%`, top: `${CENTRE[1]}%`, transform: "translate(-50%, -22px)" }}>
+          <span className="flex h-11 w-11 items-center justify-center rounded-full bg-brick-500 text-white shadow-lg ring-4 ring-white/20"><Icon name="pin" className="h-5 w-5" /></span>
+          <span className="mt-1 rounded-sm bg-white px-2 py-0.5 text-xs font-bold text-navy-900">Watford</span>
         </Link>
         {locations.map((l) => {
           const pos = mapPos[l.slug];
           if (!pos) return null;
           return (
-            <Link key={l.slug} to={`/${l.slug}/`} className="group absolute -translate-x-1/2 -translate-y-1/2" style={{ left: `${pos[0]}%`, top: `${pos[1] + 4}%` }}>
-              <span className="block whitespace-nowrap rounded-full bg-white/95 px-2 py-0.5 text-[0.65rem] font-semibold text-navy-900 shadow transition group-hover:bg-signal-500 sm:text-xs">
-                {l.town.replace(" & ", " / ").split(" / ")[0]}
+            <Link key={l.slug} to={`/${l.slug}/`} className="group absolute -translate-x-1/2 -translate-y-1/2" style={{ left: `${pos[0]}%`, top: `${pos[1]}%` }}>
+              <span className="block whitespace-nowrap rounded-sm bg-white/95 px-1.5 py-0.5 text-[0.62rem] font-semibold text-navy-900 shadow-sm transition group-hover:bg-signal-500 sm:px-2 sm:text-xs">
+                {l.town.split(" & ")[0]}
               </span>
             </Link>
           );
         })}
       </div>
-      <figcaption className="mt-2 text-xs text-ink-500">Schematic map, not to scale. Tap a town to see local services.</figcaption>
+      <figcaption className="mt-2 text-xs text-ink-500">Schematic map, not to scale. Select a town to see local services.</figcaption>
     </figure>
   );
 }

@@ -83,7 +83,7 @@ export function QuoteForm({ variant = "full", defaultService = "", title }: { va
   }
 
   const field =
-    "mt-1 block w-full rounded-lg border border-ink-200 bg-white px-3.5 py-3 text-base text-ink-900 shadow-sm placeholder:text-ink-500/70 focus:border-navy-600 focus:outline-none focus:ring-2 focus:ring-navy-600/30";
+    "mt-1 block w-full rounded-md border border-ink-200 bg-white px-3.5 py-3 text-base text-ink-900 shadow-sm placeholder:text-ink-500/70 focus:border-navy-600 focus:outline-none focus:ring-2 focus:ring-navy-600/30";
   const label = "text-sm font-semibold text-navy-900";
   const err = (k: keyof Errors) =>
     errors[k] ? <p id={fid(`${k}-err`)} className="mt-1 text-sm font-medium text-brick-600">{errors[k]}</p> : null;
@@ -243,13 +243,16 @@ function ServiceSelect({ id, className, defaultValue, ...rest }: { id: string; c
 /** Card wrapper used in page heroes so every page has a quote form above the fold. */
 export function QuickQuoteCard({ defaultService = "", heading = "Get a free quote" }: { defaultService?: string; heading?: string }) {
   return (
-    <div className="rounded-2xl bg-white p-5 text-ink-900 shadow-2xl ring-1 ring-black/5 sm:p-6">
-      <div className="flex items-center justify-between gap-3">
-        <h2 className="font-display text-xl font-extrabold text-navy-900">{heading}</h2>
-        {business.sameDay && <span className="rounded-full bg-signal-500 px-2.5 py-1 text-[0.7rem] font-bold uppercase tracking-wide text-navy-950">Same-day</span>}
+    <div className="overflow-hidden rounded-lg bg-white text-ink-900 shadow-[0_24px_60px_-20px_rgba(0,0,0,.45)] ring-1 ring-black/5">
+      <div className="h-1 bg-brick-500" />
+      <div className="p-5 sm:p-6">
+        <div className="flex items-start justify-between gap-3">
+          <h2 className="font-display text-[1.2rem] font-bold tracking-tight text-navy-900">{heading}</h2>
+          {business.sameDay && <span className="mt-0.5 whitespace-nowrap rounded-sm border border-navy-200 bg-navy-50 px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-navy-700">Same-day</span>}
+        </div>
+        <p className="mt-1 text-sm text-ink-500">Tell us what's going — we'll call you back with a price.</p>
+        <div className="mt-4"><QuoteForm variant="compact" defaultService={defaultService} title={heading} /></div>
       </div>
-      <p className="mt-1 text-sm text-ink-700">Tell us what's going — we'll call you back with a price.</p>
-      <div className="mt-4"><QuoteForm variant="compact" defaultService={defaultService} title={heading} /></div>
     </div>
   );
 }

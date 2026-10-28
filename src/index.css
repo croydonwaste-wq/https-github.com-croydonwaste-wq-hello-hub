@@ -1,6 +1,5 @@
 @import "@fontsource-variable/inter/index.css";
-@import "@fontsource/archivo/700.css";
-@import "@fontsource/archivo/800.css";
+@import "@fontsource-variable/manrope/index.css";
 
 @tailwind base;
 @tailwind components;
@@ -8,39 +7,43 @@
 
 @layer base {
   html { -webkit-text-size-adjust: 100%; scroll-padding-top: 6rem; }
-  body { @apply bg-white font-sans text-ink-900 antialiased; }
-  :focus-visible { @apply outline-none ring-2 ring-signal-500 ring-offset-2; }
+  body { @apply bg-white font-sans text-ink-900 antialiased; font-feature-settings: "cv11", "ss01"; }
+  h1, h2, h3 { text-wrap: balance; }
+  :focus-visible { @apply outline-none ring-2 ring-navy-600 ring-offset-2; }
 }
 
 @layer components {
-  .btn { @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold transition; }
+  .btn { @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-md px-5 py-3 text-[0.95rem] font-semibold tracking-tight transition duration-200; }
   .btn-primary { @apply btn bg-brick-500 text-white shadow-sm hover:bg-brick-600 disabled:opacity-60; }
-  .eyebrow { @apply text-xs font-bold uppercase tracking-[0.16em]; }
-  .section-title { @apply font-display text-2xl font-extrabold tracking-tight text-navy-900 sm:text-3xl; }
-  .card { @apply rounded-xl border border-ink-200 bg-white shadow-card transition hover:border-navy-100; }
-  a.card:hover { @apply -translate-y-0.5 border-navy-600/30; }
-  .link { @apply font-medium text-navy-700 underline decoration-signal-500 decoration-2 underline-offset-4 hover:text-brick-600; }
+  .eyebrow { @apply inline-flex items-center gap-2.5 text-[0.7rem] font-semibold uppercase tracking-[0.2em]; }
+  .eyebrow::before { content: ""; @apply h-px w-6 bg-current opacity-60; }
+  .section-title { @apply font-display text-[1.65rem] font-bold leading-tight tracking-[-0.02em] text-navy-900 sm:text-[2.1rem]; }
+  .card { @apply rounded-lg border border-ink-200 bg-white shadow-card transition duration-200; }
+  a.card:hover { @apply -translate-y-0.5 border-navy-200 shadow-lift; }
+  .link { @apply font-medium text-navy-700 underline decoration-navy-200 decoration-1 underline-offset-4 hover:text-brick-600 hover:decoration-brick-500; }
 
   .hero-bg {
     background:
-      radial-gradient(1200px 400px at 85% -10%, rgba(36, 86, 184, 0.55), transparent 60%),
-      linear-gradient(160deg, #0b2147 0%, #071733 100%);
+      linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px) 0 0 / 48px 48px,
+      linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px) 0 0 / 48px 48px,
+      radial-gradient(900px 420px at 90% -20%, rgba(43, 85, 160, 0.45), transparent 65%),
+      linear-gradient(180deg, #0a1d3f 0%, #06122a 100%);
   }
   .hero-bg::after {
     content: "";
-    position: absolute; inset: auto 0 0 0; height: 6px;
-    background: linear-gradient(90deg, #e0291e 0 33%, #ffc629 33% 66%, #2456b8 66%);
+    position: absolute; inset: auto 0 0 0; height: 3px;
+    background: linear-gradient(90deg, #c21d25 0 33.3%, #e9b949 33.3% 66.6%, #2b55a0 66.6%);
   }
 
-  .prose-site { @apply max-w-none text-[1.05rem] leading-relaxed text-ink-700; }
-  .prose-site section + section { @apply mt-10; }
-  .prose-site h2 { @apply font-display text-2xl font-extrabold tracking-tight text-navy-900 sm:text-[1.7rem]; }
-  .prose-site h3 { @apply mt-6 font-display text-lg font-bold text-navy-900; }
+  .prose-site { @apply max-w-none text-[1.04rem] leading-[1.75] text-ink-700; }
+  .prose-site section + section { @apply mt-12; }
+  .prose-site h2 { @apply font-display text-[1.5rem] font-bold tracking-[-0.015em] text-navy-900 sm:text-[1.75rem]; }
+  .prose-site h3 { @apply mt-6 font-display text-[1.1rem] font-semibold text-navy-900; }
   .prose-site p { @apply mt-3; }
   .prose-site a { @apply link; }
   .tick-list { @apply mt-4 space-y-2.5; }
   .tick-list li { @apply relative pl-7; }
   .tick-list li::before {
-    content: ""; @apply absolute left-0 top-[0.55em] h-3 w-3 rounded-sm bg-signal-500;
+    content: ""; @apply absolute left-0 top-[0.6em] h-2 w-2 rotate-45 bg-signal-500;
   }
 }

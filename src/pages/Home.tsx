@@ -61,7 +61,7 @@ export default function Home() {
             <p className="eyebrow inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-signal-400">
               <Icon name="pin" className="h-4 w-4" /> Watford &amp; Hertfordshire
             </p>
-            <h1 className="mt-4 font-display text-[2.2rem] font-extrabold leading-[1.05] tracking-tight sm:text-6xl">
+            <h1 className="mt-4 font-display text-[2.2rem] font-bold leading-[1.05] tracking-tight sm:text-6xl">
               Rubbish Removal &amp; Clearance in <span className="text-signal-500">Watford</span>
             </h1>
             <p className="mt-5 max-w-xl text-lg leading-relaxed text-navy-100">

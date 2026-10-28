@@ -316,7 +316,7 @@ export const locations: Location[] = [
       },
     ],
     popular: ["garden-waste-clearance", "shed-garage-clearance", "house-clearance", "furniture-removal"],
-    nearby: ["rubbish-removal-st-albans", "rubbish-removal-hatfield"],
+    nearby: ["rubbish-removal-st-albans", "rubbish-removal-hatfield", "rubbish-removal-luton"],
     faqs: [
       { q: "Do you cover Batford and Kinsbourne Green?", a: "Yes, all of Harpenden and the AL5 area." },
       { q: "Can you take soil and paving after landscaping?", a: "Yes — heavy waste is priced by weight, so send a photo for an accurate quote." },
@@ -355,7 +355,7 @@ export const locations: Location[] = [
       },
     ],
     popular: ["end-of-tenancy-clearance", "mattress-disposal", "furniture-removal", "house-clearance"],
-    nearby: ["rubbish-removal-st-albans", "rubbish-removal-harpenden"],
+    nearby: ["rubbish-removal-st-albans", "rubbish-removal-harpenden", "rubbish-removal-stevenage"],
     faqs: [
       { q: "Can you clear several student houses in one day?", a: "Often, yes — give us the addresses and dates and we'll plan a route." },
       { q: "Do you cover Welwyn Garden City?", a: "Yes, Welwyn and Welwyn Garden City are covered from Hatfield." },
@@ -485,7 +485,7 @@ export const locations: Location[] = [
       },
     ],
     popular: ["house-clearance", "end-of-tenancy-clearance", "furniture-removal", "garden-waste-clearance"],
-    nearby: ["rubbish-removal-bushey", "rubbish-removal-st-albans", "rubbish-removal-harrow"],
+    nearby: ["rubbish-removal-bushey", "rubbish-removal-edgware", "rubbish-removal-harrow"],
     faqs: [
       { q: "Do you cover Elstree and Shenley?", a: "Yes — Elstree, Shenley and the whole WD6 and WD7 area." },
       { q: "Can you clear a property for a production or studio company?", a: "Yes. We collect commercial waste with the paperwork businesses need, and can work out of hours to suit filming or set schedules." },
@@ -530,7 +530,7 @@ export const locations: Location[] = [
       },
     ],
     popular: ["house-clearance", "builders-waste-removal", "garden-waste-clearance", "furniture-removal"],
-    nearby: ["rubbish-removal-bushey", "rubbish-removal-oxhey", "rubbish-removal-borehamwood"],
+    nearby: ["rubbish-removal-bushey", "rubbish-removal-edgware", "rubbish-removal-uxbridge", "rubbish-removal-borehamwood"],
     faqs: [
       { q: "Do you cover Pinner and Hatch End?", a: "Yes — Pinner, Hatch End and the HA5 area, along with the rest of the London Borough of Harrow." },
       { q: "Can you collect where there's permit parking?", a: "Yes. Let us know the parking rules and whether a visitor permit is available, and we'll plan the collection around them." },
@@ -575,7 +575,7 @@ export const locations: Location[] = [
       },
     ],
     popular: ["house-clearance", "garden-waste-clearance", "shed-garage-clearance", "probate-clearance"],
-    nearby: ["rubbish-removal-rickmansworth", "rubbish-removal-berkhamsted"],
+    nearby: ["rubbish-removal-rickmansworth", "rubbish-removal-high-wycombe", "rubbish-removal-berkhamsted"],
     faqs: [
       { q: "Do you cover Little Chalfont and Chalfont St Giles?", a: "Yes — both are covered along with Amersham, Chesham and the surrounding villages." },
       { q: "Can you remove an old summerhouse or shed?", a: "Yes, most timber sheds and summerhouses can be dismantled and removed in the same visit." },
@@ -584,6 +584,231 @@ export const locations: Location[] = [
       primary: "rubbish removal Amersham",
       secondary: ["rubbish removal Chesham", "house clearance Amersham", "garden clearance Chesham", "rubbish clearance Little Chalfont"],
       longTail: ["shed removal Amersham", "garden waste collection Chesham", "house clearance Chesham"],
+    },
+  },
+  {
+    slug: "rubbish-removal-luton",
+    town: "Luton & Dunstable",
+    county: "Bedfordshire",
+    h1: "Rubbish Removal in Luton, Dunstable & Houghton Regis",
+    metaTitle: "Rubbish Removal Luton & Dunstable | House & Business Clearances",
+    metaDescription:
+      "Rubbish removal in Luton, Dunstable and Houghton Regis — house, flat and office clearances, bulky items and trade waste. Open 24/7. Call 01293 549164.",
+    lead: "House and flat clearances, bulky item collections, end of tenancy clear-outs and trade waste across Luton, Dunstable, Houghton Regis and the surrounding villages.",
+    answer:
+      "Watford Rubbish Clearance covers Luton (LU1–LU4) and Dunstable and Houghton Regis (LU5, LU6) for household, garden and commercial waste. We operate 24/7 with same-day collections and quote a fixed price from photos before we start.",
+    areas: ["Luton town centre", "Stopsley", "Leagrave", "Wigmore", "Bushmead", "Dunstable", "Houghton Regis", "Caddington", "Toddington"],
+    postcodes: ["LU1", "LU2", "LU3", "LU4", "LU5", "LU6"],
+    blocks: [
+      {
+        h2: "Rented homes, flats and student lets",
+        paras: [
+          "Luton has a large private rented sector, including shared houses and student lets near the university. That makes end of tenancy clearances, mattress and furniture collections and overflowing bin clear-ups some of our most frequent jobs here — often booked by landlords and agents on account.",
+        ],
+      },
+      {
+        h2: "Industrial estates and trade waste",
+        paras: [
+          "Luton and Dunstable have extensive industrial and trade estates. We handle one-off clear-outs after refits or stock changes, warehouse and office clearances, and scheduled or overflow trade waste collections with the waste transfer notes businesses need.",
+        ],
+      },
+      {
+        h2: "Two councils",
+        paras: [
+          "Luton is a unitary authority, while Dunstable, Houghton Regis, Caddington and Toddington are in Central Bedfordshire — so bulky waste rules differ depending on where you are. A private collection works the same across both, with no limit on item types or numbers.",
+        ],
+      },
+    ],
+    popular: ["end-of-tenancy-clearance", "furniture-removal", "commercial-bin-collection", "house-clearance"],
+    nearby: ["rubbish-removal-harpenden", "rubbish-removal-st-albans", "rubbish-removal-stevenage"],
+    faqs: [
+      { q: "Do you cover Houghton Regis, Caddington and Toddington?", a: "Yes — along with Luton and Dunstable, we cover Houghton Regis and the surrounding villages." },
+      { q: "Can you clear several rental properties in Luton on account?", a: "Yes. Landlords and agents can book clearances across multiple properties and be invoiced on account — see contract and account waste services." },
+    ],
+    keywords: {
+      primary: "rubbish removal Luton",
+      secondary: ["rubbish removal Dunstable", "house clearance Luton", "rubbish clearance Houghton Regis", "waste removal Luton"],
+      longTail: ["end of tenancy clearance Luton", "office clearance Luton", "same day rubbish removal Luton"],
+    },
+  },
+  {
+    slug: "rubbish-removal-stevenage",
+    town: "Stevenage & Hitchin",
+    county: "Hertfordshire",
+    h1: "Rubbish Removal in Stevenage, Hitchin & Letchworth",
+    metaTitle: "Rubbish Removal Stevenage & Hitchin | Waste Clearance Services",
+    metaDescription:
+      "Rubbish removal in Stevenage, Hitchin and Letchworth — house and garden clearances, furniture, office and trade waste. Open 24/7. Call 01293 549164.",
+    lead: "Household clearances, garden waste, furniture collections and business waste across Stevenage, Hitchin, Letchworth Garden City and the surrounding North Hertfordshire villages.",
+    answer:
+      "We provide rubbish removal across Stevenage (SG1, SG2), Hitchin (SG4, SG5) and Letchworth (SG6) — household, garden and commercial waste, with 24/7 availability, same-day collections and fixed quotes from photos.",
+    areas: ["Stevenage Old Town", "Shephall", "Bedwell", "Great Ashby", "Hitchin", "Letchworth Garden City", "Baldock"],
+    postcodes: ["SG1", "SG2", "SG4", "SG5", "SG6"],
+    blocks: [
+      {
+        h2: "Stevenage New Town neighbourhoods",
+        paras: [
+          "Stevenage was the first post-war New Town, built as neighbourhoods of family homes with gardens and garages. Garden clearances, garage clear-outs and furniture collections make up much of the work here, often combined into a single visit.",
+        ],
+      },
+      {
+        h2: "Business waste around Gunnels Wood",
+        paras: [
+          "The Gunnels Wood Road employment area is home to offices, engineering firms and warehouses. We carry out office clearances and one-off commercial clear-outs, and set up scheduled or overflow collections on account.",
+        ],
+      },
+      {
+        h2: "Hitchin and Letchworth",
+        paras: [
+          "Hitchin's period town-centre streets and Letchworth's garden-city houses with long gardens bring different jobs — careful access on narrow streets in Hitchin, and larger garden and shed clearances in Letchworth.",
+        ],
+      },
+    ],
+    popular: ["house-clearance", "garden-waste-clearance", "office-clearance", "shed-garage-clearance"],
+    nearby: ["rubbish-removal-hatfield", "rubbish-removal-luton", "rubbish-removal-harpenden"],
+    faqs: [
+      { q: "Do you cover Letchworth and Baldock?", a: "Yes — Letchworth Garden City, Baldock and the surrounding North Hertfordshire villages are covered along with Stevenage and Hitchin." },
+      { q: "How far is Stevenage from your base?", a: "Stevenage is around 20 miles from Watford, comfortably within our 30-mile service area." },
+    ],
+    keywords: {
+      primary: "rubbish removal Stevenage",
+      secondary: ["rubbish removal Hitchin", "house clearance Stevenage", "rubbish clearance Letchworth", "waste removal Stevenage"],
+      longTail: ["garden waste removal Stevenage", "office clearance Stevenage", "same day rubbish removal Hitchin"],
+    },
+  },
+  {
+    slug: "rubbish-removal-high-wycombe",
+    town: "High Wycombe",
+    county: "Buckinghamshire",
+    h1: "Rubbish Removal in High Wycombe & Beaconsfield",
+    metaTitle: "Rubbish Removal High Wycombe | House, Garden & Trade Clearances",
+    metaDescription:
+      "Rubbish removal in High Wycombe, Hazlemere and Beaconsfield — house clearances, furniture, garden and builders waste. Open 24/7. Call 01293 549164.",
+    lead: "House clearances, furniture collections, garden waste and builders' rubbish across High Wycombe, Hazlemere, Beaconsfield and the surrounding Chiltern villages.",
+    answer:
+      "Watford Rubbish Clearance covers High Wycombe (HP10–HP13), Hazlemere (HP15) and Beaconsfield (HP9) for household, garden, building and commercial waste — 24/7, with same-day collections and fixed quotes from photos.",
+    areas: ["High Wycombe town centre", "Hazlemere", "Downley", "Booker", "Cressex", "Loudwater", "Flackwell Heath", "Beaconsfield"],
+    postcodes: ["HP9", "HP10", "HP11", "HP12", "HP13", "HP15"],
+    blocks: [
+      {
+        h2: "Hillside streets and access",
+        paras: [
+          "High Wycombe sits in a steep-sided valley, and many homes are on hillside roads with steps and long front paths. We factor access into the quote and send enough people to carry items out safely, so there are no surprises on the day.",
+        ],
+      },
+      {
+        h2: "Furniture town, furniture clear-outs",
+        paras: [
+          "Known for its furniture-making history, Wycombe still has plenty of solid older furniture in its homes. When it's time to clear it, we separate pieces that can be reused from those that need recycling or disposal.",
+        ],
+      },
+      {
+        h2: "Cressex and trade customers",
+        paras: [
+          "Businesses on the Cressex and other trade estates use us for warehouse and office clear-outs and for regular or overflow trade waste collections on account.",
+        ],
+      },
+    ],
+    popular: ["furniture-removal", "house-clearance", "builders-waste-removal", "garden-waste-clearance"],
+    nearby: ["rubbish-removal-amersham", "rubbish-removal-rickmansworth", "rubbish-removal-uxbridge"],
+    faqs: [
+      { q: "Do you cover Beaconsfield and Marlow?", a: "Yes — Beaconsfield, Marlow and the villages around High Wycombe are within our 30-mile service area." },
+      { q: "Can you remove old solid furniture from upstairs?", a: "Yes. We carry heavy furniture down stairs and dismantle it on site where needed." },
+    ],
+    keywords: {
+      primary: "rubbish removal High Wycombe",
+      secondary: ["rubbish removal Beaconsfield", "house clearance High Wycombe", "rubbish clearance Hazlemere", "waste removal High Wycombe"],
+      longTail: ["furniture removal High Wycombe", "builders waste removal High Wycombe", "same day rubbish removal High Wycombe"],
+    },
+  },
+  {
+    slug: "rubbish-removal-uxbridge",
+    town: "Uxbridge & Ruislip",
+    county: "North London",
+    h1: "Rubbish Removal in Uxbridge, Ruislip & Hillingdon",
+    metaTitle: "Rubbish Removal Uxbridge & Ruislip | Hillingdon Waste Clearance",
+    metaDescription:
+      "Rubbish removal in Uxbridge, Ruislip, Ickenham and Hillingdon — house and student-let clearances, furniture and garden waste. 24/7. Call 01293 549164.",
+    lead: "House clearances, student-let and end of tenancy clear-outs, furniture and garden waste across Uxbridge, Ruislip, Ickenham, Hillingdon and Harefield.",
+    answer:
+      "We cover the London Borough of Hillingdon's northern towns — Uxbridge (UB8), Hillingdon and Ickenham (UB10), Harefield (UB9) and Ruislip (HA4) — for household, garden and commercial waste, with 24/7 availability and same-day collections.",
+    areas: ["Uxbridge town centre", "Hillingdon", "Ickenham", "Ruislip", "Ruislip Manor", "Eastcote", "Harefield"],
+    postcodes: ["UB8", "UB9", "UB10", "HA4"],
+    blocks: [
+      {
+        h2: "Student lets around Brunel",
+        paras: [
+          "With Brunel University in Uxbridge, many landlords run shared houses that need clearing at the end of each academic year — mattresses, desks, bags and left-behind belongings. Book early for summer turnovers; portfolio landlords can work with us on account.",
+        ],
+      },
+      {
+        h2: "Ruislip and Ickenham family homes",
+        paras: [
+          "Ruislip, Eastcote and Ickenham are largely interwar suburban homes with lofts, garages and gardens — so loft and garage clear-outs, garden clearances and renovation waste are common here.",
+        ],
+      },
+      {
+        h2: "Hillingdon Council or a private collection?",
+        paras: [
+          "Hillingdon Council runs its own bulky waste service. A private collection suits mixed loads, items that need carrying from inside, and anything that needs to go the same day.",
+        ],
+      },
+    ],
+    popular: ["end-of-tenancy-clearance", "house-clearance", "garden-waste-clearance", "builders-waste-removal"],
+    nearby: ["rubbish-removal-harrow", "rubbish-removal-rickmansworth", "rubbish-removal-high-wycombe"],
+    faqs: [
+      { q: "Do you cover Eastcote and Harefield?", a: "Yes — Eastcote, Harefield and the rest of the northern Hillingdon area are covered." },
+      { q: "Can you clear several student houses at the end of term?", a: "Yes. Give us the addresses and dates and we'll plan a route — invoicing can be set up on account." },
+    ],
+    keywords: {
+      primary: "rubbish removal Uxbridge",
+      secondary: ["rubbish removal Ruislip", "house clearance Uxbridge", "rubbish clearance Ickenham", "waste removal Hillingdon"],
+      longTail: ["student house clearance Uxbridge", "loft clearance Ruislip", "same day rubbish removal Uxbridge"],
+    },
+  },
+  {
+    slug: "rubbish-removal-edgware",
+    town: "Edgware & Barnet",
+    county: "North London",
+    h1: "Rubbish Removal in Edgware, Mill Hill & Barnet",
+    metaTitle: "Rubbish Removal Edgware & Barnet | House & Flat Clearances",
+    metaDescription:
+      "Rubbish removal in Edgware, Mill Hill, Burnt Oak and Barnet — house and flat clearances, furniture, garden and builders waste. 24/7. Call 01293 549164.",
+    lead: "House and flat clearances, furniture and bulky items, garden waste and renovation rubbish across Edgware, Mill Hill, Burnt Oak, High Barnet and New Barnet.",
+    answer:
+      "Watford Rubbish Clearance covers Edgware (HA8), Mill Hill (NW7) and Barnet (EN4, EN5) in North London for household, garden and commercial waste — 24/7, with same-day collections and fixed quotes from photos.",
+    areas: ["Edgware", "Burnt Oak", "Mill Hill", "High Barnet", "New Barnet", "Totteridge", "Arkley"],
+    postcodes: ["HA8", "NW7", "EN4", "EN5"],
+    blocks: [
+      {
+        h2: "Flats, maisonettes and family houses",
+        paras: [
+          "Edgware and Burnt Oak have plenty of flats and maisonettes, where furniture and mattress collections mean stairs and shared bin areas. Mill Hill and Barnet's larger family homes bring full house, loft and garden clearances.",
+        ],
+      },
+      {
+        h2: "Parking and access in North London",
+        paras: [
+          "Many streets near Edgware and Barnet town centres have controlled parking. Let us know the restrictions and whether a visitor permit is available, and we'll plan the collection to keep it quick.",
+        ],
+      },
+      {
+        h2: "Barnet Council or a private collection?",
+        paras: [
+          "Barnet Council runs its own bulky waste service. A private collection is the practical choice for mixed loads, items inside the property, or when you need it cleared today.",
+        ],
+      },
+    ],
+    popular: ["house-clearance", "furniture-removal", "garden-waste-clearance", "end-of-tenancy-clearance"],
+    nearby: ["rubbish-removal-borehamwood", "rubbish-removal-harrow", "rubbish-removal-bushey"],
+    faqs: [
+      { q: "Do you cover Mill Hill and Totteridge?", a: "Yes — Mill Hill, Totteridge, Arkley and the surrounding areas are covered along with Edgware and Barnet." },
+      { q: "Can you collect from a flat with no lift?", a: "Yes. Tell us the floor level and we'll bring enough people to carry items down safely." },
+    ],
+    keywords: {
+      primary: "rubbish removal Edgware",
+      secondary: ["rubbish removal Barnet", "rubbish removal Mill Hill", "house clearance Edgware", "rubbish clearance Burnt Oak"],
+      longTail: ["flat clearance Edgware", "garden waste removal Barnet", "same day rubbish removal Edgware"],
     },
   },
 ];
@@ -612,8 +837,8 @@ export const COVERAGE_RADIUS_MILES = 30;
 
 /** Further towns within the radius, listed on the Areas hub without standalone pages. */
 export const widerAreas: { region: string; towns: string[] }[] = [
-  { region: "Hertfordshire", towns: ["Hitchin", "Stevenage", "Hertford", "Welwyn Garden City", "Potters Bar", "Tring", "Redbourn", "Wheathampstead"] },
-  { region: "Bedfordshire", towns: ["Luton", "Dunstable", "Leighton Buzzard", "Houghton Regis", "Toddington", "Caddington"] },
-  { region: "Buckinghamshire", towns: ["High Wycombe", "Beaconsfield", "Gerrards Cross", "Aylesbury", "Great Missenden"] },
-  { region: "North & West London", towns: ["Edgware", "Barnet", "Enfield", "Hendon", "Uxbridge", "Ruislip", "Hampstead", "St John's Wood"] },
+  { region: "Hertfordshire", towns: ["Hertford", "Welwyn Garden City", "Potters Bar", "Baldock", "Tring", "Redbourn", "Wheathampstead"] },
+  { region: "Bedfordshire", towns: ["Leighton Buzzard", "Houghton Regis", "Toddington", "Caddington"] },
+  { region: "Buckinghamshire", towns: ["Aylesbury", "Marlow", "Gerrards Cross", "Great Missenden", "Princes Risborough"] },
+  { region: "North & West London", towns: ["Enfield", "Hendon", "Finchley", "Southgate", "Hampstead", "St John's Wood"] },
 ];

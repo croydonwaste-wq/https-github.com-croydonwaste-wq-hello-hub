@@ -181,3 +181,25 @@ The business confirmed it offers **hoarder clearance, hot tub removal and piano 
 **Verification:** build plus `npm run qa` pass on 47 pages, with no duplicate titles, descriptions or H1s, no broken links or orphans, and valid JSON-LD. In Playwright, all 4 new pages and 4 changed pages return 200 at 375px and 1366px, with one H1, no overflow, no console errors, and both quote forms present with the correct service pre-selected.
 
 **Remaining Wave 2–3 (unchanged):** further town pages within the 30-mile radius (Luton & Dunstable, Stevenage & Hitchin, High Wycombe, Uxbridge & Ruislip, Edgware & Barnet) and service-in-town pages (e.g. house clearance St Albans) once real local jobs, photos or reviews exist. Google Business Profile, reviews and the waste carrier number remain the top non-page priorities.
+
+## 10. Update — 28 October 2026: Wave 2 towns and corporate redesign
+
+**Five new town pages**, all within the confirmed 30-mile radius. Each has local context (council, housing, business areas, access), 4 FAQs including same-day and cost, quote forms, schema and a phone number in the meta description:
+
+| URL | Primary keyword | Local angle |
+|---|---|---|
+| `/rubbish-removal-luton/` | rubbish removal Luton (+ Dunstable, Houghton Regis) | Private rented sector and student lets; industrial estates; Luton unitary vs Central Bedfordshire |
+| `/rubbish-removal-stevenage/` | rubbish removal Stevenage (+ Hitchin, Letchworth) | First post-war New Town; Gunnels Wood employment area; Hitchin streets and Letchworth gardens |
+| `/rubbish-removal-high-wycombe/` | rubbish removal High Wycombe (+ Beaconsfield) | Hillside access; furniture-making heritage; Cressex trade estates |
+| `/rubbish-removal-uxbridge/` | rubbish removal Uxbridge (+ Ruislip, Ickenham) | Brunel student lets; interwar Ruislip homes; Hillingdon Council |
+| `/rubbish-removal-edgware/` | rubbish removal Edgware (+ Mill Hill, Barnet) | Flats and maisonettes vs larger family homes; controlled parking; Barnet Council |
+
+The areas page's wider-towns list was trimmed so no town is listed there and on its own page. Neighbouring pages now link to the new ones (Harpenden → Luton, Hatfield → Stevenage, Amersham → High Wycombe, Harrow → Uxbridge and Edgware, Borehamwood → Edgware). The coverage map was redrawn as a square with all 19 towns and a 30-mile radius label.
+
+**Corporate redesign (site-wide)**
+- **Type:** Manrope for headings (replacing the heavier Archivo), Inter for body text, lighter heading weights and tighter tracking.
+- **Palette:** deeper corporate navy, a muted gold accent instead of bright yellow, a controlled brand red for calls to action. The brand red, yellow and blue stripe is kept as a thin 3px accent.
+- **Components:** square-cornered buttons, thin-bordered cards with soft hover lift, outlined circular icons, eyebrow labels with a rule line, a navy facts strip, a navy-ruled "In short" answer box, a quote card with a red top rule, and a calm top bar with no animation.
+- **Illustrations:** cartoon sun and clouds removed in favour of a subtle grid backdrop in the refined palette. The logo, favicon and social-share image were updated to match.
+
+**Verification:** build plus `npm run qa` pass on 52 pages. In Playwright, all 5 new town pages return 200 at 375px and 1366px, with one H1, no overflow, no console errors and both quote forms. I visually reviewed the homepage, a service page, a town page and the map on desktop and mobile.

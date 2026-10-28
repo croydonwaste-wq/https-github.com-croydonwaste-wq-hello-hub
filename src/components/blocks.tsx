@@ -53,7 +53,7 @@ export function PageHero({
         <div className={`mt-6 grid gap-8 ${quote ? "lg:grid-cols-[minmax(0,1fr)_400px] lg:items-start" : ""}`}>
           <div className="max-w-3xl">
             {eyebrow && <p className="eyebrow text-signal-400">{eyebrow}</p>}
-            <h1 className="mt-2 font-display text-[2rem] font-extrabold leading-[1.08] tracking-tight sm:text-5xl">{h1}</h1>
+            <h1 className="mt-2 font-display text-[2rem] font-bold leading-[1.08] tracking-tight sm:text-5xl">{h1}</h1>
             <p className="mt-4 text-lg leading-relaxed text-navy-100">{lead}</p>
             <ContactButtons tone="dark" context={context} className="mt-7" />
             <HeroBadges />
@@ -86,7 +86,7 @@ export function HeroBadges() {
 /** A concise answer box placed high on the page for users, snippets and AI retrieval. */
 export function AnswerBox({ title = "In short", children }: { title?: string; children: ReactNode }) {
   return (
-    <aside className="rounded-xl border-l-4 border-signal-500 bg-signal-100/60 p-5 md:p-6">
+    <aside className="rounded-r-lg border-l-[3px] border-navy-900 bg-navy-50 p-5 md:p-6">
       <p className="eyebrow text-navy-800">{title}</p>
       <p className="mt-2 text-[1.05rem] leading-relaxed text-ink-900">{children}</p>
     </aside>
@@ -121,7 +121,7 @@ export function FaqList({ faqs, heading = "Frequently asked questions" }: { faqs
   return (
     <section aria-labelledby="faqs">
       <h2 id="faqs" className="section-title">{heading}</h2>
-      <div className="mt-6 divide-y divide-ink-200 rounded-xl border border-ink-200 bg-white">
+      <div className="mt-6 divide-y divide-ink-200 rounded-lg border border-ink-200 bg-white">
         {faqs.map((f) => (
           <details key={f.q} className="group p-5 [&_summary::-webkit-details-marker]:hidden">
             <summary className="flex cursor-pointer list-none items-start justify-between gap-4">
@@ -144,7 +144,7 @@ export function ServiceCard({ s, anchor, visual = false }: { s: Service; anchor?
           <Illustration scene={serviceScene[s.slug] ?? "van"} label="" className="rounded-none" />
         </div>
       )}
-      <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-navy-50 text-navy-700 transition group-hover:bg-signal-500 group-hover:text-navy-950">
+      <span className="flex h-11 w-11 items-center justify-center rounded-full border border-navy-200 bg-navy-50 text-navy-700 transition group-hover:border-navy-900 group-hover:bg-navy-900 group-hover:text-white">
         <Icon name={s.icon} />
       </span>
       <h3 className="mt-4 font-display text-lg font-bold text-navy-900">{anchor ?? s.name}</h3>
@@ -170,7 +170,7 @@ export function ProcessSteps({ heading = "How it works" }: { heading?: string })
       <ol className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {processSteps.map((p, i) => (
           <li key={p.title} className="card relative p-6">
-            <span className="absolute right-5 top-4 font-display text-4xl font-extrabold text-navy-100">{i + 1}</span>
+            <span className="absolute right-5 top-4 font-display text-4xl font-bold text-navy-100">{i + 1}</span>
             <Icon name={p.icon} className="h-7 w-7 text-brick-500" />
             <h3 className="mt-3 font-display text-lg font-bold text-navy-900">{p.title}</h3>
             <p className="mt-2 text-sm leading-relaxed text-ink-700">{p.text}</p>
@@ -186,7 +186,7 @@ export function CtaBand({ heading, text, context }: { heading: string; text: str
     <section className="bg-navy-900 text-white">
       <div className="container flex flex-col gap-6 py-12 md:flex-row md:items-center md:justify-between">
         <div className="max-w-2xl">
-          <h2 className="font-display text-2xl font-extrabold sm:text-3xl">{heading}</h2>
+          <h2 className="font-display text-2xl font-bold sm:text-3xl">{heading}</h2>
           <p className="mt-2 text-navy-100">{text}</p>
         </div>
         <ContactButtons tone="dark" context={context} />
@@ -224,7 +224,7 @@ export function TrustGrid() {
     <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
       {trustPoints.map((t) => (
         <li key={t.title} className="flex gap-4">
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-signal-500 text-navy-950">
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-navy-200 bg-navy-50 text-navy-700">
             <Icon name={t.icon} />
           </span>
           <div>

@@ -22,13 +22,13 @@ function TopBar() {
     <div className="bg-navy-950 text-[0.8rem] text-navy-100">
       <div className="container flex h-9 items-center justify-between gap-4">
         <p className="flex items-center gap-2 truncate">
-          <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#4ADE80] opacity-75" /><span className="relative inline-flex h-2 w-2 rounded-full bg-[#4ADE80]" /></span>
+          <span className="inline-flex h-1.5 w-1.5 rounded-full bg-[#4ADE80]" />
           <span className="font-semibold text-white">Open 24/7</span>
           <span className="hidden sm:inline">· Same-day collections across Watford &amp; Hertfordshire</span>
         </p>
         <p className="flex items-center gap-4">
           <span className="hidden md:inline">Licensed waste carrier · {business.publicLiability} insured</span>
-          {tel && <a href={tel} className="font-bold text-signal-400 hover:text-white" data-cta="call-topbar">{business.phone}</a>}
+          {tel && <a href={tel} className="font-semibold tracking-wide text-white hover:text-signal-400" data-cta="call-topbar">{business.phone}</a>}
         </p>
       </div>
     </div>
@@ -110,7 +110,7 @@ function Footer() {
   const wa = whatsappHref();
   return (
     <footer className="bg-navy-950 text-navy-100">
-      <div className="h-1.5 bg-[linear-gradient(90deg,#E0291E_0_33%,#FFC629_33%_66%,#2456B8_66%)]" />
+      <div className="h-1.5 bg-[linear-gradient(90deg,#C21D25_0_33%,#E9B949_33%_66%,#2B55A0_66%)]" />
       <div className="container grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-5">
         <div className="lg:col-span-2">
           <Logo inverted />
