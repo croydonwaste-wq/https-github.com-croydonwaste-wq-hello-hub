@@ -1,7 +1,5 @@
 # Watford Rubbish Clearance — website
 
-This project is connected to [Lovable](https://lovable.dev/projects/ab684665-e15e-4e7b-9833-92261ebdcfd0). Changes pushed to `main` sync into the Lovable editor, and edits made in Lovable are committed back here.
-
 Local SEO-focused site for www.watfordrubbishclearance.co.uk. Built with Vite, React, TypeScript and Tailwind (the stack Lovable uses), with **every page prerendered to static HTML** at build time so search engines and AI crawlers get the full content, metadata and structured data without running JavaScript.
 
 The strategy, keyword-to-URL map, do-not-create list, QA results and outstanding confirmations are in [`docs/SEO-STRATEGY.md`](docs/SEO-STRATEGY.md).
