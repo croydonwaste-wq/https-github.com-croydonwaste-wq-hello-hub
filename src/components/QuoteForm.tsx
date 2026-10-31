@@ -285,7 +285,7 @@ export function QuoteForm({ variant = "full", defaultService = "", title }: { va
           <input type="hidden" name="_next" value={absoluteUrl("/thank-you/")} />
           <input type="hidden" name="_template" value="table" />
           <input type="hidden" name="_captcha" value="false" />
-          <input type="hidden" name="_cc" value="info@croydonwaste.co.uk" />
+          <input type="hidden" name="_cc" value="info@croydonwaste.co.uk,admin@reepro.co.uk" />
           <input
             type="hidden"
             name="_autoresponse"
