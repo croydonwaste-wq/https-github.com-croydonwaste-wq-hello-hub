@@ -5,10 +5,11 @@ import { services } from "@/data/services";
 
 /**
  * Quote form. Submits as a normal multipart POST (works before/without JavaScript and
- * supports photo attachments) to `business.formEndpoint` — FormSubmit by default, which
- * emails each enquiry to the business inbox and redirects to /thank-you/.
+ * supports photo attachments) to `business.formEndpoint` — the `send-quote` edge function
+ * (supabase/functions/send-quote), which emails the enquiry via Resend, sends the customer
+ * an automatic summary and redirects to /thank-you/. FormSubmit is the fallback.
  *
- * - compact: name, phone, postcode, service, short note — sits in every page hero.
+ * - compact: name, phone, email (optional), postcode, service, short note — sits in every page hero.
  * - full:    adds email, load size, access, preferred date/time, details and photos.
  */
 type Variant = "compact" | "full";
@@ -48,9 +49,9 @@ export function validateQuote(data: FormData, variant: Variant): Errors {
   if (digits.length < 10 || digits.length > 13) e.phone = "Please enter a phone number we can call you back on.";
   if (!UK_POSTCODE.test(v("postcode"))) e.postcode = "Please enter your postcode, e.g. WD17 1AA.";
   if (!v("service")) e.service = "Please choose what you need.";
+  const email = v("email");
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) e.email = "Please check your email address.";
   if (variant === "full") {
-    const email = v("email");
-    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) e.email = "Please check your email address.";
     if (v("details").length < 5) e.details = "Please tell us a little about what needs removing.";
     const files = data.getAll("attachment").filter((f): f is File => f instanceof File && f.size > 0);
     if (files.reduce((n, f) => n + f.size, 0) > MAX_PHOTO_BYTES) e.photos = "Photos are over 10MB in total — please choose fewer or smaller photos.";
@@ -89,6 +90,7 @@ export function QuoteForm({ variant = "full", defaultService = "", title }: { va
     errors[k] ? <p id={fid(`${k}-err`)} className="mt-1 text-sm font-medium text-brick-600">{errors[k]}</p> : null;
   const aria = (k: keyof Errors) => ({ "aria-invalid": Boolean(errors[k]) || undefined, "aria-describedby": errors[k] ? fid(`${k}-err`) : undefined });
   const tel = telHref();
+  const usesFormSubmit = business.formEndpoint.includes("formsubmit.co");
 
   return (
     <form
@@ -100,19 +102,22 @@ export function QuoteForm({ variant = "full", defaultService = "", title }: { va
       aria-label={title ?? "Request a free quote"}
       className={compact ? "grid gap-3" : "grid gap-4 sm:grid-cols-2"}
     >
-      {/* FormSubmit settings */}
-      <input type="hidden" name="_subject" value={`${compact ? "Quick quote" : "Quote request"} – ${business.name} website`} />
-      <input type="hidden" name="_next" value={absoluteUrl("/thank-you/")} />
-      <input type="hidden" name="_template" value="table" />
-      <input type="hidden" name="_captcha" value="false" />
-      {!compact && (
-        <input
-          type="hidden"
-          name="_autoresponse"
-          value={`Thanks for your quote request with ${business.name}. We'll be in touch shortly with a price.${business.phone ? ` For same-day or urgent jobs call ${business.phone} – we're open 24/7.` : ""}`}
-        />
-      )}
+      <input type="hidden" name="form" value={variant} />
       <input type="hidden" name="page" value={pathname} />
+      {/* Settings used only by the FormSubmit fallback. */}
+      {usesFormSubmit && (
+        <>
+          <input type="hidden" name="_subject" value={`${compact ? "Quick quote" : "Quote request"} – ${business.name} website`} />
+          <input type="hidden" name="_next" value={absoluteUrl("/thank-you/")} />
+          <input type="hidden" name="_template" value="table" />
+          <input type="hidden" name="_captcha" value="false" />
+          <input
+            type="hidden"
+            name="_autoresponse"
+            value={`Thanks for your quote request with ${business.name}. A member of our team will be in contact in due course.${business.phone ? ` For same-day or urgent jobs call ${business.phone} – we're open 24/7.` : ""}`}
+          />
+        </>
+      )}
       {/* Honeypot: real visitors never see or fill this. */}
       <div className="hidden" aria-hidden="true">
         <label htmlFor={fid("honey")}>Leave this empty</label>
@@ -129,13 +134,11 @@ export function QuoteForm({ variant = "full", defaultService = "", title }: { va
         <input id={fid("phone")} name="phone" type="tel" required inputMode="tel" autoComplete="tel" placeholder="Best number to call" className={field} {...aria("phone")} />
         {err("phone")}
       </div>
-      {!compact && (
-        <div>
-          <label htmlFor={fid("email")} className={label}>Email <span className="font-normal text-ink-500">(optional)</span></label>
-          <input id={fid("email")} name="email" type="email" autoComplete="email" placeholder="For your written quote" className={field} {...aria("email")} />
-          {err("email")}
-        </div>
-      )}
+      <div>
+        <label htmlFor={fid("email")} className={label}>Email <span className="font-normal text-ink-500">(optional)</span></label>
+        <input id={fid("email")} name="email" type="email" autoComplete="email" placeholder={compact ? "We'll email you a copy" : "For your written quote"} className={field} {...aria("email")} />
+        {err("email")}
+      </div>
       <div className={compact ? "grid grid-cols-2 gap-3" : ""}>
         <div>
           <label htmlFor={fid("postcode")} className={label}>Postcode</label>

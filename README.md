@@ -38,7 +38,21 @@ Values left as `null` in `business.ts` have not been confirmed by the business. 
 
 ## Quote form
 
-Every page has a short quote form in its header; key pages also have a full form with photo upload. Forms POST to [FormSubmit](https://formsubmit.co) at `hello@watfordrubbishclearance.co.uk` (no account needed). The **first** submission sends an activation email to that inbox: click the link once and later enquiries are delivered. To use another provider, set `VITE_FORM_ENDPOINT` to any endpoint that accepts a multipart form POST.
+Every page has a short quote form in its header; key pages also have a full form with photo upload. Forms POST to the `send-quote` edge function (`supabase/functions/send-quote/index.ts`), which uses [Resend](https://resend.com) to:
+
+1. email the enquiry (and any photos) to `hello@watfordrubbishclearance.co.uk`, BCC `info@croydonwaste.co.uk`, with Reply-To set to the customer;
+2. send the customer an automatic reply summarising their request and saying a member of the team will be in contact in due course (only when they gave an email address);
+3. redirect the visitor to `/thank-you/` (or back to `/contact/?sent=error` if sending failed).
+
+**Setup (once):**
+
+1. In Resend, verify the domain `watfordrubbishclearance.co.uk` by adding the DNS records Resend shows (the `resend._domainkey` TXT/DKIM record, plus the SPF/MX records for the `send` subdomain) at your DNS provider.
+2. In Resend → API Keys, create a key with *Sending access* (it starts with `re_`).
+3. In Lovable, enable Cloud, then add a secret named `RESEND_API_KEY` with that key. Never commit the key to the repo.
+
+Optional secrets: `QUOTE_TO_EMAIL`, `QUOTE_BCC_EMAIL` (comma-separated), `QUOTE_FROM_EMAIL` (must be on the verified domain), `SITE_URL`.
+
+The site picks up the function URL from `VITE_SUPABASE_URL`, which Lovable Cloud sets for you. To point the form somewhere else, set `VITE_FORM_ENDPOINT`. If neither is set, the form falls back to [FormSubmit](https://formsubmit.co).
 
 ## Hosting notes
 

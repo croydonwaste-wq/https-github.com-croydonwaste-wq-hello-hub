@@ -1,0 +1,4 @@
+# The website quote form posts here directly from the browser (a plain HTML form POST),
+# so the function must accept requests without a Supabase auth token.
+[functions.send-quote]
+verify_jwt = false

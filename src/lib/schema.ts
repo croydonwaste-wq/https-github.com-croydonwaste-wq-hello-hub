@@ -7,17 +7,20 @@ export const SITE_ID = `${business.domain}/#website`;
 
 type Json = Record<string, unknown>;
 
+/** Business-confirmed service area: 30 miles from Watford town centre. */
+const SERVICE_RADIUS = {
+  "@type": "GeoCircle",
+  geoMidpoint: { "@type": "GeoCoordinates", latitude: 51.6565, longitude: -0.3955 },
+  geoRadius: 48280,
+};
+
 /** LocalBusiness entity. Only verified fields are emitted (no fake address, ratings or prices). */
 export function localBusinessSchema(): Json {
   const areaServed = [
     { "@type": "City", name: "Watford" },
-    ...locations.map((l) => ({ "@type": "Place", name: l.town })),
+    ...locations.flatMap((l) => l.town.split(" & ")).map((name) => ({ "@type": "Place", name })),
     { "@type": "AdministrativeArea", name: "Hertfordshire" },
-    {
-      "@type": "GeoCircle",
-      geoMidpoint: { "@type": "GeoCoordinates", latitude: 51.6565, longitude: -0.3955 },
-      geoRadius: 48280, // 30 miles in metres — business-confirmed service radius
-    },
+    SERVICE_RADIUS,
   ];
   return {
     "@context": "https://schema.org",
@@ -87,7 +90,7 @@ export function serviceSchema(s: Service, areaName = "Watford"): Json {
     serviceType: s.name,
     description: s.answer,
     provider: { "@id": ORG_ID },
-    areaServed: [{ "@type": "City", name: areaName }, { "@type": "AdministrativeArea", name: "Hertfordshire" }],
+    areaServed: [{ "@type": "City", name: areaName }, SERVICE_RADIUS],
     url: absoluteUrl(`/${s.slug}/`),
     audience: s.customers.map((c) => ({ "@type": "Audience", audienceType: c })),
   };

@@ -9,7 +9,8 @@ import { services } from "@/data/services";
 import { locations } from "@/data/locations";
 import { guides } from "@/data/guides";
 
-export type AppRoute = { path: string; element: ReactElement; priority: number; changefreq: "weekly" | "monthly" | "yearly" };
+/** lastmod is only set where a real content date exists; a build date on every URL would be an inaccurate freshness signal. */
+export type AppRoute = { path: string; element: ReactElement; priority: number; changefreq: "weekly" | "monthly" | "yearly"; lastmod?: string };
 
 /** Every indexable URL. Used by the router, the prerenderer and the sitemap. */
 export const routes: AppRoute[] = [
@@ -23,7 +24,7 @@ export const routes: AppRoute[] = [
   { path: "/contact/", element: <Contact />, priority: 0.7, changefreq: "yearly" },
   { path: "/faqs/", element: <Faqs />, priority: 0.6, changefreq: "monthly" },
   { path: "/guides/", element: <GuidesHub />, priority: 0.5, changefreq: "monthly" },
-  ...guides.map((g) => ({ path: `/guides/${g.slug}/`, element: <GuidePage guide={g} />, priority: 0.6, changefreq: "monthly" as const })),
+  ...guides.map((g) => ({ path: `/guides/${g.slug}/`, element: <GuidePage guide={g} />, priority: 0.6, changefreq: "monthly" as const, lastmod: g.updated })),
   { path: "/privacy-policy/", element: <Privacy />, priority: 0.2, changefreq: "yearly" },
   { path: "/terms/", element: <Terms />, priority: 0.2, changefreq: "yearly" },
 ];

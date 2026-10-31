@@ -4,7 +4,7 @@ import { AnswerBox, ContentBlocks, CtaBand, FaqList, PageHero, ProcessSteps, Ser
 import { QuoteForm } from "@/components/QuoteForm";
 import { Illustration, serviceScene } from "@/components/Illustration";
 import { serviceBySlug } from "@/data/services";
-import { locations } from "@/data/locations";
+import { COVERAGE_RADIUS_MILES, locations } from "@/data/locations";
 import { guides } from "@/data/guides";
 import { withPhone, breadcrumbSchema, faqSchema, serviceSchema } from "@/lib/schema";
 import type { Service } from "@/data/types";
@@ -16,7 +16,11 @@ export default function ServicePage({ service: s }: { service: Service }) {
     { name: s.name, path: `/${s.slug}/` },
   ];
   const related = s.related.map(serviceBySlug).filter(Boolean) as Service[];
-  const areaLinks = locations.filter((l) => l.popular.includes(s.slug));
+  // Towns where this service is popular first, then the closest towns, so every service page shows coverage.
+  const areaLinks = [
+    ...locations.filter((l) => l.popular.includes(s.slug)),
+    ...locations.filter((l) => !l.popular.includes(s.slug)),
+  ].slice(0, 6);
   const relatedGuides = guides.filter((g) => g.related.includes(s.slug));
 
   return (
@@ -64,7 +68,8 @@ export default function ServicePage({ service: s }: { service: Service }) {
           </div>
           {areaLinks.length > 0 && (
             <div className="card p-6">
-              <h2 className="font-display text-lg font-bold text-navy-900">Popular nearby</h2>
+              <h2 className="font-display text-lg font-bold text-navy-900">Where we offer this</h2>
+              <p className="mt-2 text-sm text-ink-700">Across Watford and everywhere within {COVERAGE_RADIUS_MILES} miles, including:</p>
               <ul className="mt-3 space-y-2 text-sm">
                 {areaLinks.map((l) => (
                   <li key={l.slug}><Link to={`/${l.slug}/`} className="link">Clearances in {l.town}</Link></li>

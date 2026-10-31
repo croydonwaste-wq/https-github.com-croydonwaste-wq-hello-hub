@@ -22,11 +22,10 @@ for (const url of [...routeMeta.map((r) => r.path), ...utilityPaths, "/404/"]) {
   write(url, template.replace("<!--app-head-->", head).replace("<!--app-html-->", html));
 }
 
-const today = new Date().toISOString().slice(0, 10);
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${routeMeta
-  .map((r) => `  <url><loc>${DOMAIN}${r.path}</loc><lastmod>${today}</lastmod><changefreq>${r.changefreq}</changefreq><priority>${r.priority.toFixed(1)}</priority></url>`)
+  .map((r) => `  <url><loc>${DOMAIN}${r.path}</loc>${r.lastmod ? `<lastmod>${r.lastmod}</lastmod>` : ""}<changefreq>${r.changefreq}</changefreq><priority>${r.priority.toFixed(1)}</priority></url>`)
   .join("\n")}
 </urlset>
 `;

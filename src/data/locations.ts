@@ -104,7 +104,7 @@ export const locations: Location[] = [
       {
         h2: "Garden, garage and loft clear-outs",
         paras: [
-          "Croxley Green's semi-detached and detached homes tend to come with gardens, garages and lofts — which is where most of our work here comes from. We can combine green waste, a garage clear-out and a few bulky items into one collection.",
+          "Croxley Green's semi-detached and detached homes tend to come with gardens, garages and lofts — the spaces that most often need clearing. We can combine green waste, a garage clear-out and a few bulky items into one collection.",
         ],
       },
       {
@@ -143,7 +143,7 @@ export const locations: Location[] = [
       {
         h2: "Downsizing and larger-home clearances",
         paras: [
-          "Many of our Rickmansworth and Moor Park enquiries come from families downsizing from larger homes, where decades of contents, lofts and outbuildings need clearing before a sale. We work room by room so anything being kept, sold or given to family is set aside first.",
+          "Rickmansworth and Moor Park have many larger family homes, and downsizing from them often means decades of contents, lofts and outbuildings to clear before a sale. We work room by room so anything being kept, sold or given to family is set aside first.",
         ],
       },
       {
@@ -422,7 +422,7 @@ export const locations: Location[] = [
       {
         h2: "New Town homes and gardens",
         paras: [
-          "Much of Hemel Hempstead was built as a post-war New Town, organised into neighbourhoods of family houses with gardens, garages and lofts. That makes garden clearances, garage clear-outs and furniture collections the most common jobs here — often combined into a single visit.",
+          "Much of Hemel Hempstead was built as a post-war New Town, organised into neighbourhoods of family houses with gardens, garages and lofts. That makes garden clearances, garage clear-outs and furniture collections typical jobs here — and they can often be combined into a single visit.",
           "Hemel sits in Dacorum, so council bulky collection rules differ from Watford's. If what you need to get rid of doesn't fit the council service — too many items, sofas, electricals or items inside the house — a private collection takes the lot in one go.",
         ],
       },
@@ -558,7 +558,7 @@ export const locations: Location[] = [
       {
         h2: "Larger homes and Chiltern gardens",
         paras: [
-          "Homes around Amersham, Chesham Bois and the Chalfonts often have big, mature gardens and outbuildings — so hedge and tree cuttings, old sheds and summerhouses, and garage clear-outs make up much of our work here. Combining them into one visit keeps costs down.",
+          "Homes around Amersham, Chesham Bois and the Chalfonts often have big, mature gardens and outbuildings — so hedge and tree cuttings, old sheds and summerhouses, and garage clear-outs are typical jobs here. Combining them into one visit keeps costs down.",
         ],
       },
       {
@@ -603,7 +603,7 @@ export const locations: Location[] = [
       {
         h2: "Rented homes, flats and student lets",
         paras: [
-          "Luton has a large private rented sector, including shared houses and student lets near the university. That makes end of tenancy clearances, mattress and furniture collections and overflowing bin clear-ups some of our most frequent jobs here — often booked by landlords and agents on account.",
+          "Luton has a large private rented sector, including shared houses and student lets near the university. That makes end of tenancy clearances, mattress and furniture collections and overflowing bin clear-ups common needs here — and landlords and agents can book them on account.",
         ],
       },
       {
@@ -648,7 +648,7 @@ export const locations: Location[] = [
       {
         h2: "Stevenage New Town neighbourhoods",
         paras: [
-          "Stevenage was the first post-war New Town, built as neighbourhoods of family homes with gardens and garages. Garden clearances, garage clear-outs and furniture collections make up much of the work here, often combined into a single visit.",
+          "Stevenage was the first post-war New Town, built as neighbourhoods of family homes with gardens and garages. Garden clearances, garage clear-outs and furniture collections are typical jobs here, and can often be combined into a single visit.",
         ],
       },
       {
@@ -837,8 +837,9 @@ export const COVERAGE_RADIUS_MILES = 30;
 
 /** Further towns within the radius, listed on the Areas hub without standalone pages. */
 export const widerAreas: { region: string; towns: string[] }[] = [
-  { region: "Hertfordshire", towns: ["Hertford", "Welwyn Garden City", "Potters Bar", "Baldock", "Tring", "Redbourn", "Wheathampstead"] },
-  { region: "Bedfordshire", towns: ["Leighton Buzzard", "Houghton Regis", "Toddington", "Caddington"] },
-  { region: "Buckinghamshire", towns: ["Aylesbury", "Marlow", "Gerrards Cross", "Great Missenden", "Princes Risborough"] },
+  // Only towns without their own page (or a page that names them) are listed here, to avoid mixed signals.
+  { region: "Hertfordshire", towns: ["Hertford", "Ware", "Potters Bar", "Bovingdon"] },
+  { region: "Bedfordshire", towns: ["Leighton Buzzard"] },
+  { region: "Buckinghamshire", towns: ["Aylesbury", "Gerrards Cross", "Great Missenden", "Princes Risborough"] },
   { region: "North & West London", towns: ["Enfield", "Hendon", "Finchley", "Southgate", "Hampstead", "St John's Wood"] },
 ];

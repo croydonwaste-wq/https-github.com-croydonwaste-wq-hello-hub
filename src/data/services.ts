@@ -376,7 +376,7 @@ export const services: Service[] = [
       {
         h2: "Office clearances planned around your business",
         paras: [
-          "Most offices can't stop trading for a clearance. We can work early mornings, evenings or weekends by arrangement, clear floor by floor, and coordinate with building management on lifts, loading bays and parking.",
+          "Most offices can't stop trading for a clearance. Because we operate 24/7, we can work early mornings, evenings, overnight or at weekends, clear floor by floor, and coordinate with building management on lifts, loading bays and parking.",
         ],
       },
       {
@@ -398,7 +398,7 @@ export const services: Service[] = [
       },
     ],
     faqs: [
-      { q: "Can you clear our office outside working hours?", a: "Evening and weekend clearances can be arranged — tell us your preferred window when you ask for a quote." },
+      { q: "Can you clear our office outside working hours?", a: "Yes. We operate 24 hours a day, 7 days a week, so evening, overnight and weekend clearances are all possible — tell us your preferred window when you ask for a quote." },
       { q: "Do you provide a waste transfer note?", a: "Commercial waste needs a waste transfer note, and we will provide the paperwork for your records with the job." },
       { q: "What about confidential paper?", a: "Confidential documents should be shredded securely. Let us know the volume and we will advise on the right route before the clearance." },
     ],
@@ -713,7 +713,7 @@ export const services: Service[] = [
       {
         h2: "Schools, churches and halls",
         paras: [
-          "We regularly hear from organisations replacing an old instrument. Collections can be scheduled outside opening hours, including evenings and weekends, and invoiced to the organisation.",
+          "Schools, churches and community halls replacing an old instrument can book a collection too. Collections can be scheduled outside opening hours, including evenings and weekends, and invoiced to the organisation.",
         ],
       },
     ],

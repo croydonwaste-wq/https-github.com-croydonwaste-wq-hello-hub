@@ -87,7 +87,7 @@ export default function Home() {
           <h2 className="section-title">A local rubbish clearance company for Watford</h2>
           <div className="prose-site mt-4">
             <p>
-              {business.name} removes household, garden, bulky and business waste across Watford and the surrounding towns. We handle the heavy part — carrying items down stairs, out of lofts and through gardens — then sort what we collect so reusable items and recyclable materials stay out of landfill.
+              {business.name} removes household, garden, bulky and business waste across Watford and the surrounding towns. We handle the heavy part — carrying items down stairs, out of lofts and through gardens — then sort what we collect so reusable items and recyclable materials stay out of landfill. We're a licensed waste carrier with £5 million public liability cover, open 24/7, with <Link to="/same-day-rubbish-removal/">same-day rubbish removal</Link> available — <Link to="/about/">more about how we work</Link>.
             </p>
             <p>
               Think of it as a licensed man-and-van rubbish removal service, and a practical alternative to hiring a skip (<Link to="/guides/skip-hire-vs-rubbish-removal/">skip vs rubbish removal</Link>) or booking a council bulky collection: no permit, no waiting for a slot, no limit to three items, and nothing left sitting on your drive.

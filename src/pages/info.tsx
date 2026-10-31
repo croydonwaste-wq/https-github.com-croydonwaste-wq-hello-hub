@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { Seo } from "@/components/Seo";
 import { AnswerBox, ContentBlocks, CtaBand, FaqList, PageHero, ProcessSteps, TrustGrid } from "@/components/blocks";
 import { QuoteForm } from "@/components/QuoteForm";
@@ -6,8 +7,8 @@ import { Icon } from "@/components/Icon";
 import { LoadSizeGuide, WasteJourney } from "@/components/Graphics";
 import { Illustration } from "@/components/Illustration";
 import { business, mailtoHref, telHref, whatsappHref } from "@/data/business";
-import { services } from "@/data/services";
-import { locations } from "@/data/locations";
+import { serviceGroups, services } from "@/data/services";
+import { COVERAGE_RADIUS_MILES } from "@/data/locations";
 import { guides } from "@/data/guides";
 import { breadcrumbSchema, faqSchema, ORG_ID, localBusinessSchema } from "@/lib/schema";
 import type { Faq } from "@/data/types";
@@ -105,7 +106,7 @@ export function About() {
     <>
       <Seo
         title="About Us | Watford Rubbish Clearance"
-        description="About Watford Rubbish Clearance: a local rubbish removal and clearance company for Watford and Hertfordshire — how we work and how we dispose of waste."
+        description="About Watford Rubbish Clearance: a licensed waste carrier with £5m public liability, open 24/7 within 30 miles of Watford — and how we handle waste."
         path="/about/"
         schema={[aboutSchema, breadcrumbSchema(crumbs)]}
       />
@@ -165,6 +166,20 @@ export function About() {
   );
 }
 
+/** Shown when the quote form handler redirects back with ?sent=error (client-side only; the page is prerendered). */
+function SendErrorNotice() {
+  const { search } = useLocation();
+  const [failed, setFailed] = useState(false);
+  useEffect(() => setFailed(new URLSearchParams(search).get("sent") === "error"), [search]);
+  if (!failed) return null;
+  const tel = telHref();
+  return (
+    <p role="alert" className="mt-4 rounded-md border border-brick-500/40 bg-brick-500/10 px-4 py-3 text-sm font-medium text-ink-900">
+      Sorry — your request didn't go through. Please try again{tel ? <>, or call us on <a href={tel} className="font-semibold underline">{business.phone}</a></> : null}.
+    </p>
+  );
+}
+
 export function Contact() {
   const crumbs = [{ name: "Home", path: "/" }, { name: "Contact", path: "/contact/" }];
   const tel = telHref();
@@ -183,6 +198,7 @@ export function Contact() {
         <section id="quote" aria-labelledby="form-heading" className="card scroll-mt-28 p-6 md:p-8">
           <h2 id="form-heading" className="font-display text-2xl font-bold text-navy-900">Quote request</h2>
           <p className="mt-1 text-ink-700">Takes about a minute.</p>
+          <SendErrorNotice />
           <div className="mt-6"><QuoteForm /></div>
         </section>
         <aside className="space-y-5">
@@ -213,16 +229,20 @@ export function Contact() {
 export function Faqs() {
   const crumbs = [{ name: "Home", path: "/" }, { name: "FAQs", path: "/faqs/" }];
   const general: Faq[] = [
-    { q: "What areas do you cover?", a: `Watford and the surrounding towns including ${locations.map((l) => l.town).join(", ")}, and everywhere else within 30 miles of Watford town centre.` },
+    { q: "What areas do you cover?", a: `Everywhere within ${COVERAGE_RADIUS_MILES} miles of Watford town centre — including Bushey, Rickmansworth, Hemel Hempstead, St Albans, Hatfield, Luton, Stevenage, High Wycombe, Uxbridge, Harrow and Edgware. Our areas page lists every town.` },
     { q: "How do I book?", a: `Call ${business.phone} at any time, or use the quote form on any page. Once you're happy with the price, we agree a collection time.` },
     { q: "Do you offer same-day and out-of-hours collections?", a: "Yes. We operate 24 hours a day, 7 days a week and offer same-day collections — call early for the best choice of times." },
     { q: "Are you licensed and insured?", a: "Yes. We're a licensed waste carrier with £5 million public liability insurance." },
+    { q: "What do you need from me for a quote?", a: "Your name, phone number and postcode, what needs to go and where it is in the property (upstairs, loft, garden), plus any access issues such as stairs or parking. Photos are the quickest way to an accurate price — you can attach them to the quote form." },
+    { q: "Is the price fixed once I accept the quote?", a: "Yes, as long as the waste on the day matches what you described. If there's significantly more, or different items, we'll explain the revised price before loading and you decide whether to go ahead." },
+    { q: "What happens on collection day?", a: "We arrive at the agreed time, check the items against your quote, carry everything out from wherever it is, load the van and sweep up. The waste is then sorted for reuse, recycling or licensed disposal." },
     { q: "Do I need to be home?", a: "Not always. Many jobs are done with access arranged through a key holder, agent or key safe, as long as we've agreed exactly what's being removed." },
     { q: "Do you recycle?", a: "Yes. Waste is sorted so reusable items and recyclable materials are kept out of landfill wherever possible." },
     { q: "What can't you take?", a: "Asbestos, clinical waste, gas bottles, chemicals, liquid paints and other hazardous waste need specialist handling. Ask us and we'll point you in the right direction." },
     { q: "Do you provide paperwork?", a: "Yes — businesses need a waste transfer note for commercial waste, and householders can ask for a receipt showing our carrier details." },
   ];
-  const fromServices = services.slice(0, 6).flatMap((s) => s.faqs.slice(0, 1).map((f) => ({ ...f, slug: s.slug, name: s.name })));
+  // One representative question per service, grouped like the services hub, each linking to its page.
+  const fromServices = services.map((s) => ({ ...s.faqs[0], slug: s.slug, name: s.name, group: s.group }));
   return (
     <>
       <Seo
@@ -235,16 +255,21 @@ export function Faqs() {
       <div className="container space-y-14 py-14">
         <FaqList faqs={general} heading="General questions" />
         <section>
-          <h2 className="section-title">Service-specific questions</h2>
-          <ul className="mt-6 grid gap-5 md:grid-cols-2">
-            {fromServices.map((f) => (
-              <li key={f.q} className="card p-6">
-                <h3 className="font-display text-lg font-bold text-navy-900">{f.q}</h3>
-                <p className="mt-2 text-ink-700">{f.a}</p>
-                <Link to={`/${f.slug}/`} className="link mt-3 inline-block text-sm">More about {f.name.toLowerCase()}</Link>
-              </li>
-            ))}
-          </ul>
+          <h2 className="section-title">Questions by service</h2>
+          {serviceGroups.map((g) => (
+            <div key={g.key} className="mt-8">
+              <h3 className="eyebrow text-brick-600">{g.label}</h3>
+              <ul className="mt-4 grid gap-5 md:grid-cols-2">
+                {fromServices.filter((f) => f.group === g.key).map((f) => (
+                  <li key={f.slug} className="card p-6">
+                    <p className="font-display text-lg font-bold text-navy-900">{f.q}</p>
+                    <p className="mt-2 text-ink-700">{f.a}</p>
+                    <Link to={`/${f.slug}/`} className="link mt-3 inline-block text-sm">More about {f.name.toLowerCase()}</Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </section>
         <p className="text-ink-700">For more detail, see our <Link to="/pricing/" className="link">pricing page</Link> and <Link to="/guides/" className="link">guides</Link>, including <Link to={`/guides/${guides[0].slug}/`} className="link">{guides[0].title.toLowerCase()}</Link>.</p>
       </div>
