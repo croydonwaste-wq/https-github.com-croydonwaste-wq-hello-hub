@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { Seo } from "@/components/Seo";
 import { AnswerBox, ContentBlocks, CtaBand, FaqList, PageHero, ProcessSteps, TrustGrid } from "@/components/blocks";
 import { QuoteForm } from "@/components/QuoteForm";
@@ -165,6 +166,20 @@ export function About() {
   );
 }
 
+/** Shown when the quote form handler redirects back with ?sent=error (client-side only; the page is prerendered). */
+function SendErrorNotice() {
+  const { search } = useLocation();
+  const [failed, setFailed] = useState(false);
+  useEffect(() => setFailed(new URLSearchParams(search).get("sent") === "error"), [search]);
+  if (!failed) return null;
+  const tel = telHref();
+  return (
+    <p role="alert" className="mt-4 rounded-md border border-brick-500/40 bg-brick-500/10 px-4 py-3 text-sm font-medium text-ink-900">
+      Sorry — your request didn't go through. Please try again{tel ? <>, or call us on <a href={tel} className="font-semibold underline">{business.phone}</a></> : null}.
+    </p>
+  );
+}
+
 export function Contact() {
   const crumbs = [{ name: "Home", path: "/" }, { name: "Contact", path: "/contact/" }];
   const tel = telHref();
@@ -183,6 +198,7 @@ export function Contact() {
         <section id="quote" aria-labelledby="form-heading" className="card scroll-mt-28 p-6 md:p-8">
           <h2 id="form-heading" className="font-display text-2xl font-bold text-navy-900">Quote request</h2>
           <p className="mt-1 text-ink-700">Takes about a minute.</p>
+          <SendErrorNotice />
           <div className="mt-6"><QuoteForm /></div>
         </section>
         <aside className="space-y-5">
