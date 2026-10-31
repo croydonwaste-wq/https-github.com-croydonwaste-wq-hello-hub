@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef, useState, type ChangeEvent, type FormEvent } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { absoluteUrl, business, telHref } from "@/data/business";
 import { services } from "@/data/services";
 import { Icon } from "@/components/Icon";
@@ -50,6 +50,15 @@ const MAX_PHOTOS = 5;
 /** Fields shown on step 1 of the two-step quick form. */
 const STEP1: ErrorKey[] = ["service", "postcode", "photos"];
 
+/** Friendly text for the error codes the send-quote function returns. */
+const SEND_ERRORS: Record<string, string> = {
+  email_not_configured: "our email service isn't set up yet",
+  sender_domain_not_verified: "our sending address isn't verified yet",
+  resend_key_invalid: "our email service key was rejected",
+  missing_details: "some details were missing",
+};
+const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string | undefined;
+
 export function validateQuote(data: FormData, variant: Variant): Errors {
   const e: Errors = {};
   const v = (k: string) => String(data.get(k) ?? "").trim();
@@ -70,6 +79,8 @@ export function validateQuote(data: FormData, variant: Variant): Errors {
 export function QuoteForm({ variant = "full", defaultService = "", title }: { variant?: Variant; defaultService?: string; title?: string }) {
   const id = useId();
   const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const [sendError, setSendError] = useState<string | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const [errors, setErrors] = useState<Errors>({});
@@ -128,7 +139,28 @@ export function QuoteForm({ variant = "full", defaultService = "", title }: { va
       focusFirst(e);
       return;
     }
-    setSending(true); // let the browser submit the form normally
+    setSendError(null);
+    setSending(true);
+    // FormSubmit fallback: let the browser post the form normally.
+    if (business.formEndpoint.includes("formsubmit.co")) return;
+    // Our edge function: send in the background (with the public Supabase key, so the
+    // function's auth check can't block it) and show any problem right here.
+    ev.preventDefault();
+    const body = new FormData(ev.currentTarget);
+    const headers: Record<string, string> = { Accept: "application/json" };
+    if (SUPABASE_KEY) Object.assign(headers, { Authorization: `Bearer ${SUPABASE_KEY}`, apikey: SUPABASE_KEY });
+    fetch(business.formEndpoint, { method: "POST", body, headers })
+      .then(async (res) => {
+        const data = await res.json().catch(() => ({}) as { success?: boolean; error?: string });
+        if (res.ok && data.success !== false) return navigate("/thank-you/");
+        throw new Error(data.error || data.code || data.message || `http_${res.status}`);
+      })
+      .catch((e: unknown) => {
+        const code = e instanceof Error ? e.message : "network_error";
+        console.error("Quote form send failed:", code);
+        setSendError(code === "Failed to fetch" ? "network_error" : code);
+        setSending(false);
+      });
   }
 
   const field =
@@ -211,6 +243,14 @@ export function QuoteForm({ variant = "full", defaultService = "", title }: { va
       </label>
       {err("consent")}
     </div>
+  );
+
+  const sendErrorBox = sendError && (
+    <p role="alert" className={`rounded-md border border-brick-500/40 bg-brick-50 px-3.5 py-3 text-sm font-medium text-ink-900 ${compact ? "" : "sm:col-span-2"}`}>
+      Sorry — your request didn't go through{SEND_ERRORS[sendError] ? ` because ${SEND_ERRORS[sendError]}` : ""}. Please try again
+      {tel ? <> or call us on <a href={tel} className="font-semibold underline">{business.phone}</a></> : null}.
+      <span className="mt-1 block text-xs font-normal text-ink-500">Error code: {sendError}</span>
+    </p>
   );
 
   const submitBtn = (
@@ -321,6 +361,7 @@ export function QuoteForm({ variant = "full", defaultService = "", title }: { va
               <input id={fid("date")} name="preferred_date" type="date" className={field} />
             </div>
             {consentBox}
+            {sendErrorBox}
             <div className="flex gap-2">
               {stepped && (
                 <button type="button" onClick={() => setStep(1)} className="btn border border-ink-200 bg-white px-4 text-navy-900 hover:bg-navy-50" aria-label="Back to step 1">
@@ -399,6 +440,7 @@ export function QuoteForm({ variant = "full", defaultService = "", title }: { va
           </div>
           {photoPicker}
           {consentBox}
+          {sendErrorBox}
           <div className="sm:col-span-2">{submitBtn}</div>
         </>
       )}

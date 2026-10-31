@@ -169,14 +169,17 @@ export function About() {
 /** Shown when the quote form handler redirects back with ?sent=error (client-side only; the page is prerendered). */
 function SendErrorNotice() {
   const { search } = useLocation();
-  const [failed, setFailed] = useState(false);
-  useEffect(() => setFailed(new URLSearchParams(search).get("sent") === "error"), [search]);
+  const [failed, setFailed] = useState<string | null>(null);
+  useEffect(() => {
+    const q = new URLSearchParams(search);
+    setFailed(q.get("sent") === "error" ? q.get("code") || "unknown" : null);
+  }, [search]);
   if (!failed) return null;
   const tel = telHref();
   return (
     <p role="alert" className="mt-4 rounded-md border border-brick-500/40 bg-brick-500/10 px-4 py-3 text-sm font-medium text-ink-900">
       Sorry — your request didn't go through. Please try again{tel ? <>, or call us on <a href={tel} className="font-semibold underline">{business.phone}</a></> : null}.
-    </p>
+    <span className="mt-1 block text-xs font-normal text-ink-500">Error code: {failed}</span></p>
   );
 }
 
