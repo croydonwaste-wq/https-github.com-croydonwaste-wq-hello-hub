@@ -35,6 +35,7 @@ const FIELDS: [string, string][] = [
   ["preferred_date", "Preferred date"],
   ["preferred_time", "Preferred time"],
   ["details", "What needs removing"],
+  ["consent", "Consent to contact"],
 ];
 
 const CORS = {
@@ -197,7 +198,7 @@ Deno.serve(async (req) => {
 
   // 2) Automatic reply to the customer. A failure here must not lose the enquiry, so just log it.
   if (email) {
-    const summary = rows.filter(([k]) => k !== "Email");
+    const summary = rows.filter(([k]) => k !== "Email" && k !== "Consent to contact");
     try {
       await sendEmail({
         from: FROM,
