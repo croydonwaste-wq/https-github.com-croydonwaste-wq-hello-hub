@@ -1,6 +1,6 @@
 // Quote form handler: emails each website enquiry through Resend.
 //
-// - Sends the enquiry to the business inbox (QUOTE_TO_EMAIL) with a BCC (QUOTE_BCC_EMAIL).
+// - Sends the enquiry to the business inbox (QUOTE_TO_EMAIL), CC QUOTE_CC_EMAIL and BCC QUOTE_BCC_EMAIL.
 // - Sends the customer an automatic reply summarising their request, if they gave an email.
 // - Accepts the normal multipart form POST from the site (works without JavaScript, carries
 //   photo attachments) and redirects the visitor to /thank-you/.
@@ -9,12 +9,14 @@
 //   RESEND_API_KEY   required — the "re_…" API key from resend.com/api-keys
 //   QUOTE_FROM_EMAIL optional — sender on your Resend-verified domain
 //   QUOTE_TO_EMAIL   optional — where enquiries go
+//   QUOTE_CC_EMAIL   optional — visible copy of every enquiry (comma-separated for several)
 //   QUOTE_BCC_EMAIL  optional — blind copy of every enquiry (comma-separated for several)
 //   SITE_URL         optional — used for the thank-you redirect
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY") ?? "";
 const FROM = Deno.env.get("QUOTE_FROM_EMAIL") ?? "Watford Rubbish Clearance <quotes@watfordrubbishclearance.co.uk>";
 const TO = Deno.env.get("QUOTE_TO_EMAIL") ?? "hello@watfordrubbishclearance.co.uk";
+const CC = (Deno.env.get("QUOTE_CC_EMAIL") ?? "admin@reepro.co.uk").split(",").map((s) => s.trim()).filter(Boolean);
 const BCC = (Deno.env.get("QUOTE_BCC_EMAIL") ?? "info@croydonwaste.co.uk").split(",").map((s) => s.trim()).filter(Boolean);
 const SITE_URL = (Deno.env.get("SITE_URL") ?? "https://www.watfordrubbishclearance.co.uk").replace(/\/$/, "");
 
@@ -183,6 +185,7 @@ Deno.serve(async (req) => {
     await sendEmail({
       from: FROM,
       to: [TO],
+      cc: CC.length ? CC : undefined,
       bcc: BCC.length ? BCC : undefined,
       reply_to: email || undefined,
       subject,
