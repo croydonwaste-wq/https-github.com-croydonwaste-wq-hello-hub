@@ -35,6 +35,7 @@ const FIELDS: [string, string][] = [
   ["preferred_date", "Preferred date"],
   ["preferred_time", "Preferred time"],
   ["details", "What needs removing"],
+  ["consent", "Consent to contact"],
 ];
 
 const CORS = {
@@ -60,6 +61,8 @@ function siteOrigin(req: Request): string {
 }
 
 const redirect = (url: string) => new Response(null, { status: 303, headers: { ...CORS, Location: url } });
+const json = (status: number, body: Record<string, unknown>) =>
+  new Response(JSON.stringify(body), { status, headers: { ...CORS, "Content-Type": "application/json" } });
 
 // ---------- Branded email layout (table-based + inline styles so it renders in Gmail/Outlook/Apple Mail) ----------
 const C = { navy: "#0A1D3F", navy700: "#1E3F7A", navy50: "#F4F7FB", navy100: "#E6ECF6", red: "#C21D25", yellow: "#E9B949", ink: "#121826", ink700: "#374151", ink500: "#6B7280", line: "#E5E7EB" };
@@ -131,23 +134,28 @@ function toBase64(buf: ArrayBuffer) {
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: CORS });
   const origin = siteOrigin(req);
-  if (req.method !== "POST") return redirect(`${origin}/contact/`);
+  // The site submits with fetch and asks for JSON; a plain HTML form POST (no JavaScript) gets redirects.
+  const wantsJson = (req.headers.get("accept") ?? "").includes("application/json");
+  const ok = () => (wantsJson ? json(200, { success: true }) : redirect(`${origin}/thank-you/`));
+  const fail = (status: number, code: string) =>
+    wantsJson ? json(status, { success: false, error: code }) : redirect(`${origin}/contact/?sent=error&code=${code}`);
+  if (req.method !== "POST") return wantsJson ? json(405, { success: false, error: "method_not_allowed" }) : redirect(`${origin}/contact/`);
 
   let form: FormData;
   try {
     form = await req.formData();
   } catch {
-    return redirect(`${origin}/contact/?sent=error`);
+    return fail(400, "bad_form_data");
   }
 
   // Honeypot: bots fill the hidden field. Pretend it worked, send nothing.
-  if (String(form.get("_honey") ?? "").trim()) return redirect(`${origin}/thank-you/`);
+  if (String(form.get("_honey") ?? "").trim()) return ok();
 
   const v = (k: string) => String(form.get(k) ?? "").trim().slice(0, 4000);
   const name = v("name");
   const phone = v("phone");
   const email = EMAIL_RE.test(v("email")) ? v("email") : "";
-  if (name.length < 2 || phone.replace(/\D/g, "").length < 10) return redirect(`${origin}/contact/?sent=error`);
+  if (name.length < 2 || phone.replace(/\D/g, "").length < 10) return fail(400, "missing_details");
 
   const rows = FIELDS.map(([k, label]) => [label, k === "email" ? email : k === "postcode" ? v(k).toUpperCase() : v(k)] as [string, string]).filter(([, val]) => val);
   const page = v("page");
@@ -167,7 +175,7 @@ Deno.serve(async (req) => {
 
   if (!RESEND_API_KEY) {
     console.error("RESEND_API_KEY is not set");
-    return redirect(`${origin}/contact/?sent=error`);
+    return fail(500, "email_not_configured");
   }
 
   // 1) Enquiry to the business.
@@ -192,12 +200,18 @@ Deno.serve(async (req) => {
     });
   } catch (err) {
     console.error("Failed to send enquiry", err);
-    return redirect(`${origin}/contact/?sent=error`);
+    const msg = String(err);
+    // Surface the common Resend set-up problems as short codes the owner can act on.
+    const code = /domain is not verified|not verified/i.test(msg) ? "sender_domain_not_verified"
+      : /Resend 40[13]/.test(msg) ? "resend_key_invalid"
+      : /Resend 422/.test(msg) ? "resend_rejected"
+      : "email_send_failed";
+    return fail(502, code);
   }
 
   // 2) Automatic reply to the customer. A failure here must not lose the enquiry, so just log it.
   if (email) {
-    const summary = rows.filter(([k]) => k !== "Email");
+    const summary = rows.filter(([k]) => k !== "Email" && k !== "Consent to contact");
     try {
       await sendEmail({
         from: FROM,
@@ -227,5 +241,5 @@ ${button(TEL, `Call ${PHONE}`)}
     }
   }
 
-  return redirect(`${origin}/thank-you/`);
+  return ok();
 });
