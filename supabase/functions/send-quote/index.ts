@@ -61,13 +61,53 @@ function siteOrigin(req: Request): string {
 
 const redirect = (url: string) => new Response(null, { status: 303, headers: { ...CORS, Location: url } });
 
+// ---------- Branded email layout (table-based + inline styles so it renders in Gmail/Outlook/Apple Mail) ----------
+const C = { navy: "#0A1D3F", navy700: "#1E3F7A", navy50: "#F4F7FB", navy100: "#E6ECF6", red: "#C21D25", yellow: "#E9B949", ink: "#121826", ink700: "#374151", ink500: "#6B7280", line: "#E5E7EB" };
+const FONT = "'Manrope','Segoe UI',Helvetica,Arial,sans-serif";
+const TEL = `tel:+44${PHONE.replace(/\s/g, "").replace(/^0/, "")}`;
+const telOf = (p: string) => `tel:${p.replace(/[^\d+]/g, "").replace(/^0/, "+44")}`;
+
+function button(href: string, label: string, bg = C.red) {
+  return `<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:4px 0"><tr><td style="border-radius:6px;background:${bg}"><a href="${esc(href)}" style="display:inline-block;padding:13px 24px;font:700 15px ${FONT};color:#ffffff;text-decoration:none;border-radius:6px">${esc(label)}</a></td></tr></table>`;
+}
+
 function table(rows: [string, string][]) {
-  return `<table cellpadding="8" cellspacing="0" style="border-collapse:collapse;font:15px/1.45 Arial,sans-serif;color:#1a2433;width:100%;max-width:640px">${rows
+  return `<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-collapse:collapse;border:1px solid ${C.line};border-radius:8px">${rows
     .map(
-      ([k, v]) =>
-        `<tr><th align="left" valign="top" style="border-bottom:1px solid #e5e8ee;width:38%;color:#4a5568;font-weight:600">${esc(k)}</th><td style="border-bottom:1px solid #e5e8ee;white-space:pre-wrap">${esc(v)}</td></tr>`,
+      ([k, v], i) =>
+        `<tr style="background:${i % 2 ? "#ffffff" : C.navy50}"><td valign="top" style="padding:11px 14px;width:38%;font:600 13px ${FONT};color:${C.ink500};text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid ${C.line}">${esc(k)}</td><td valign="top" style="padding:11px 14px;font:15px/1.5 ${FONT};color:${C.ink};white-space:pre-wrap;border-bottom:1px solid ${C.line}">${esc(v)}</td></tr>`,
     )
     .join("")}</table>`;
+}
+
+/** Wraps content in the branded shell: logo header, red/yellow/blue accent bar, navy footer. */
+function layout({ preheader, eyebrow, heading, body }: { preheader: string; eyebrow: string; heading: string; body: string }) {
+  const site = SITE_URL.replace(/^https?:\/\//, "");
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><title>${esc(heading)}</title></head>
+<body style="margin:0;padding:0;background:${C.navy50}">
+<div style="display:none;max-height:0;overflow:hidden;opacity:0">${esc(preheader)}</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:${C.navy50}"><tr><td align="center" style="padding:24px 12px">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;background:#ffffff;border-radius:10px;overflow:hidden;border:1px solid ${C.navy100}">
+  <tr><td style="padding:20px 28px">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+      <td><a href="${SITE_URL}/"><img src="${SITE_URL}/email-logo.png" width="187" height="44" alt="${BUSINESS}" style="display:block;border:0"></a></td>
+      <td align="right" style="font:700 12px ${FONT};color:${C.navy700}">Open 24/7<br><a href="${TEL}" style="color:${C.navy};text-decoration:none;font-size:15px">${PHONE}</a></td>
+    </tr></table>
+  </td></tr>
+  <tr><td style="font-size:0;line-height:0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td height="4" width="34%" style="background:${C.red}"></td><td height="4" width="33%" style="background:${C.yellow}"></td><td height="4" width="33%" style="background:${C.navy700}"></td></tr></table></td></tr>
+  <tr><td style="background:${C.navy};padding:26px 28px">
+    <div style="font:700 11px ${FONT};letter-spacing:.16em;text-transform:uppercase;color:${C.yellow}">${esc(eyebrow)}</div>
+    <div style="margin-top:6px;font:800 24px/1.25 ${FONT};color:#ffffff">${esc(heading)}</div>
+  </td></tr>
+  <tr><td style="padding:26px 28px;font:15px/1.6 ${FONT};color:${C.ink700}">${body}</td></tr>
+  <tr><td style="background:${C.navy};padding:22px 28px;font:13px/1.6 ${FONT};color:#C9D5EA">
+    <div style="font:700 15px ${FONT};color:#ffffff">${BUSINESS}</div>
+    <div style="margin-top:4px">Rubbish removal &amp; clearance across Watford and Hertfordshire</div>
+    <div style="margin-top:10px"><a href="${TEL}" style="color:${C.yellow};text-decoration:none;font-weight:700">${PHONE}</a> &nbsp;·&nbsp; <a href="mailto:${TO}" style="color:#ffffff;text-decoration:none">${TO}</a> &nbsp;·&nbsp; <a href="${SITE_URL}/" style="color:#ffffff;text-decoration:none">${site}</a></div>
+    <div style="margin-top:10px;font-size:12px;color:#8FA3C7">Open 24/7 &nbsp;·&nbsp; Same-day collections &nbsp;·&nbsp; Licensed waste carrier &nbsp;·&nbsp; £5 million public liability</div>
+  </td></tr>
+</table>
+</td></tr></table></body></html>`;
 }
 
 const text = (rows: [string, string][]) => rows.map(([k, v]) => `${k}: ${v}`).join("\n");
@@ -109,7 +149,7 @@ Deno.serve(async (req) => {
   const email = EMAIL_RE.test(v("email")) ? v("email") : "";
   if (name.length < 2 || phone.replace(/\D/g, "").length < 10) return redirect(`${origin}/contact/?sent=error`);
 
-  const rows = FIELDS.map(([k, label]) => [label, k === "email" ? email : v(k)] as [string, string]).filter(([, val]) => val);
+  const rows = FIELDS.map(([k, label]) => [label, k === "email" ? email : k === "postcode" ? v(k).toUpperCase() : v(k)] as [string, string]).filter(([, val]) => val);
   const page = v("page");
 
   // Photos (full form only).
@@ -138,7 +178,15 @@ Deno.serve(async (req) => {
       bcc: BCC.length ? BCC : undefined,
       reply_to: email || undefined,
       subject,
-      html: `<div style="font:15px/1.5 Arial,sans-serif;color:#1a2433"><h2 style="margin:0 0 12px">New ${kind.toLowerCase()} from the website</h2>${table(rows)}<p style="color:#4a5568;font-size:13px">Sent from ${esc(origin + page)}${attachments.length ? ` · ${attachments.length} photo(s) attached` : ""}${files.length > attachments.length ? ` · ${files.length - attachments.length} photo(s) skipped (over 10MB)` : ""}${email ? " · Reply to this email to answer the customer directly." : ""}</p></div>`,
+      html: layout({
+        preheader: `${name} · ${phone}${v("postcode") ? ` · ${v("postcode").toUpperCase()}` : ""} — ${v("service") || "Rubbish removal"}`,
+        eyebrow: `New ${kind.toLowerCase()} · website`,
+        heading: `${name}${v("postcode") ? ` · ${v("postcode").toUpperCase()}` : ""}`,
+        body: `<p style="margin:0 0 16px"><strong style="color:${C.ink}">${esc(v("service") || "Rubbish removal")}</strong>${v("load_size") ? ` — ${esc(v("load_size"))}` : ""}</p>
+<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right:10px">${button(telOf(phone), `Call ${phone}`)}</td>${email ? `<td>${button(`mailto:${email}?subject=${encodeURIComponent(`Your quote from ${BUSINESS}`)}`, "Email customer", C.navy)}</td>` : ""}</tr></table>
+<div style="height:20px"></div>${table(rows)}
+<p style="margin:18px 0 0;font-size:13px;color:${C.ink500}">Sent from <a href="${esc(origin + page)}" style="color:${C.navy700}">${esc(origin.replace(/^https?:\/\//, "") + page)}</a>${attachments.length ? ` · <strong>${attachments.length} photo(s) attached</strong>` : ""}${files.length > attachments.length ? ` · ${files.length - attachments.length} photo(s) skipped (over 10MB)` : ""}${email ? " · Reply to this email to answer the customer directly." : " · No email given — please call the customer."}</p>`,
+      }),
       text: `New ${kind.toLowerCase()} from the website\n\n${text(rows)}\n\nSent from ${origin + page}`,
       attachments: attachments.length ? attachments : undefined,
     });
@@ -156,16 +204,22 @@ Deno.serve(async (req) => {
         to: [email],
         reply_to: TO,
         subject: `We've received your quote request – ${BUSINESS}`,
-        html: `<div style="font:15px/1.6 Arial,sans-serif;color:#1a2433;max-width:640px">
-<p>Hi ${esc(name.split(" ")[0])},</p>
-<p>Thank you for your quote request with ${BUSINESS}. We've received your details and a member of our team will be in contact in due course with your price.</p>
-<p><strong>Here's a summary of what you sent us:</strong></p>
+        html: layout({
+          preheader: "Thanks — we've got your request. A member of our team will be in contact in due course.",
+          eyebrow: "Quote request received",
+          heading: `Thanks, ${name.split(" ")[0]} — we've got your request`,
+          body: `<p style="margin:0 0 14px">Thank you for your quote request with ${BUSINESS}. We've received your details and <strong style="color:${C.ink}">a member of our team will be in contact in due course</strong> with your price.</p>
+<p style="margin:0 0 10px;font:800 13px ${FONT};letter-spacing:.08em;text-transform:uppercase;color:${C.navy}">Your request</p>
 ${table(summary)}
-${attachments.length ? `<p>We also received ${attachments.length} photo(s).</p>` : "<p>Photos help us price accurately — just reply to this email with a few pictures if you can.</p>"}
-<p>Need it gone today? Call us on <a href="tel:+44${PHONE.replace(/\s/g, "").replace(/^0/, "")}">${PHONE}</a> — we're open 24 hours, 7 days a week.</p>
-<p>Kind regards,<br>The ${BUSINESS} team<br><a href="${SITE_URL}/">${SITE_URL.replace(/^https?:\/\//, "")}</a></p>
-<p style="color:#6b7280;font-size:12px">You're receiving this because a quote was requested on our website using this email address. If this wasn't you, please ignore this email.</p>
-</div>`,
+<p style="margin:18px 0">${attachments.length ? `We also received ${attachments.length} photo(s) — thank you, they help us price accurately.` : "Photos help us price accurately — just reply to this email with a few pictures if you can."}</p>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:${C.navy50};border-left:4px solid ${C.yellow};border-radius:6px"><tr><td style="padding:16px 18px">
+<div style="font:700 15px ${FONT};color:${C.navy}">Need it gone today?</div>
+<div style="margin:4px 0 12px;color:${C.ink700}">We're open 24 hours, 7 days a week, with same-day collections available.</div>
+${button(TEL, `Call ${PHONE}`)}
+</td></tr></table>
+<p style="margin:22px 0 0">Kind regards,<br><strong style="color:${C.ink}">The ${BUSINESS} team</strong></p>
+<p style="margin:20px 0 0;font-size:12px;color:${C.ink500}">You're receiving this because a quote was requested on our website using this email address. If this wasn't you, please ignore this email.</p>`,
+        }),
         text: `Hi ${name.split(" ")[0]},\n\nThank you for your quote request with ${BUSINESS}. We've received your details and a member of our team will be in contact in due course with your price.\n\nSummary of your request:\n${text(summary)}\n\nNeed it gone today? Call ${PHONE} — we're open 24/7.\n\nKind regards,\nThe ${BUSINESS} team\n${SITE_URL}/`,
       });
     } catch (err) {
