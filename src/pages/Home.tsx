@@ -48,7 +48,7 @@ export default function Home() {
   return (
     <>
       <Seo
-        title="Rubbish Removal & Clearance Watford | Watford Rubbish Clearance"
+        title="Rubbish Removal & Clearance Watford | Open 24/7"
         description="Rubbish removal & clearances in Watford, open 24/7 with same-day collections. Houses, gardens, offices, sofas & fridges. Call 01293 549164 for a free quote."
         path="/"
         schema={[localBusinessSchema(), websiteSchema(), faqSchema(homeFaqs)]}

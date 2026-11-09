@@ -35,8 +35,8 @@ for (const f of files) {
   const p = (m) => problems.push(`${url}: ${m}`);
 
   if (!title) p("missing <title>");
-  if (title.length > 65) p(`title ${title.length} chars: ${title}`);
-  if (desc.length < 110 || desc.length > 165) p(`description ${desc.length} chars`);
+  if (title.length > 60) p(`title ${title.length} chars: ${title}`);
+  if (desc.length < 110 || desc.length > 160) p(`description ${desc.length} chars`);
   if (canonical !== DOMAIN + url) p(`canonical ${canonical}`);
   if (/<meta[^>]*name="robots"[^>]*noindex/.test(html)) p("indexable page carries noindex");
   // Any absolute link to our own site (og:url, og:image, JSON-LD @id/url, logo) must use the canonical
@@ -57,7 +57,7 @@ for (const f of files) {
   if (firstH3 !== -1 && (firstH2 === -1 || firstH3 < firstH2) && url !== "/") p("h3 before first h2");
   for (const m of html.matchAll(/href="(\/[^"#?]*)/g)) {
     const href = m[1];
-    if (/\.(svg|png|xml|txt|css|js)$/.test(href) || href.startsWith("/assets/")) continue;
+    if (/\.(svg|png|ico|xml|txt|css|js)$/.test(href) || href.startsWith("/assets/")) continue;
     if (!pages.has(href)) p(`broken internal link ${href}`);
     else if (href !== url) inbound.set(href, inbound.get(href) + 1);
   }

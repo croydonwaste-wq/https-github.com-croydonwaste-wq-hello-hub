@@ -49,3 +49,16 @@ The canonical said "use www", the server said "use non-www". Google could not in
 **What will still show (and is fine):** non-www URLs and slashless URLs will keep appearing under "Page with redirect" and "Alternate page with proper canonical tag". Those reports list URLs Google *chose not* to index because a better version exists. They are only a problem when the URLs you want indexed are in them, which is what this fix addresses.
 
 **If the primary domain ever changes:** change `business.domain` in the same release. The hosting's primary domain and `business.domain` must always match.
+
+## Follow-up audit fixes (9 November 2026)
+
+A full crawl of the live site (52 pages, 20 crawler user-agents, Lighthouse, rendered vs non-JS HTML) found no blockers. These smaller issues were fixed:
+
+| Issue found on the live site | Fix |
+|---|---|
+| On 32 pages, the host injected `twitter:title`/`twitter:description` with "&" double-encoded (`&amp;amp;`), so X/Twitter previews read "Full &amp; Part…" | `Seo.tsx` now outputs its own `twitter:title`, `twitter:description` and `twitter:image`. **Check after publishing** that the live HTML has a single, correctly encoded `twitter:title` per page |
+| `/favicon.ico` returned 404 | `public/favicon.ico` (16/32/48 px, generated from `favicon.svg`) and linked in `index.html` |
+| `/House-Clearance/` served HTML with canonical `/`, but after JavaScript rendered the page with canonical `/house-clearance/` (conflicting signals) | Routes are case-sensitive, so wrong-case URLs render the noindexed 404 |
+| 18 titles over 60 characters, 7 descriptions over 160 | Shortened, primary keyword kept first. `npm run qa` now fails at 60 / 160 |
+
+Not fixable in code (host settings, raise with Lovable): non-www redirects are 302 rather than 301, and unknown URLs return 200 with the homepage HTML (they render as a noindexed "Page not found").

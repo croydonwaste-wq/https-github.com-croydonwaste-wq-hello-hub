@@ -21,7 +21,7 @@ export function ServicesHub() {
   return (
     <>
       <Seo
-        title="Rubbish Clearance Services in Watford | Watford Rubbish Clearance"
+        title="Rubbish Clearance Services in Watford & Hertfordshire"
         description="All our clearance services within 30 miles of Watford — house, hoarder and office clearances, sofas, hot tubs, pianos, trade bins. Call 01293 549164."
         path="/services/"
         schema={[itemList, breadcrumbSchema(crumbs)]}
@@ -116,7 +116,7 @@ export function GuidesHub() {
     <>
       <Seo
         title="Rubbish Removal Guides & Advice | Watford Rubbish Clearance"
-        description="Practical guides on getting rid of rubbish legally in Watford: checking waste carrier licences, council vs private collections, and clearing a home after a death."
+        description="Guides to getting rid of rubbish legally in Watford: checking waste carrier licences, council vs private collections, and clearing a home after a death."
         path="/guides/"
         schema={[breadcrumbSchema(crumbs)]}
       />
