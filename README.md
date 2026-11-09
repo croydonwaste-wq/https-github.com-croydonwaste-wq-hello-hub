@@ -22,6 +22,10 @@ npm run build        # client build + SSR prerender of all routes, sitemap.xml, 
 npm run qa           # static SEO/link QA over dist/ (run after build)
 ```
 
+```bash
+npm run check:live   # after publishing: redirects, canonicals, noindex, bot access on the live site
+```
+
 ## Where things live
 
 | What | File |
@@ -56,5 +60,5 @@ The site picks up the function URL from `VITE_SUPABASE_URL`, which Lovable Cloud
 
 ## Hosting notes
 
-- Serve `dist/` as static files; `dist/404.html` should be returned with status 404 for unknown paths.
-- Redirect `http://` and non-`www` to `https://www.watfordrubbishclearance.co.uk`.
+- The canonical domain is `https://www.watfordrubbishclearance.co.uk`, set once in `src/data/business.ts`. It **must** match the hosting's primary domain (www is primary in Lovable; non-`www` and `http` redirect to it). Canonicals, sitemap, robots.txt and schema are all built from it. If the primary domain is ever changed in the hosting settings, change `business.domain` in the same release. See [`docs/INDEXING-AUDIT.md`](docs/INDEXING-AUDIT.md).
+- Serve `dist/` as static files; ideally `dist/404.html` is returned with status 404 for unknown paths (Lovable hosting returns the homepage HTML with 200, which the app then renders as a noindexed "Page not found").

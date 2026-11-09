@@ -209,7 +209,7 @@ export const locations: Location[] = [
     town: "Kings Langley",
     county: "Hertfordshire",
     h1: "Rubbish Removal in Kings Langley",
-    metaTitle: "Rubbish Removal Kings Langley | Clearances & Waste Collection",
+    metaTitle: "Rubbish Removal Kings Langley | Clearances & Collections",
     metaDescription:
       "Rubbish removal and clearances in Kings Langley and Hunton Bridge — garden waste, furniture, garage and house clearances. Request a free quote today.",
     lead: "Household and garden waste removal, garage clear-outs and house clearances in Kings Langley and the surrounding WD4 villages.",
@@ -293,7 +293,7 @@ export const locations: Location[] = [
     town: "Harpenden",
     county: "Hertfordshire",
     h1: "Rubbish Removal in Harpenden",
-    metaTitle: "Rubbish Removal Harpenden | Garden, Garage & House Clearances",
+    metaTitle: "Rubbish Removal Harpenden | Garden & House Clearances",
     metaDescription:
       "Rubbish removal in Harpenden and Batford — garden waste, garage clear-outs, furniture and full house clearances. Licensed disposal. Request a free quote.",
     lead: "Garden waste, garage and loft clear-outs, furniture collections and house clearances across Harpenden, Batford and Kinsbourne Green.",
@@ -371,7 +371,7 @@ export const locations: Location[] = [
     town: "Berkhamsted",
     county: "Hertfordshire",
     h1: "Rubbish Removal in Berkhamsted & Tring",
-    metaTitle: "Rubbish Removal Berkhamsted & Tring | Clearances & Collections",
+    metaTitle: "Rubbish Removal Berkhamsted & Tring | Clearances",
     metaDescription:
       "Rubbish removal in Berkhamsted, Northchurch and Tring — house clearances, garden waste, furniture and builders waste. Licensed carrier. Request a free quote.",
     lead: "House clearances, garden waste, furniture collections and builders' rubbish across Berkhamsted, Northchurch and Tring.",
@@ -410,7 +410,7 @@ export const locations: Location[] = [
     town: "Hemel Hempstead",
     county: "Hertfordshire",
     h1: "Rubbish Removal in Hemel Hempstead",
-    metaTitle: "Rubbish Removal Hemel Hempstead | House & Business Clearances",
+    metaTitle: "Rubbish Removal Hemel Hempstead | Home & Office Clearance",
     metaDescription:
       "Rubbish removal in Hemel Hempstead — house, garden and office clearances, furniture and bulky waste. Open 24/7 with same-day collections. Call 01293 549164.",
     lead: "Household, garden and business waste cleared across Hemel Hempstead — from Boxmoor and the Old Town to Adeyfield, Leverstock Green and the Maylands business area.",
@@ -546,7 +546,7 @@ export const locations: Location[] = [
     town: "Amersham & Chesham",
     county: "Buckinghamshire",
     h1: "Rubbish Removal in Amersham & Chesham",
-    metaTitle: "Rubbish Removal Amersham & Chesham | House & Garden Clearances",
+    metaTitle: "Rubbish Removal Amersham & Chesham | Home & Garden Clearance",
     metaDescription:
       "Rubbish removal in Amersham, Chesham and Little Chalfont — house clearances, garden waste, furniture and garage clear-outs. Open 24/7. Call 01293 549164.",
     lead: "House clearances, garden waste, furniture collections and garage clear-outs across Amersham, Chesham, Little Chalfont and the surrounding Chiltern villages.",
@@ -591,7 +591,7 @@ export const locations: Location[] = [
     town: "Luton & Dunstable",
     county: "Bedfordshire",
     h1: "Rubbish Removal in Luton, Dunstable & Houghton Regis",
-    metaTitle: "Rubbish Removal Luton & Dunstable | House & Business Clearances",
+    metaTitle: "Rubbish Removal Luton & Dunstable | Home & Business",
     metaDescription:
       "Rubbish removal in Luton, Dunstable and Houghton Regis — house, flat and office clearances, bulky items and trade waste. Open 24/7. Call 01293 549164.",
     lead: "House and flat clearances, bulky item collections, end of tenancy clear-outs and trade waste across Luton, Dunstable, Houghton Regis and the surrounding villages.",
@@ -636,7 +636,7 @@ export const locations: Location[] = [
     town: "Stevenage & Hitchin",
     county: "Hertfordshire",
     h1: "Rubbish Removal in Stevenage, Hitchin & Letchworth",
-    metaTitle: "Rubbish Removal Stevenage & Hitchin | Waste Clearance Services",
+    metaTitle: "Rubbish Removal Stevenage & Hitchin | Waste Clearance",
     metaDescription:
       "Rubbish removal in Stevenage, Hitchin and Letchworth — house and garden clearances, furniture, office and trade waste. Open 24/7. Call 01293 549164.",
     lead: "Household clearances, garden waste, furniture collections and business waste across Stevenage, Hitchin, Letchworth Garden City and the surrounding North Hertfordshire villages.",
@@ -681,7 +681,7 @@ export const locations: Location[] = [
     town: "High Wycombe",
     county: "Buckinghamshire",
     h1: "Rubbish Removal in High Wycombe & Beaconsfield",
-    metaTitle: "Rubbish Removal High Wycombe | House, Garden & Trade Clearances",
+    metaTitle: "Rubbish Removal High Wycombe | House & Trade Clearances",
     metaDescription:
       "Rubbish removal in High Wycombe, Hazlemere and Beaconsfield — house clearances, furniture, garden and builders waste. Open 24/7. Call 01293 549164.",
     lead: "House clearances, furniture collections, garden waste and builders' rubbish across High Wycombe, Hazlemere, Beaconsfield and the surrounding Chiltern villages.",
@@ -726,7 +726,7 @@ export const locations: Location[] = [
     town: "Uxbridge & Ruislip",
     county: "North London",
     h1: "Rubbish Removal in Uxbridge, Ruislip & Hillingdon",
-    metaTitle: "Rubbish Removal Uxbridge & Ruislip | Hillingdon Waste Clearance",
+    metaTitle: "Rubbish Removal Uxbridge & Ruislip | Waste Clearance",
     metaDescription:
       "Rubbish removal in Uxbridge, Ruislip, Ickenham and Hillingdon — house and student-let clearances, furniture and garden waste. 24/7. Call 01293 549164.",
     lead: "House clearances, student-let and end of tenancy clear-outs, furniture and garden waste across Uxbridge, Ruislip, Ickenham, Hillingdon and Harefield.",

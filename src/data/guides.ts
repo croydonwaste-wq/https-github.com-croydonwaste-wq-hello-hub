@@ -68,7 +68,7 @@ export const guides: Guide[] = [
     slug: "check-waste-carrier-licence",
     title: "How to check a waste carrier licence",
     h1: "How to Check a Waste Carrier Licence (and Avoid a Fly-Tipping Fine)",
-    metaTitle: "How to Check a Waste Carrier Licence | Avoid Fly-Tipping Fines",
+    metaTitle: "How to Check a Waste Carrier Licence | Avoid Fines",
     metaDescription:
       "Householders can be fined if their rubbish is fly-tipped by an unlicensed collector. Here's how to check a waste carrier licence in England in two minutes.",
     lead: "If someone you pay to take your rubbish dumps it, you can be fined. Checking their licence takes two minutes — here's how.",
@@ -125,7 +125,7 @@ export const guides: Guide[] = [
     slug: "council-bulky-waste-vs-private-collection",
     title: "Council bulky waste vs private collection in Watford",
     h1: "Council Bulky Waste Collection vs Private Rubbish Removal in Watford",
-    metaTitle: "Watford Council Bulky Waste vs Private Collection | Which to Use",
+    metaTitle: "Council Bulky Waste vs Private Collection in Watford",
     metaDescription:
       "Should you book Watford council's bulky waste collection or a private rubbish removal company? A plain-English comparison of cost, items and timing.",
     lead: "Both options have their place. Here's an honest comparison so you can pick the right one for what you're getting rid of.",
@@ -176,7 +176,7 @@ export const guides: Guide[] = [
     slug: "clearing-a-house-after-a-bereavement",
     title: "Clearing a house after a bereavement",
     h1: "Clearing a Loved One's Home: A Practical Checklist",
-    metaTitle: "Clearing a House After a Death | Practical Checklist for Families",
+    metaTitle: "Clearing a House After a Death | Checklist for Families",
     metaDescription:
       "A practical, step-by-step checklist for families and executors clearing a parent's or relative's home after a death — from documents to the final handover.",
     lead: "There's no right speed for this. This checklist is here to make the practical side a little clearer.",

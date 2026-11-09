@@ -11,6 +11,13 @@ export const business = {
   /** Confirmed by the business: trades as Watford Rubbish Clearance. Add Ltd name / Companies House no. if incorporated. */
   legalName: null as string | null,
   companyNumber: null as string | null,
+  /**
+   * The ONE canonical origin. It must be the host the live site serves with a 200, not one that
+   * redirects: canonicals, og:url, JSON-LD, sitemap.xml and robots.txt are all built from it.
+   * www is the primary domain in the hosting (Lovable), which redirects non-www → www. If the
+   * primary domain is ever changed in the hosting settings, change this in the same release,
+   * rebuild, and resubmit the sitemap. `npm run check:live` verifies the two agree.
+   */
   domain: "https://www.watfordrubbishclearance.co.uk",
   email: "hello@watfordrubbishclearance.co.uk",
 

@@ -115,5 +115,5 @@ export function articleSchema(g: Guide): Json {
 export function withPhone(desc: string): string {
   if (!business.phone || desc.includes(business.phone)) return desc;
   const swapped = desc.replace(/\s*(?:(?:Request|Get|Ask for) (?:a |your )?(?:free|business)?[^.]*quote[^.]*|Free quotes?(?: on request)?)\.$/i, ` Call ${business.phone} 24/7.`);
-  return swapped.length <= 165 ? swapped : desc;
+  return swapped.length <= 160 ? swapped : desc;
 }
