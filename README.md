@@ -1,6 +1,6 @@
 # Watford Rubbish Clearance — website
 
-Local SEO-focused site for www.watfordrubbishclearance.co.uk. Built with Vite, React, TypeScript and Tailwind (the stack Lovable uses), with **every page prerendered to static HTML** at build time so search engines and AI crawlers get the full content, metadata and structured data without running JavaScript.
+Local SEO-focused site for watfordrubbishclearance.co.uk. Built with Vite, React, TypeScript and Tailwind (the stack Lovable uses), with **every page prerendered to static HTML** at build time so search engines and AI crawlers get the full content, metadata and structured data without running JavaScript.
 
 The strategy, keyword-to-URL map, do-not-create list, QA results and outstanding confirmations are in [`docs/SEO-STRATEGY.md`](docs/SEO-STRATEGY.md).
 
@@ -20,6 +20,10 @@ npm run build        # client build + SSR prerender of all routes, sitemap.xml, 
 
 ```bash
 npm run qa           # static SEO/link QA over dist/ (run after build)
+```
+
+```bash
+npm run check:live   # after publishing: redirects, canonicals, noindex, bot access on the live site
 ```
 
 ## Where things live
@@ -56,5 +60,5 @@ The site picks up the function URL from `VITE_SUPABASE_URL`, which Lovable Cloud
 
 ## Hosting notes
 
-- Serve `dist/` as static files; `dist/404.html` should be returned with status 404 for unknown paths.
-- Redirect `http://` and non-`www` to `https://www.watfordrubbishclearance.co.uk`.
+- The canonical domain is `https://watfordrubbishclearance.co.uk` (no `www`), set once in `src/data/business.ts`. It **must** match the hosting's primary domain: the host currently redirects `www` → non-`www`, so canonicals, sitemap, robots.txt and schema use non-`www`. If you ever make `www` primary in the hosting settings, change `business.domain` in the same release. See [`docs/INDEXING-AUDIT.md`](docs/INDEXING-AUDIT.md).
+- Serve `dist/` as static files; ideally `dist/404.html` is returned with status 404 for unknown paths (Lovable hosting returns the homepage HTML with 200, which the app then renders as a noindexed "Page not found").

@@ -4,7 +4,8 @@ import fs from "node:fs";
 import path from "node:path";
 
 const dist = path.resolve("dist");
-const DOMAIN = "https://www.watfordrubbishclearance.co.uk";
+// The canonical origin comes from the build (robots.txt is generated from src/data/business.ts).
+const DOMAIN = fs.readFileSync(path.join(dist, "robots.txt"), "utf8").match(/Sitemap: (https:\/\/[^/\s]+)/)[1];
 const files = [];
 (function walk(d) {
   for (const f of fs.readdirSync(d)) {
@@ -37,6 +38,12 @@ for (const f of files) {
   if (title.length > 65) p(`title ${title.length} chars: ${title}`);
   if (desc.length < 110 || desc.length > 165) p(`description ${desc.length} chars`);
   if (canonical !== DOMAIN + url) p(`canonical ${canonical}`);
+  if (/<meta[^>]*name="robots"[^>]*noindex/.test(html)) p("indexable page carries noindex");
+  // Any absolute link to our own site (og:url, og:image, JSON-LD @id/url, logo) must use the canonical
+  // origin; a www/non-www or http mismatch makes Google see redirects and "alternate" pages.
+  const host = DOMAIN.replace(/^https:\/\/(www\.)?/, "");
+  for (const m of html.matchAll(new RegExp(`https?://(?:www\\.)?${host.replace(/\./g, "\\.")}[^"'\\s<]*`, "g")))
+    if (!m[0].startsWith(DOMAIN + "/") && m[0] !== DOMAIN) p(`off-canonical self URL ${m[0]}`);
   if (h1.length !== 1) p(`${h1.length} H1s`);
   if (!sitemap.includes(url)) p("not in sitemap");
   if (/\{[A-Z_]+\}|LANDLINE|WHATSAPP|BUSINESS_ADDRESS/.test(html.replace(/<script type="module".*?<\/script>/g, ""))) p("placeholder text leaked");
@@ -61,6 +68,10 @@ for (const [label, map] of [["title", titles], ["description", descs], ["H1", h1
   for (const [v, urls] of map) if (urls.length > 1) problems.push(`duplicate ${label} "${v}" on ${urls.join(", ")}`);
 for (const [u, n] of inbound) if (n === 0 && u !== "/") problems.push(`${u}: orphan (no inbound links)`);
 for (const u of sitemap) if (!pages.has(u)) problems.push(`sitemap url without page ${u}`);
+const robots = fs.readFileSync(path.join(dist, "robots.txt"), "utf8");
+if (/^Disallow:\s*\/\s*$/m.test(robots)) problems.push("robots.txt blocks the whole site");
+if (!fs.existsSync(path.join(dist, "llms.txt"))) problems.push("llms.txt missing");
+if (fs.readFileSync(path.join(dist, "sitemap.xml"), "utf8").match(/<loc>/g).length !== sitemap.length || sitemap.some((u) => u.startsWith("http"))) problems.push("sitemap contains URLs outside the canonical origin");
 
 console.log(`Checked ${files.length} pages, ${sitemap.length} sitemap URLs.`);
 console.log(problems.length ? problems.join("\n") : "No problems found.");
