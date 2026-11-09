@@ -1,6 +1,6 @@
 # Watford Rubbish Clearance — website
 
-Local SEO-focused site for watfordrubbishclearance.co.uk. Built with Vite, React, TypeScript and Tailwind (the stack Lovable uses), with **every page prerendered to static HTML** at build time so search engines and AI crawlers get the full content, metadata and structured data without running JavaScript.
+Local SEO-focused site for www.watfordrubbishclearance.co.uk. Built with Vite, React, TypeScript and Tailwind (the stack Lovable uses), with **every page prerendered to static HTML** at build time so search engines and AI crawlers get the full content, metadata and structured data without running JavaScript.
 
 The strategy, keyword-to-URL map, do-not-create list, QA results and outstanding confirmations are in [`docs/SEO-STRATEGY.md`](docs/SEO-STRATEGY.md).
 
@@ -60,5 +60,5 @@ The site picks up the function URL from `VITE_SUPABASE_URL`, which Lovable Cloud
 
 ## Hosting notes
 
-- The canonical domain is `https://watfordrubbishclearance.co.uk` (no `www`), set once in `src/data/business.ts`. It **must** match the hosting's primary domain: the host currently redirects `www` → non-`www`, so canonicals, sitemap, robots.txt and schema use non-`www`. If you ever make `www` primary in the hosting settings, change `business.domain` in the same release. See [`docs/INDEXING-AUDIT.md`](docs/INDEXING-AUDIT.md).
+- The canonical domain is `https://www.watfordrubbishclearance.co.uk`, set once in `src/data/business.ts`. It **must** match the hosting's primary domain (www is primary in Lovable; non-`www` and `http` redirect to it). Canonicals, sitemap, robots.txt and schema are all built from it. If the primary domain is ever changed in the hosting settings, change `business.domain` in the same release. See [`docs/INDEXING-AUDIT.md`](docs/INDEXING-AUDIT.md).
 - Serve `dist/` as static files; ideally `dist/404.html` is returned with status 404 for unknown paths (Lovable hosting returns the homepage HTML with 200, which the app then renders as a noindexed "Page not found").

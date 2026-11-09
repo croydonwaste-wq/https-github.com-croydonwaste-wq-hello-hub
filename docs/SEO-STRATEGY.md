@@ -152,7 +152,7 @@ Full primary/secondary/long-tail lists for every page are stored alongside the c
 - **FormSubmit activation (one-off):** the first real enquiry triggers an activation email to hello@watfordrubbishclearance.co.uk. Click the link in it, and every enquiry after that arrives normally. Do one test submission from the live site after deploying. Also confirm that multiple photos arrive (the form allows several; check FormSubmit delivers all of them). To use Formspree, Web3Forms or a Lovable/Supabase function instead, set `VITE_FORM_ENDPOINT`.
 - Google Business Profile, Search Console (submit `sitemap.xml`), Bing Webmaster Tools.
 - Analytics (cookie-free option recommended, or add a consent banner).
-- Hosting: return `dist/404.html` with HTTP 404 for unknown URLs; redirect `www`/`http` to `https://watfordrubbishclearance.co.uk` (the canonical domain must match the host's primary domain; see `docs/INDEXING-AUDIT.md`).
+- Hosting: return `dist/404.html` with HTTP 404 for unknown URLs; redirect non-`www`/`http` to `https://www.watfordrubbishclearance.co.uk` (the canonical domain must match the host's primary domain; see `docs/INDEXING-AUDIT.md`).
 
 ## 10. QA findings
 
