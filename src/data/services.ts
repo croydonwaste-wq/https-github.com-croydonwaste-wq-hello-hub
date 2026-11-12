@@ -551,7 +551,7 @@ export const services: Service[] = [
     faqs: [
       { q: "Why is sofa removal more expensive than other furniture?", a: "Upholstered seating has to be separated and destroyed under the POPs rules, which costs more than general waste or wood recycling." },
       { q: "How much does sofa removal cost in Watford?", a: "It depends on the size and number of pieces (a corner sofa costs more than an armchair), access, and whether other items are going too. Send a photo and we'll give you a fixed price — see our pricing page for what affects the cost." },
-      { q: "Will the council take my sofa?", a: "Watford Borough Council's standard bulky waste service has excluded sofas and upholstered items, so check watford.gov.uk for the current position or book a private collection." },
+      { q: "Will the council take my sofa?", a: "Yes, if you live in Watford borough and can put it outside. When we checked watford.gov.uk on 12 November 2026, the council listed £57 for up to three sofas or upholstered items in one collection, left at the front of the property. A private collection suits sofas that need carrying out from inside, mixed loads or a short deadline. Check watford.gov.uk for current prices." },
       { q: "Can you take a sofa bed with the metal frame?", a: "Yes. Sofa beds are collected whole and handled as upholstered seating." },
     ],
     related: ["furniture-removal", "mattress-disposal", "bulky-waste-collection"],
@@ -739,19 +739,19 @@ export const services: Service[] = [
     h1: "Bulky Waste Collection in Watford",
     metaTitle: "Bulky Waste Collection Watford | Large Item Removal",
     metaDescription:
-      "Bulky waste collection in Watford — large items collected from inside your home, including sofas and electricals the council won't take. Call 01293 549164.",
+      "Bulky waste collection in Watford — sofas, appliances and mixed large items collected from inside your home, no item limit. Call 01293 549164.",
     lead:
       "Large household items that won't fit in your bin — furniture, appliances, sofas, carpets, bikes and exercise equipment — collected from wherever they are in the home.",
     answer:
-      "Bulky waste means large household items too big for normal bin collections. In Watford you can book the council's bulky collection for a limited number of eligible items left outside, or book a private licensed collector who can take mixed items, including electricals and sofas, from inside the property.",
+      "Bulky waste means large household items too big for normal bin collections. In Watford you can book the council's bulky collection for a limited number of items left outside, or book a private licensed collector who can take mixed items, including electricals and sofas, from inside the property in one visit.",
     cardText: "Large items the bin men won't take — collected from inside, mixed loads welcome.",
     takes: ["Furniture and sofas", "Washing machines and dryers", "Carpets and rugs", "Exercise equipment", "Bikes, prams and toys", "TVs and electricals"],
     blocks: [
       {
         h2: "Council bulky collection or a private collection?",
         paras: [
-          "At the time of writing, Watford Borough Council's bulky waste service listed £57 for up to three items, excluding electricals and sofas or other upholstered items, with items collected from outside the property. Prices and rules change, so check watford.gov.uk for the current details.",
-          "A private collection makes more sense when you have more than a few items, items the council excludes, items that need carrying out from upstairs, or a deadline the council's booking slots can't meet.",
+          "When we checked watford.gov.uk on 12 November 2026, Watford Borough Council listed separate bulky collections: £57 for up to three general items, £57 for up to three sofas or upholstered items, £57 per electrical item and £69.50 for an American fridge freezer, with items left at the front of the property. Prices and rules change, so check watford.gov.uk for the current details.",
+          "A private collection makes more sense when you have a mix of item types (which the council prices as separate collections), items that need carrying out from upstairs, or a deadline the council's booking slots can't meet.",
         ],
       },
       {
@@ -771,7 +771,7 @@ export const services: Service[] = [
     keywords: {
       primary: "bulky waste collection Watford",
       secondary: ["large item collection Watford", "bulky item removal Watford", "bulky rubbish collection Hertfordshire"],
-      longTail: ["Watford council bulky waste alternative", "bulky waste collection same week", "council won't take sofa Watford"],
+      longTail: ["Watford council bulky waste alternative", "bulky waste collection same week", "does Watford council collect sofas"],
     },
   },
   {

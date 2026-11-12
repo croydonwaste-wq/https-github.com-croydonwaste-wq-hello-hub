@@ -1,5 +1,6 @@
 import { business, absoluteUrl } from "@/data/business";
 import { locations } from "@/data/locations";
+import { services } from "@/data/services";
 import type { Faq, Service, Guide } from "@/data/types";
 
 export const ORG_ID = `${business.domain}/#business`;
@@ -48,8 +49,32 @@ export function localBusinessSchema(): Json {
       "Rubbish removal and clearance company serving Watford and Hertfordshire: house, office, garden and garage clearances, furniture, sofa, mattress and appliance collections, and builders and commercial waste.",
     areaServed,
     knowsAbout: ["Rubbish removal", "House clearance", "Waste collection", "Recycling", "Bulky waste collection"],
+    // Mirrors the service cards shown on the page. No prices: none are published.
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Rubbish removal and clearance services",
+      itemListElement: services.map((s) => ({
+        "@type": "Offer",
+        itemOffered: { "@type": "Service", "@id": `${absoluteUrl(`/${s.slug}/`)}#service`, name: s.name, url: absoluteUrl(`/${s.slug}/`) },
+      })),
+    },
     ...(business.sameAs.length ? { sameAs: business.sameAs } : {}),
     slogan: "Rubbish removal and clearances in Watford",
+  };
+}
+
+/** WebPage node tying a page to the site and the business entity. */
+export function webPageSchema(path: string, name: string, description: string): Json {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${absoluteUrl(path)}#webpage`,
+    url: absoluteUrl(path),
+    name,
+    description,
+    isPartOf: { "@id": SITE_ID },
+    about: { "@id": ORG_ID },
+    inLanguage: "en-GB",
   };
 }
 

@@ -423,7 +423,7 @@ export const locations: Location[] = [
         h2: "New Town homes and gardens",
         paras: [
           "Much of Hemel Hempstead was built as a post-war New Town, organised into neighbourhoods of family houses with gardens, garages and lofts. That makes garden clearances, garage clear-outs and furniture collections typical jobs here — and they can often be combined into a single visit.",
-          "Hemel sits in Dacorum, so council bulky collection rules differ from Watford's. If what you need to get rid of doesn't fit the council service — too many items, sofas, electricals or items inside the house — a private collection takes the lot in one go.",
+          "Hemel sits in Dacorum, so council bulky collection rules differ from Watford's. If what you need to get rid of doesn't fit the council service — a mixed load, items inside the house or a tight deadline — a private collection takes the lot in one go.",
         ],
       },
       {
