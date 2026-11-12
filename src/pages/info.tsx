@@ -60,7 +60,7 @@ export function Pricing() {
               {
                 h2: "How does a private collection compare with the council?",
                 paras: [
-                  "For one to three eligible items you can put outside, the council's bulky waste service is often the cheapest route — at the time of writing Watford Borough Council listed £57 for up to three items, excluding electricals and upholstered items (check watford.gov.uk for current prices). For mixed loads, excluded items, items inside the property or a deadline, a private collection is usually the practical choice.",
+                  "For a few items of one type that you can put outside, the council's bulky waste service is often the cheapest route. When we checked on 12 November 2026, Watford Borough Council listed £57 for up to three general items, £57 for up to three sofas or upholstered items, and £57 per electrical item, each as a separate collection (check watford.gov.uk for current prices). For mixed loads, items inside the property or a deadline, a private collection is usually the practical choice.",
                 ],
               },
               {
@@ -109,7 +109,7 @@ export function About() {
         path="/about/"
         schema={[aboutSchema, breadcrumbSchema(crumbs)]}
       />
-      <PageHero crumbs={crumbs} eyebrow="About us" h1="About Watford Rubbish Clearance" lead="A local clearance company for Watford and the surrounding towns — focused on doing the heavy lifting properly, pricing honestly and disposing of waste the right way." />
+      <PageHero crumbs={crumbs} eyebrow="About us" h1="About Watford Rubbish Clearance" lead="A clearance company serving Watford and the surrounding towns — focused on doing the heavy lifting properly, pricing honestly and disposing of waste the right way." />
       <div className="container grid gap-12 py-14 lg:grid-cols-[minmax(0,1fr)_340px]">
         <div className="min-w-0">
           <ContentBlocks

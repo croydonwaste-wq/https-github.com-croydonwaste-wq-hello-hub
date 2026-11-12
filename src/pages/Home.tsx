@@ -10,8 +10,33 @@ import { services, serviceGroups } from "@/data/services";
 import { locations, watfordAreas } from "@/data/locations";
 import { guides } from "@/data/guides";
 import { business } from "@/data/business";
-import { faqSchema, localBusinessSchema, websiteSchema } from "@/lib/schema";
+import { faqSchema, localBusinessSchema, webPageSchema, websiteSchema } from "@/lib/schema";
 import type { Faq } from "@/data/types";
+
+const TITLE = "Rubbish Removal & Clearance Watford | Watford Rubbish Clearance";
+const DESCRIPTION =
+  "Rubbish removal in Watford, open 24/7 with same-day collections. Licensed and £5m insured, and we do all the loading. Call 01293 549164.";
+
+/** Watford Borough Council bulky waste prices, as published at the source below on the date checked. */
+const COUNCIL_SOURCE = "https://www.watford.gov.uk/bulkywaste";
+const COUNCIL_CHECKED = "12 November 2026";
+const councilFacts = [
+  "£57 for up to three general bulky items",
+  "£57 for up to three sofas or upholstered items",
+  "£57 per electrical item; £69.50 for an American fridge freezer",
+  "Items left outside the front of the property",
+  "Booked through the council's contractor, Veolia",
+  "50% off for residents receiving council-related benefits",
+];
+const privateFacts = [
+  "Mixed items in one visit, priced on volume, item type and access",
+  "Collected from any room, loft, garage or garden",
+  "Open 24/7, with same-day collections available",
+  "Price agreed before any work starts",
+];
+
+/** Guides that help someone decide how to get rid of their rubbish. */
+const decisionGuides = ["council-bulky-waste-vs-private-collection", "skip-hire-vs-rubbish-removal", "check-waste-carrier-licence"];
 
 const homeFaqs: Faq[] = [
   {
@@ -31,6 +56,10 @@ const homeFaqs: Faq[] = [
     a: `All of Watford, including ${watfordAreas.slice(1, 7).join(", ")} and more — plus everywhere within 30 miles of Watford town centre, including Bushey, Hemel Hempstead, St Albans, Borehamwood, Harrow and Amersham.`,
   },
   {
+    q: "Will Watford council collect my sofa or fridge instead?",
+    a: `Usually, yes, if you live in Watford borough and can put it outside. When we checked watford.gov.uk on ${COUNCIL_CHECKED}, the council listed £57 for up to three sofas or upholstered items and £57 per electrical item, each booked as a separate collection. A private collection is usually more practical for mixed loads, items inside the property or a short deadline. Check watford.gov.uk for current prices.`,
+  },
+  {
     q: "Do I need to bring everything outside?",
     a: "No. We collect from wherever the rubbish is: upstairs rooms, lofts, garages, sheds and gardens.",
   },
@@ -48,10 +77,10 @@ export default function Home() {
   return (
     <>
       <Seo
-        title="Rubbish Removal & Clearance Watford | Watford Rubbish Clearance"
-        description="Rubbish removal & clearances in Watford, open 24/7 with same-day collections. Houses, gardens, offices, sofas & fridges. Call 01293 549164 for a free quote."
+        title={TITLE}
+        description={DESCRIPTION}
         path="/"
-        schema={[localBusinessSchema(), websiteSchema(), faqSchema(homeFaqs)]}
+        schema={[localBusinessSchema(), websiteSchema(), webPageSchema("/", TITLE, DESCRIPTION), faqSchema(homeFaqs)]}
       />
 
       {/* Hero */}
@@ -67,7 +96,7 @@ export default function Home() {
             <p className="mt-5 max-w-xl text-lg leading-relaxed text-navy-100">
               From a single sofa to a full house clearance — we carry it out, load it up and sort it for reuse and recycling. Homes, landlords and businesses across Watford and Hertfordshire.
             </p>
-            <ContactButtons tone="dark" className="mt-8" />
+            <ContactButtons tone="dark" className="mt-8" quoteHref="#quick-quote" />
             <HeroBadges />
           </div>
           <div id="quick-quote" className="scroll-mt-24">
@@ -84,7 +113,7 @@ export default function Home() {
       {/* Direct answer */}
       <section className="container grid gap-10 py-14 lg:grid-cols-[1fr_1fr] lg:items-start">
         <div>
-          <h2 className="section-title">A local rubbish clearance company for Watford</h2>
+          <h2 className="section-title">Rubbish clearance for Watford homes and businesses</h2>
           <div className="prose-site mt-4">
             <p>
               {business.name} removes household, garden, bulky and business waste across Watford and the surrounding towns. We handle the heavy part — carrying items down stairs, out of lofts and through gardens — then sort what we collect so reusable items and recyclable materials stay out of landfill. We're a licensed waste carrier with £5 million public liability cover, open 24/7, with <Link to="/same-day-rubbish-removal/">same-day rubbish removal</Link> available — <Link to="/about/">more about how we work</Link>.
@@ -147,13 +176,16 @@ export default function Home() {
           <div className="space-y-8">
             <CoverageMap />
             <div>
-            <h3 className="font-display text-lg font-bold text-navy-900">Nearby towns</h3>
+            <h3 className="font-display text-lg font-bold text-navy-900">Rubbish removal in nearby towns</h3>
             <ul className="mt-4 grid gap-3 sm:grid-cols-2">
               {locations.map((l) => (
                 <li key={l.slug}>
-                  <Link to={`/${l.slug}/`} className="card flex items-center justify-between px-4 py-3 font-semibold text-navy-900">
-                    Rubbish removal {l.town}
-                    <Icon name="arrow" className="h-4 w-4 text-brick-500" />
+                  <Link to={`/${l.slug}/`} className="card flex items-center justify-between gap-3 px-4 py-3">
+                    <span className="flex flex-col">
+                      <span className="font-semibold text-navy-900">{l.town}</span>
+                      <span className="text-xs text-ink-500">{l.county} · {l.postcodes.slice(0, 3).join(", ")}</span>
+                    </span>
+                    <Icon name="arrow" className="h-4 w-4 shrink-0 text-brick-500" />
                   </Link>
                 </li>
               ))}
@@ -161,6 +193,32 @@ export default function Home() {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* Local decision help: verified council facts */}
+      <section className="container py-16" aria-labelledby="council-heading">
+        <p className="eyebrow text-brick-600">Before you book</p>
+        <h2 id="council-heading" className="section-title mt-1">Watford council bulky collection or private rubbish removal?</h2>
+        <p className="mt-4 max-w-3xl leading-relaxed text-ink-700">
+          If you live in Watford borough, the council runs a paid bulky waste collection. For a few items of one type that you can put outside, it's often the cheapest option, and we'd rather you knew that. A private collection makes more sense for mixed loads, items inside the property or a short deadline.
+        </p>
+        <div className="mt-8 grid gap-5 md:grid-cols-2">
+          <div className="card p-6">
+            <h3 className="font-display text-lg font-bold text-navy-900">Watford Borough Council bulky collection</h3>
+            <ul className="tick-list text-ink-700">
+              {councilFacts.map((f) => <li key={f}>{f}</li>)}
+            </ul>
+          </div>
+          <div className="card border-navy-200 bg-navy-50 p-6">
+            <h3 className="font-display text-lg font-bold text-navy-900">A private collection from us</h3>
+            <ul className="tick-list text-ink-700">
+              {privateFacts.map((f) => <li key={f}>{f}</li>)}
+            </ul>
+          </div>
+        </div>
+        <p className="mt-5 text-sm leading-relaxed text-ink-500">
+          Council details from <a href={COUNCIL_SOURCE} className="link" target="_blank" rel="noopener">watford.gov.uk/bulkywaste</a>, checked {COUNCIL_CHECKED}. Prices change, so check before booking. Bushey is in Hertsmere, and South Oxhey, Carpenders Park, Croxley Green, Rickmansworth and Abbots Langley are in Three Rivers, so different council rules apply there. Full comparison: <Link to="/guides/council-bulky-waste-vs-private-collection/" className="link">council vs private collection in Watford</Link>.
+        </p>
       </section>
 
       <section className="container py-16"><WasteJourney /></section>
@@ -192,9 +250,9 @@ export default function Home() {
       {/* Guides */}
       <section className="bg-paper py-16">
         <div className="container">
-          <h2 className="section-title">Useful guides</h2>
+          <h2 className="section-title">Help deciding how to get rid of it</h2>
           <div className="mt-8 grid gap-5 md:grid-cols-3">
-            {guides.map((g) => (
+            {guides.filter((g) => decisionGuides.includes(g.slug)).map((g) => (
               <Link key={g.slug} to={`/guides/${g.slug}/`} className="card group p-6">
                 <Icon name="doc" className="h-7 w-7 text-navy-700" />
                 <h3 className="mt-3 font-display text-lg font-bold text-navy-900 group-hover:text-brick-600">{g.title}</h3>
@@ -217,7 +275,11 @@ export default function Home() {
         </div>
       </section>
 
-      <CtaBand heading="Ready to clear the clutter?" text="Get a free, no-obligation quote for rubbish removal anywhere in Watford." />
+      <CtaBand
+        heading="Need rubbish removed in Watford?"
+        text="We're open 24/7. Call, or send photos with the quote form, and we'll confirm the price before we start."
+        quoteHref="#quote"
+      />
     </>
   );
 }
