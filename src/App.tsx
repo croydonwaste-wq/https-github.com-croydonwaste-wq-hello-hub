@@ -23,11 +23,13 @@ export default function App() {
       <ScrollManager />
       <Routes>
         {routes.map((r) => (
-          <Route key={r.path} path={r.path} element={r.element} />
+          <Route key={r.path} path={r.path} caseSensitive element={r.element} />
         ))}
-        {/* Accept URLs without a trailing slash too; canonical tags point at the slashed version. */}
+        {/* Accept URLs without a trailing slash too; canonical tags point at the slashed version.
+            caseSensitive: /House-Clearance/ gets the noindexed 404 (as the host's fallback HTML already
+            implies) rather than a duplicate page whose rendered canonical contradicts its initial HTML. */}
         {routes.filter((r) => r.path !== "/").map((r) => (
-          <Route key={`${r.path}-noslash`} path={r.path.slice(0, -1)} element={r.element} />
+          <Route key={`${r.path}-noslash`} path={r.path.slice(0, -1)} caseSensitive element={r.element} />
         ))}
         <Route path="*" element={notFoundElement} />
       </Routes>

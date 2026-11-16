@@ -24,7 +24,11 @@ export function Seo({ title, description, path, schema = [], noindex = false, og
       <meta property="og:description" content={description} />
       <meta property="og:url" content={url} />
       <meta property="og:image" content={absoluteUrl("/og-image.png")} />
+      {/* Explicit twitter:* tags. Without them the host injects its own copies, double-encoding "&" as "&amp;amp;" in X/Twitter previews. */}
       <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={title} />
+      <meta name="twitter:description" content={description} />
+      <meta name="twitter:image" content={absoluteUrl("/og-image.png")} />
       {schema.map((s, i) => (
         <script key={i} type="application/ld+json">
           {JSON.stringify(s)}

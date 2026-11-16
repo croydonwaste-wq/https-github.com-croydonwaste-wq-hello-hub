@@ -80,7 +80,7 @@ export const services: Service[] = [
     h1: "House Clearance in Watford",
     metaTitle: "House Clearance Watford | Full & Part Property Clearances",
     metaDescription:
-      "Full and partial house clearances in Watford and across Hertfordshire. Loft-to-garden clearing, careful handling, reuse and recycling first. Request a free quote.",
+      "Full and partial house clearances in Watford and Hertfordshire. Loft-to-garden clearing, careful handling, reuse and recycling first. Request a free quote.",
     lead:
       "Full or partial clearances of houses, flats and bungalows — from a single packed room to a whole property, loft and garden included. We do the lifting, loading and responsible disposal so the property is left empty and ready for its next stage.",
     answer:
@@ -158,9 +158,9 @@ export const services: Service[] = [
     icon: "key",
     group: "home",
     h1: "End of Tenancy Clearance in Watford",
-    metaTitle: "End of Tenancy Clearance Watford | Landlords & Letting Agents",
+    metaTitle: "End of Tenancy Clearance Watford | Landlords & Agents",
     metaDescription:
-      "End of tenancy clearances in Watford for landlords, letting agents and tenants — left-behind furniture, rubbish and garden waste cleared fast. Call 01293 549164.",
+      "End of tenancy clearances in Watford for landlords, agents and tenants — left-behind furniture, rubbish and garden waste cleared fast. Call 01293 549164.",
     lead:
       "Tenants gone, belongings and rubbish left behind, new tenants due in. We clear flats, houses and HMOs between lets — furniture, mattresses, bags, white goods and garden waste — so your cleaner and inventory clerk can get in on time.",
     answer:
@@ -226,7 +226,7 @@ export const services: Service[] = [
     icon: "stack",
     group: "home",
     h1: "Hoarder House Clearance in Watford",
-    metaTitle: "Hoarder Clearance Watford | Discreet, Non-Judgemental Clearances",
+    metaTitle: "Hoarder Clearance Watford | Discreet & Non-Judgemental",
     metaDescription:
       "Discreet, non-judgemental hoarder house clearances in Watford and within 30 miles — for families, landlords, councils and support workers. Call 01293 549164.",
     lead:
@@ -358,7 +358,7 @@ export const services: Service[] = [
     h1: "Office Clearance in Watford",
     metaTitle: "Office Clearance Watford | Office Furniture & IT Removal",
     metaDescription:
-      "Office and commercial clearances in Watford and Hertfordshire — desks, chairs, IT equipment and strip-outs, scheduled around your business. Free quote on request.",
+      "Office and commercial clearances in Watford and Hertfordshire — desks, chairs, IT and strip-outs, scheduled around your business. Free quote on request.",
     lead:
       "Office moves, downsizes and end-of-lease exits — we clear desks, chairs, storage, kitchen appliances and old IT, scheduled around your trading hours so your team isn't disrupted.",
     answer:
@@ -469,7 +469,7 @@ export const services: Service[] = [
     h1: "Furniture Removal & Disposal in Watford",
     metaTitle: "Furniture Removal Watford | Old Furniture Collection",
     metaDescription:
-      "Old furniture collected from any room in Watford — wardrobes, beds, tables, desks and more. We carry it out, dismantle if needed and recycle. Free quotes.",
+      "Old furniture collected from any room in Watford — wardrobes, beds, tables, desks and more. We carry it out, dismantle and recycle. Free quotes.",
     lead:
       "Wardrobes, beds, chests of drawers, dining sets and desks collected from any room — we carry them out and dismantle if needed, so you don't have to.",
     answer:
@@ -518,7 +518,7 @@ export const services: Service[] = [
     h1: "Sofa Removal & Disposal in Watford",
     metaTitle: "Sofa Removal Watford | Old Sofa Collection (POPs Compliant)",
     metaDescription:
-      "Old sofa and armchair collection in Watford, handled under the POPs rules for upholstered seating. Corner sofas, recliners and sofa beds. Get a free quote.",
+      "Sofa and armchair collection in Watford, handled under the POPs rules for upholstered seating. Corner sofas, recliners and sofa beds. Get a free quote.",
     lead:
       "Corner sofas, recliners, sofa beds and armchairs collected from inside your home and disposed of correctly under the rules for upholstered seating.",
     answer:
@@ -928,7 +928,7 @@ export const services: Service[] = [
     icon: "bin",
     group: "home",
     h1: "Domestic Bin & Overflow Waste Collection in Watford",
-    metaTitle: "Domestic Bin Collection Watford | Overflow & Extra Waste Pickups",
+    metaTitle: "Domestic Bin Collection Watford | Extra Waste Pickups",
     metaDescription:
       "Extra household rubbish collections in Watford for overflowing bins, side waste and post-party clear-ups — one-off or regular. Call 01293 549164, 24/7.",
     lead:
@@ -986,7 +986,7 @@ export const services: Service[] = [
     icon: "handshake",
     group: "commercial",
     h1: "Contract & Account Waste Services in Watford",
-    metaTitle: "Waste Contracts & Trade Accounts Watford | Managed Collections",
+    metaTitle: "Waste Contracts & Trade Accounts Watford | Collections",
     metaDescription:
       "Waste contracts and trade accounts for agents, landlords, housing providers, facilities managers and trades within 30 miles of Watford. Call 01293 549164.",
     lead:

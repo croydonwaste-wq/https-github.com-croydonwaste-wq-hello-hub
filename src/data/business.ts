@@ -11,6 +11,13 @@ export const business = {
   /** Confirmed by the business: trades as Watford Rubbish Clearance. Add Ltd name / Companies House no. if incorporated. */
   legalName: null as string | null,
   companyNumber: null as string | null,
+  /**
+   * The ONE canonical origin. It must be the host the live site serves with a 200, not one that
+   * redirects: canonicals, og:url, JSON-LD, sitemap.xml and robots.txt are all built from it.
+   * www is the primary domain in the hosting (Lovable), which redirects non-www → www. If the
+   * primary domain is ever changed in the hosting settings, change this in the same release,
+   * rebuild, and resubmit the sitemap. `npm run check:live` verifies the two agree.
+   */
   domain: "https://www.watfordrubbishclearance.co.uk",
   email: "hello@watfordrubbishclearance.co.uk",
 
@@ -39,11 +46,14 @@ export const business = {
   sameAs: [] as string[],
 
   /**
-   * Quote form handler. Defaults to FormSubmit (no account needed: the first submission sends an
-   * activation email to `email`, which must be confirmed once). Override with VITE_FORM_ENDPOINT.
+   * Quote form handler. Uses the `send-quote` edge function (Resend: emails the enquiry to the
+   * business, BCCs head office and auto-replies to the customer) once Lovable Cloud / Supabase is
+   * connected (VITE_SUPABASE_URL). Override with VITE_FORM_ENDPOINT. Falls back to FormSubmit.
    */
   formEndpoint:
-    (import.meta.env.VITE_FORM_ENDPOINT as string | undefined) || "https://formsubmit.co/hello@watfordrubbishclearance.co.uk",
+    (import.meta.env.VITE_FORM_ENDPOINT as string | undefined) ||
+    (import.meta.env.VITE_SUPABASE_URL ? `${import.meta.env.VITE_SUPABASE_URL.replace(/\/$/, "")}/functions/v1/send-quote` : "") ||
+    "https://formsubmit.co/hello@watfordrubbishclearance.co.uk",
 } as const;
 
 export const hasPhone = () => Boolean(business.phone);

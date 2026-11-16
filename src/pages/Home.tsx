@@ -13,9 +13,9 @@ import { business } from "@/data/business";
 import { faqSchema, localBusinessSchema, webPageSchema, websiteSchema } from "@/lib/schema";
 import type { Faq } from "@/data/types";
 
-const TITLE = "Rubbish Removal & Clearance Watford | Watford Rubbish Clearance";
+const TITLE = "Rubbish Removal & Clearance Watford | Open 24/7";
 const DESCRIPTION =
-  "Rubbish removal in Watford, open 24/7 with same-day collections. Licensed and £5m insured, and we do all the loading. Call 01293 549164.";
+  "Rubbish removal & clearances in Watford, open 24/7 with same-day collections. Houses, gardens, offices, sofas & fridges. Call 01293 549164 for a free quote.";
 
 /** Watford Borough Council bulky waste prices, as published at the source below on the date checked. */
 const COUNCIL_SOURCE = "https://www.watford.gov.uk/bulkywaste";
