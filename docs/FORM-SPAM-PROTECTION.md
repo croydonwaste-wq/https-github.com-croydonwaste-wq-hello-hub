@@ -81,7 +81,7 @@ POST → method / content type / origin / size limit
 | Repeated characters, very low letter variety, all caps, mostly Cyrillic, message = name | 1–3 |
 | Bot-style names (`JqKzLwPd`, several digits) | 2–3 |
 | Disposable email domain | 3 |
-| Submitted in under 1.5s / under 4s / no timing | 4 / 2 / 1 |
+| Submitted in under 1.5s / under 4s / no timing (posted without the page's JavaScript) | 4 / 2 / 1 (3 in strict mode) |
 | No Origin or Referer header (scripted) | 2 |
 | Turnstile failed (monitor mode only) | 6 |
 | Same text from other connections: 1 / 2+ | 2 / 5 |
@@ -89,10 +89,12 @@ POST → method / content type / origin / size limit
 **Thresholds:** under 5 = **low**; 5–9 = **medium**; 10+ = **high** (`SPAM_MEDIUM_THRESHOLD`, `SPAM_HIGH_THRESHOLD`).
 
 - **Low:** delivered exactly as before (to, CC, BCC, auto-reply).
-- **Medium:** delivered with the subject `[Possible spam – please check]` and a note listing the reasons. Goes to `QUOTE_REVIEW_EMAIL` if set, otherwise to the main inbox with the usual copies. No auto-reply.
+- **Medium:** **strict mode (the default, chosen by the owner)** holds these for review exactly like high-risk ones. With `FORM_STRICT=false` (balanced), they're delivered with the subject `[Possible spam – please check]` and a note listing the reasons, to `QUOTE_REVIEW_EMAIL` if set, otherwise to the main inbox with the usual copies, and with no auto-reply.
 - **High:** not emailed. Saved to `form_quarantine` for 30 days and the sender sees normal success. **Safety net:** if the queue can't be saved (database down or migration not applied), it's emailed flagged instead, without CC/BCC, so a misjudged genuine enquiry is never lost.
 
 No single ordinary signal reaches medium. One link, the word "SEO", an autofilled form or JavaScript being off all stay low.
+
+**Strict mode trade-off:** a script posting straight to the function (no page JavaScript and no Origin header) now reaches 5 and is held, even with clean content. A real visitor with JavaScript off still sends an Origin header and stays low (tested). A genuine customer who trips two weak signals, for example "I came across your website" plus a very fast submit, may be held; check `form_quarantine` weekly. Set `FORM_STRICT=false` to go back to balanced.
 
 ---
 
@@ -108,7 +110,8 @@ Nothing below needs a code change. Until steps 1–2 are done, the new function 
    3. **Then** add the **secret key** as the function secret `TURNSTILE_SECRET_KEY`. Do it in this order: setting the secret before the site sends tokens would reject every enquiry. Optional: start with `TURNSTILE_MODE=monitor` for a week (failures are scored, not rejected), then remove it.
    4. Never commit the secret key. Keep it in Lovable Cloud → Secrets only.
 4. **Optional secrets:**
-   - `QUOTE_REVIEW_EMAIL`: separate inbox for "possible spam".
+   - `FORM_STRICT`: `false` switches to balanced mode (borderline enquiries delivered with a warning instead of held).
+   - `QUOTE_REVIEW_EMAIL`: separate inbox for "possible spam" (balanced mode, and the fallback when the review queue can't be saved).
    - `FORM_HASH_SALT`: any long random string; defaults to the service key.
    - `RATE_LIMIT_SHORT_MAX` (3), `RATE_LIMIT_SHORT_WINDOW_SEC` (600), `RATE_LIMIT_LONG_MAX` (10), `RATE_LIMIT_LONG_WINDOW_SEC` (3600), `DUPLICATE_WINDOW_SEC` (1800), `BULK_WINDOW_SEC` (86400), `SPAM_MEDIUM_THRESHOLD` (5), `SPAM_HIGH_THRESHOLD` (10), `FORM_ALLOWED_ORIGINS`, `TURNSTILE_HOSTNAMES`, `FORM_MAX_BODY_BYTES`.
 5. **After deploying:** send one real enquiry from the live site (phone and desktop) and confirm it arrives with its copies and the auto-reply.
@@ -135,7 +138,7 @@ Deletion is automatic, on every submission. None of these tables or functions ca
 
 ## 4. Testing
 
-`npm run test:forms` runs 42 tests against the real handler code. Three of them call **Cloudflare's live Siteverify** with Cloudflare's official test secrets; set `SKIP_LIVE_TURNSTILE=1` to skip those offline.
+`npm run test:forms` runs 44 tests against the real handler code. Three of them call **Cloudflare's live Siteverify** with Cloudflare's official test secrets; set `SKIP_LIVE_TURNSTILE=1` to skip those offline.
 
 | # | Scenario | Result |
 |---|---|---|
@@ -153,6 +156,7 @@ Deletion is automatic, on every submission. None of these tables or functions ca
 | 12 | Shared network | ✅ three different customers on one IP all delivered |
 | 13 | Duplicates | ✅ identical second send not emailed (customer sees success); updated enquiry sent; bulk template across 4 IPs flagged |
 | 14 | Malformed / oversized | ✅ 400 listing the fields to fix; 13MB → 413 before parsing; CR/LF and `<script>` neutralised; non-image "photo" dropped |
+| — | Strict mode | ✅ medium-risk pitches and scripted no-JavaScript posts held; a real no-JS browser visitor still delivered; balanced mode still works with `FORM_STRICT=false` |
 | 15 | Failed verification, then retry | ✅ 403 first, then delivered; in a real browser the typed data was kept and the retry succeeded |
 
 **Also verified:**

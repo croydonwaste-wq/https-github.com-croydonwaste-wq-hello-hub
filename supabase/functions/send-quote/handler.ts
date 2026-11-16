@@ -7,7 +7,8 @@
 //  4. Cloudflare Turnstile → reject missing / invalid / expired / reused tokens (when configured)
 //  5. Field validation     → 400 with the fields to fix
 //  6. Duplicate check      → identical enquiry already delivered: success, not emailed twice
-//  7. Spam score           → low: deliver · medium: deliver flagged (or to the review inbox) · high: hold for review
+//  7. Spam score           → low: deliver · high: hold for review · medium: hold (strict mode, the default)
+//                             or deliver flagged / to the review inbox (FORM_STRICT=false)
 //
 // Pure module (no Deno globals): index.ts wires in the environment; tests call it directly.
 
@@ -243,7 +244,7 @@ export function createHandler(cfg: Config, deps: Deps) {
       hasOriginOrReferer: Boolean(origin || referer),
       turnstile,
       bulkCount: seen.bulkCount,
-    });
+    }, { strict: cfg.strict });
     const risk: Risk = classify(score, cfg.mediumThreshold, cfg.highThreshold);
     const base = { score, reasons, ipHash, contentHash, bodyHash: bodyHash || null };
 
@@ -252,9 +253,11 @@ export function createHandler(cfg: Config, deps: Deps) {
       return fail(500, "email_not_configured");
     }
 
-    if (risk === "high") {
-      // Likely spam: hold in the review queue instead of the inbox. If the queue can't be saved
-      // durably, email it (flagged) so a misjudged genuine enquiry is never lost.
+    // Likely spam (and, in strict mode, anything suspicious): hold in the review queue instead of
+    // the inbox. If the queue can't be saved durably, email it (flagged) so a misjudged genuine
+    // enquiry is never lost.
+    const hold = risk === "high" || (cfg.strict && risk === "medium");
+    if (hold) {
       const durable = await record("quarantined", { ...base, payload: { ...q, files: form.getAll("attachment").length } });
       if (durable) return ok();
       deps.log({ event: "quarantine_not_durable", fallback: "email" });
@@ -266,7 +269,7 @@ export function createHandler(cfg: Config, deps: Deps) {
     try {
       await sendEmail(
         cfg,
-        enquiryEmail(cfg, q, { origin: site, attachments, skipped, flag: flagged ? { score, reasons } : null, to: [toReview ? cfg.reviewEmail : cfg.to], copies: !toReview && risk !== "high" }),
+        enquiryEmail(cfg, q, { origin: site, attachments, skipped, flag: flagged ? { score, reasons } : null, to: [toReview ? cfg.reviewEmail : cfg.to], copies: !toReview && !hold }),
         deps.fetch,
       );
     } catch (err) {
@@ -279,7 +282,7 @@ export function createHandler(cfg: Config, deps: Deps) {
       await record("send_failed", { ...base, reasons: [...reasons, code] });
       return fail(502, code);
     }
-    if (risk !== "high") await record(flagged ? "delivered_flagged" : "delivered", base);
+    if (!hold) await record(flagged ? "delivered_flagged" : "delivered", base);
 
     // Auto-reply only for low-risk enquiries, so the form can't be used to message strangers.
     if (!flagged && q.email) {

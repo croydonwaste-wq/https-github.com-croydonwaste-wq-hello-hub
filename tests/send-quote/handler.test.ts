@@ -103,7 +103,8 @@ test("6e. monitor mode scores a failed token instead of rejecting it", async () 
   assert.equal(res.status, 200);
   const entry = t.logs.find((l) => l.event === "quote_form")!;
   assert.ok((entry.reasons as string[]).includes("turnstile_failed"));
-  assert.equal(entry.outcome, "delivered_flagged");
+  assert.equal(entry.outcome, "quarantined");
+  assert.equal(t.sent.length, 0);
 });
 
 // 7. Repeated submissions from one IP
@@ -153,13 +154,25 @@ test("8. direct API calls get the same checks as the website", async () => {
   assert.equal(t.sent.length, 0);
 });
 
-test("8b. without Turnstile, a bare scripted post is scored (no origin, no timing) but a clean one still delivers", async () => {
+test("8b. without Turnstile, a scripted post (no page JavaScript, no origin) is held in strict mode", async () => {
   const t = setup();
   const r = await t.handle(req({ ...genuine, _elapsed: "" }, { origin: null }));
   assert.equal(r.status, 200);
   const entry = t.logs.find((l) => l.event === "quote_form")!;
   assert.deepEqual(entry.reasons, ["no_timing", "no_origin_header"]);
-  assert.equal(entry.outcome, "delivered");
+  assert.equal(entry.outcome, "quarantined");
+  assert.equal(t.sent.length, 0);
+  // Balanced mode lets the same clean content through.
+  const b = setup({ FORM_STRICT: "false" });
+  await b.handle(req({ ...genuine, _elapsed: "" }, { origin: null }));
+  assert.deepEqual(b.outcomes(), ["delivered"]);
+});
+
+test("8c. a real browser visitor with JavaScript switched off is still delivered in strict mode", async () => {
+  const t = setup();
+  const r = await t.handle(req({ ...genuine, _elapsed: "" }, { json: false, referer: `${SITE}/contact/` }));
+  assert.equal(r.status, 303);
+  assert.deepEqual(t.outcomes(), ["delivered"]);
 });
 
 // 9. Spam with several promotional URLs
@@ -222,15 +235,23 @@ test("10b. a genuine enquiry that mentions SEO or marketing words is delivered",
   assert.deepEqual(t.outcomes(), ["delivered"]);
 });
 
-test("10c. medium-risk pitch is delivered flagged, without auto-reply; or to the review inbox when set", async () => {
+test("10c. strict mode (default) holds a medium-risk pitch for review", async () => {
   const pitch = { ...genuine, name: "Tom Hughes", details: "I came across your website. Our SEO services could help your business." };
   const t = setup();
+  assert.equal((await t.handle(req(pitch))).status, 200);
+  assert.deepEqual(t.outcomes(), ["quarantined"]);
+  assert.equal(t.sent.length, 0);
+});
+
+test("10d. balanced mode delivers a medium-risk pitch flagged, without auto-reply; or to the review inbox when set", async () => {
+  const pitch = { ...genuine, name: "Tom Hughes", details: "I came across your website. Our SEO services could help your business." };
+  const t = setup({ FORM_STRICT: "false" });
   assert.equal((await t.handle(req(pitch))).status, 200);
   assert.deepEqual(t.outcomes(), ["delivered_flagged"]);
   assert.equal(t.sent.length, 1);
   assert.match(t.sent[0].subject, /^\[Possible spam – please check\]/);
   assert.match(t.sent[0].html, /spam filter wasn/);
-  const t2 = setup({ QUOTE_REVIEW_EMAIL: "review@watfordrubbishclearance.co.uk" });
+  const t2 = setup({ FORM_STRICT: "false", QUOTE_REVIEW_EMAIL: "review@watfordrubbishclearance.co.uk" });
   await t2.handle(req(pitch));
   assert.deepEqual(t2.sent[0].to, ["review@watfordrubbishclearance.co.uk"]);
   assert.equal(t2.sent[0].cc, undefined);

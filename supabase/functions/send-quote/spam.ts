@@ -70,7 +70,7 @@ export const countUrls = (s: string) => (s.match(URL_RE) ?? []).length;
 /** Normalised message text used for duplicate / bulk detection. */
 export const normaliseText = (s: string) => s.toLowerCase().replace(/https?:\/\/\S+/g, "url").replace(/[^\p{L}\p{N}]+/gu, " ").trim();
 
-export function scoreQuote(q: Quote, s: Signals): Score {
+export function scoreQuote(q: Quote, s: Signals, opts: { strict?: boolean } = {}): Score {
   const reasons: string[] = [];
   let score = 0;
   const add = (points: number, reason: string) => {
@@ -110,7 +110,8 @@ export function scoreQuote(q: Quote, s: Signals): Score {
   if (isDisposableEmail(q.email)) add(3, "disposable_email");
 
   // Behaviour. Weak on their own: autofill and fast typists exist, and some people browse without JavaScript.
-  if (s.elapsedMs === null) add(1, "no_timing");
+  // Strict: almost every real visitor runs the page's JavaScript; form bots usually post directly.
+  if (s.elapsedMs === null) add(opts.strict ? 3 : 1, "no_timing");
   else if (s.elapsedMs < 1500) add(4, "submitted_instantly");
   else if (s.elapsedMs < 4000) add(2, "submitted_very_fast");
   if (!s.hasOriginOrReferer) add(2, "no_origin_header");

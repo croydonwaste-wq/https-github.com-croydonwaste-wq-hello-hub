@@ -35,6 +35,11 @@ export type Config = {
   bulkWindowSec: number;
 
   // Spam score thresholds
+  /**
+   * Strict mode (default on, FORM_STRICT=false to turn off): "medium risk" enquiries are held for
+   * review instead of emailed, and posts made without the page's JavaScript count for more.
+   */
+  strict: boolean;
   mediumThreshold: number;
   highThreshold: number;
 
@@ -87,6 +92,7 @@ export function loadConfig(env: (k: string) => string | undefined): Config {
     duplicateWindowSec: int(env("DUPLICATE_WINDOW_SEC"), 1800, 0),
     bulkWindowSec: int(env("BULK_WINDOW_SEC"), 86400, 0),
 
+    strict: (env("FORM_STRICT") ?? "").toLowerCase() !== "false",
     mediumThreshold: int(env("SPAM_MEDIUM_THRESHOLD"), 5, 1),
     highThreshold: int(env("SPAM_HIGH_THRESHOLD"), 10, 1),
 
