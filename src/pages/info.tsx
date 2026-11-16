@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Seo } from "@/components/Seo";
 import { AnswerBox, ContentBlocks, CtaBand, FaqList, PageHero, ProcessSteps, TrustGrid } from "@/components/blocks";
-import { QuoteForm } from "@/components/QuoteForm";
+import { QuoteForm, SEND_ERRORS } from "@/components/QuoteForm";
 import { Icon } from "@/components/Icon";
 import { LoadSizeGuide, WasteJourney } from "@/components/Graphics";
 import { Illustration } from "@/components/Illustration";
@@ -178,7 +178,8 @@ function SendErrorNotice() {
   const tel = telHref();
   return (
     <p role="alert" className="mt-4 rounded-md border border-brick-500/40 bg-brick-500/10 px-4 py-3 text-sm font-medium text-ink-900">
-      Sorry — your request didn't go through. Please try again{tel ? <>, or call us on <a href={tel} className="font-semibold underline">{business.phone}</a></> : null}.
+      Sorry — your request didn't go through{SEND_ERRORS[failed] ? ` because ${SEND_ERRORS[failed]}` : ""}. Please try again{tel ? <>, or call us on <a href={tel} className="font-semibold underline">{business.phone}</a></> : null}.
+      {failed.startsWith("verification") && <span className="mt-1 block">The form needs JavaScript switched on to complete its security check.</span>}
     <span className="mt-1 block text-xs font-normal text-ink-500">Error code: {failed}</span></p>
   );
 }

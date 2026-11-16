@@ -4,7 +4,7 @@ import { business } from "@/data/business";
 
 // Template legal copy. BUSINESS CONFIRMATION REQUIRED: have these reviewed and add
 // the legal entity, registered address and ICO registration (if applicable).
-const LAST_UPDATED = "27 October 2026";
+const LAST_UPDATED = "16 November 2026";
 
 export function Privacy() {
   const crumbs = [{ name: "Home", path: "/" }, { name: "Privacy policy", path: "/privacy-policy/" }];
@@ -32,6 +32,13 @@ export function Privacy() {
             },
             { h2: "Who we share it with", paras: ["Only with service providers that help us run the business (for example email and form-handling providers), and authorities where the law requires it."] },
             { h2: "How long we keep it", paras: ["Enquiries that don't lead to a booking are deleted within 12 months. Records relating to completed jobs are kept for as long as required for legal, accounting and waste-regulation purposes."] },
+            {
+              h2: "Protecting our forms from spam",
+              paras: [
+                "To stop automated spam, our quote form checks each submission on our server (legitimate interests). Your IP address is turned into a one-way code that can't be reversed and kept for up to 24 hours to limit repeated submissions. The form may also use Cloudflare Turnstile, which checks your browser for signs of automation without cookies or picture puzzles; Cloudflare processes your IP address and browser details for this purpose only.",
+                "Enquiries our filter thinks are likely spam are held securely for up to 30 days so we can check them by hand, then deleted. Statistics about form use (for example how many messages were blocked) contain no personal details.",
+              ],
+            },
             { h2: "Cookies", paras: ["This website does not use advertising or analytics cookies. If that changes, we will update this policy and ask for consent where required."] },
             {
               h2: "Your rights",
