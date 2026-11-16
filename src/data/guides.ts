@@ -130,14 +130,15 @@ export const guides: Guide[] = [
       "Should you book Watford council's bulky waste collection or a private rubbish removal company? A plain-English comparison of cost, items and timing.",
     lead: "Both options have their place. Here's an honest comparison so you can pick the right one for what you're getting rid of.",
     answer:
-      "Use the council's bulky waste service if you have a few eligible items, can put them outside and can wait for a slot. Use a private licensed collector if you have more items, items the council excludes (such as sofas or electricals), items that need carrying out from inside, or a deadline.",
+      "Use the council's bulky waste service if you have a few eligible items, can put them outside and can wait for a slot. Use a private licensed collector if you have a mixed load (the council prices sofas, electricals and general items as separate collections), items that need carrying out from inside, or a deadline.",
     published: "2026-10-27",
-    updated: "2026-10-27",
+    updated: "2026-11-12",
     blocks: [
       {
         h2: "Watford Borough Council's bulky waste service",
         paras: [
-          "At the time of writing, Watford Borough Council's page listed £57 for up to three bulky items in one collection, excluding electricals and sofas or other upholstered items, with bookings handled through its contractor. Check watford.gov.uk for the latest price, eligible items and how to book — these change.",
+          "When we checked watford.gov.uk on 12 November 2026, Watford Borough Council listed: £57 for up to three bulky items (no electricals or upholstered items) in one collection; £57 for up to three sofas or upholstered items in one collection; £57 per electrical item, including TVs and white goods; £69.50 per American fridge freezer; and a minimum of £98.50 for other bulky items or garden furniture. Residents receiving council-related benefits could get 50% off.",
+          "Collections are booked through the council's contractor, Veolia, and items must be left outside the front of the property. Check watford.gov.uk for the latest prices, eligible items and how to book — these change.",
           "If you live in Bushey, South Oxhey, Croxley Green, Rickmansworth or Abbots Langley, you're served by a different council (Hertsmere or Three Rivers), with its own rules.",
         ],
       },
@@ -145,7 +146,7 @@ export const guides: Guide[] = [
         h2: "Side-by-side comparison",
         subs: [
           { h3: "Number of items", text: "Council: limited per booking. Private: priced on volume, no fixed item limit." },
-          { h3: "Item types", text: "Council: some categories excluded. Private: most household items, including electricals and upholstered seating." },
+          { h3: "Item types", text: "Council: general items, sofas and electricals are priced as separate collections, and some items aren't collected. Private: mixed household items in one visit, including electricals and upholstered seating." },
           { h3: "Where items are collected", text: "Council: usually from outside the property. Private: from any room, including upstairs and lofts." },
           { h3: "Timing", text: "Council: next available slot. Private: arranged around your dates where availability allows." },
           { h3: "Cost", text: "Council: often cheaper for a few eligible items. Private: better value for mixed or larger loads." },
@@ -162,7 +163,7 @@ export const guides: Guide[] = [
       },
     ],
     faqs: [
-      { q: "Will Watford council take a sofa?", a: "The standard bulky collection has excluded sofas and upholstered items — check watford.gov.uk for the current position." },
+      { q: "Will Watford council take a sofa?", a: "Yes. When we checked on 12 November 2026, Watford Borough Council listed £57 for up to three sofas or upholstered items in one collection, left outside the front of the property. Check watford.gov.uk for the current price." },
       { q: "Is a private collection always more expensive?", a: "For one or two eligible items the council is usually cheaper. For mixed loads, excluded items or items inside the house, a private collection is often the practical option." },
     ],
     related: ["bulky-waste-collection", "sofa-removal", "furniture-removal"],

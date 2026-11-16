@@ -70,6 +70,16 @@ function Header() {
               <span className="flex flex-col leading-tight"><span className="text-[0.65rem] font-semibold uppercase tracking-wider text-ink-500">Call 24/7</span>{business.phone}</span>
             </a>
           )}
+          {tel && (
+            <a
+              href={tel}
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-brick-500 text-white md:hidden"
+              aria-label={`Call ${business.phone}, open 24/7`}
+              data-cta="call-header-mobile"
+            >
+              <Icon name="phone" className="h-5 w-5" />
+            </a>
+          )}
           <Link to="/contact/#quote" className="btn-primary hidden !py-2.5 sm:inline-flex">
             Free quote
           </Link>

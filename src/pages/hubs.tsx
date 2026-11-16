@@ -163,7 +163,7 @@ export function GuidePage({ guide: g }: { guide: Guide }) {
           </div>
         </aside>
       </article>
-      <CtaBand heading="Need something cleared?" text="Get a free quote from a local Watford rubbish clearance company." />
+      <CtaBand heading="Need something cleared?" text="Get a free quote for rubbish removal in Watford and the surrounding towns." />
     </>
   );
 }

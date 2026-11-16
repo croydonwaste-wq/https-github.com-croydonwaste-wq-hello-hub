@@ -2,13 +2,19 @@ import { Link } from "react-router-dom";
 import { business, telHref, whatsappHref, mailtoHref } from "@/data/business";
 import { Icon } from "./Icon";
 
-type Props = { context?: string; tone?: "light" | "dark"; className?: string };
+type Props = {
+  context?: string;
+  tone?: "light" | "dark";
+  className?: string;
+  /** Where "Get a free quote" goes. Use an in-page anchor (e.g. "#quote") when the page has its own form. */
+  quoteHref?: string;
+};
 
 /**
  * Primary conversion buttons. Call / WhatsApp only render once a verified number
  * exists in business.ts — the quote form is always available.
  */
-export function ContactButtons({ context = "a rubbish clearance", tone = "light", className = "" }: Props) {
+export function ContactButtons({ context = "a rubbish clearance", tone = "light", className = "", quoteHref = "/contact/#quote" }: Props) {
   const tel = telHref();
   const wa = whatsappHref(`Hi, I'd like a quote for ${context}. My postcode is: `);
   const ghost =
@@ -17,9 +23,15 @@ export function ContactButtons({ context = "a rubbish clearance", tone = "light"
       : "border-navy-900/15 text-navy-900 hover:bg-navy-50";
   return (
     <div className={`flex flex-wrap gap-3 ${className}`}>
-      <Link to="/contact/#quote" className="btn-primary">
-        Get a free quote <Icon name="arrow" className="h-5 w-5" />
-      </Link>
+      {quoteHref.startsWith("#") ? (
+        <a href={quoteHref} className="btn-primary" data-cta="quote">
+          Get a free quote <Icon name="arrow" className="h-5 w-5" />
+        </a>
+      ) : (
+        <Link to={quoteHref} className="btn-primary" data-cta="quote">
+          Get a free quote <Icon name="arrow" className="h-5 w-5" />
+        </Link>
+      )}
       {tel && (
         <a href={tel} className={`btn border ${ghost}`} data-cta="call">
           <Icon name="phone" className="h-5 w-5" /> Call {business.phone}

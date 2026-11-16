@@ -181,7 +181,7 @@ export function ProcessSteps({ heading = "How it works" }: { heading?: string })
   );
 }
 
-export function CtaBand({ heading, text, context }: { heading: string; text: string; context?: string }) {
+export function CtaBand({ heading, text, context, quoteHref }: { heading: string; text: string; context?: string; quoteHref?: string }) {
   return (
     <section className="bg-navy-900 text-white">
       <div className="container flex flex-col gap-6 py-12 md:flex-row md:items-center md:justify-between">
@@ -189,7 +189,7 @@ export function CtaBand({ heading, text, context }: { heading: string; text: str
           <h2 className="font-display text-2xl font-bold sm:text-3xl">{heading}</h2>
           <p className="mt-2 text-navy-100">{text}</p>
         </div>
-        <ContactButtons tone="dark" context={context} />
+        <ContactButtons tone="dark" context={context} quoteHref={quoteHref} />
       </div>
     </section>
   );
@@ -219,8 +219,12 @@ export const trustPoints = [
   { icon: "recycle" as const, title: "We lift, we recycle", text: "Collected from any room, loft or garden, then sorted for reuse and recycling first." },
 ];
 
+/** Environment Agency public register, where customers can verify a waste carrier registration. */
+export const WASTE_CARRIER_REGISTER = "https://environment.data.gov.uk/public-register/view/search-waste-carriers-brokers";
+
 export function TrustGrid() {
   return (
+    <>
     <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
       {trustPoints.map((t) => (
         <li key={t.title} className="flex gap-4">
@@ -234,5 +238,12 @@ export function TrustGrid() {
         </li>
       ))}
     </ul>
+    {business.wasteCarrierNumber && (
+      <p className="mt-6 text-sm text-ink-700">
+        Waste carrier registration <strong className="text-navy-900">{business.wasteCarrierNumber}</strong> —{" "}
+        <a href={WASTE_CARRIER_REGISTER} className="link" target="_blank" rel="noopener">check it on the Environment Agency register</a>.
+      </p>
+    )}
+    </>
   );
 }

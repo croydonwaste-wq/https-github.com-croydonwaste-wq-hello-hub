@@ -3,6 +3,9 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { absoluteUrl, business, telHref } from "@/data/business";
 import { services } from "@/data/services";
 import { Icon } from "@/components/Icon";
+import { useTurnstile } from "@/lib/turnstile";
+// Same rules the server applies (send-quote edge function), so the browser never accepts what the server rejects.
+import { validEmail, validName, validPhone } from "../../supabase/functions/send-quote/validate";
 
 /**
  * Quote form. Submits as a normal multipart POST (works before/without JavaScript and
@@ -50,12 +53,32 @@ const MAX_PHOTOS = 5;
 /** Fields shown on step 1 of the two-step quick form. */
 const STEP1: ErrorKey[] = ["service", "postcode", "photos"];
 
-/** Friendly text for the error codes the send-quote function returns. */
-const SEND_ERRORS: Record<string, string> = {
+/** Friendly text for the error codes the send-quote function returns (also used on the contact page). */
+export const SEND_ERRORS: Record<string, string> = {
   email_not_configured: "our email service isn't set up yet",
   sender_domain_not_verified: "our sending address isn't verified yet",
   resend_key_invalid: "our email service key was rejected",
   missing_details: "some details were missing",
+  invalid_fields: "some details need checking",
+  rate_limited: "we've had several requests from your connection in the last few minutes. Please wait a few minutes before trying again",
+  verification_required: "our automatic security check didn't complete. If a \u201cverify you are human\u201d box appears above the button, tick it",
+  verification_failed: "our automatic security check didn't pass",
+  verification_expired: "our automatic security check timed out",
+  too_large: "the photos are too large in total. Please remove one or two",
+  unsupported_content_type: "the form couldn't be read",
+  bad_form_data: "the form couldn't be read",
+  network_error: "the connection dropped",
+};
+
+/** Messages for fields the server rejects (normally caught in the browser first). */
+const FIELD_ERRORS: Record<string, string> = {
+  name: "Please enter your name (letters only, no links).",
+  phone: "Please enter a phone number we can call you back on.",
+  email: "Please enter your email so we can send you a copy of your quote.",
+  postcode: "Please enter your postcode, e.g. WD17 1AA.",
+  service: "Please choose what you need.",
+  details: "Please tell us a little about what needs removing.",
+  consent: "Please tick to let us contact you about your quote.",
 };
 const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string | undefined;
 
@@ -67,10 +90,9 @@ export function validateQuote(data: FormData, variant: Variant): Errors {
   const files = data.getAll("attachment").filter((f): f is File => f instanceof File && f.size > 0);
   if (files.length > MAX_PHOTOS) e.photos = `Please choose up to ${MAX_PHOTOS} photos.`;
   else if (files.reduce((n, f) => n + f.size, 0) > MAX_PHOTO_BYTES) e.photos = "Photos are over 10MB in total — please choose fewer or smaller photos.";
-  if (v("name").length < 2) e.name = "Please enter your name.";
-  const digits = v("phone").replace(/\D/g, "");
-  if (digits.length < 10 || digits.length > 13) e.phone = "Please enter a phone number we can call you back on.";
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v("email"))) e.email = "Please enter your email so we can send you a copy of your quote.";
+  if (!validName(v("name"))) e.name = v("name").length < 2 ? "Please enter your name." : FIELD_ERRORS.name;
+  if (!validPhone(v("phone"))) e.phone = FIELD_ERRORS.phone;
+  if (!validEmail(v("email").toLowerCase())) e.email = FIELD_ERRORS.email;
   if (variant === "full" && v("details").length < 5) e.details = "Please tell us a little about what needs removing.";
   if (!data.get("consent")) e.consent = "Please tick to let us contact you about your quote.";
   return e;
@@ -90,7 +112,13 @@ export function QuoteForm({ variant = "full", defaultService = "", title }: { va
   // Before hydration (or without JavaScript) every field shows and the browser validates;
   // once hydrated we add the two steps, photo previews and our own accessible messages.
   const [enhanced, setEnhanced] = useState(false);
-  useEffect(() => setEnhanced(true), []);
+  // When the form became usable: sent with the enquiry as a bot signal (instant submits are suspicious).
+  const readyAt = useRef(0);
+  useEffect(() => {
+    setEnhanced(true);
+    readyAt.current = Date.now();
+  }, []);
+  const turnstile = useTurnstile();
   useEffect(() => () => photos.forEach((p) => URL.revokeObjectURL(p.url)), [photos]);
 
   const compact = variant === "compact";
@@ -144,15 +172,29 @@ export function QuoteForm({ variant = "full", defaultService = "", title }: { va
     // FormSubmit fallback: let the browser post the form normally.
     if (business.formEndpoint.includes("formsubmit.co")) return;
     // Our edge function: send in the background (with the public Supabase key, so the
-    // function's auth check can't block it) and show any problem right here.
+    // function's auth check can't block it) and show any problem right here. The visitor's
+    // answers stay in the form if anything goes wrong, so they can simply try again.
     ev.preventDefault();
     const body = new FormData(ev.currentTarget);
+    body.set("_elapsed", String(readyAt.current ? Date.now() - readyAt.current : ""));
     const headers: Record<string, string> = { Accept: "application/json" };
     if (SUPABASE_KEY) Object.assign(headers, { Authorization: `Bearer ${SUPABASE_KEY}`, apikey: SUPABASE_KEY });
-    fetch(business.formEndpoint, { method: "POST", body, headers })
+    turnstile
+      .getToken()
+      .then((token) => {
+        if (token) body.set("cf-turnstile-response", token);
+        return fetch(business.formEndpoint, { method: "POST", body, headers });
+      })
       .then(async (res) => {
-        const data = await res.json().catch(() => ({}) as { success?: boolean; error?: string });
+        const data = (await res.json().catch(() => ({}))) as { success?: boolean; error?: string; code?: string; message?: string; fields?: string[] };
         if (res.ok && data.success !== false) return navigate("/thank-you/");
+        // Field problems found by the server: show them next to the fields, like browser-side errors.
+        if (data.error === "invalid_fields" && data.fields?.length) {
+          const fe: Errors = Object.fromEntries(data.fields.filter((k) => k in FIELD_ERRORS).map((k) => [k, FIELD_ERRORS[k]]));
+          setErrors(fe);
+          if (stepped && STEP1.some((k) => fe[k])) setStep(1);
+          focusFirst(fe);
+        }
         throw new Error(data.error || data.code || data.message || `http_${res.status}`);
       })
       .catch((e: unknown) => {
@@ -160,6 +202,7 @@ export function QuoteForm({ variant = "full", defaultService = "", title }: { va
         console.error("Quote form send failed:", code);
         setSendError(code === "Failed to fetch" ? "network_error" : code);
         setSending(false);
+        turnstile.reset(); // verification tokens are single-use
       });
   }
 
@@ -242,6 +285,8 @@ export function QuoteForm({ variant = "full", defaultService = "", title }: { va
         </span>
       </label>
       {err("consent")}
+      {/* Invisible unless Cloudflare needs the visitor to tick a box; takes no space otherwise. */}
+      {turnstile.enabled && <div ref={turnstile.containerRef} className={turnstile.visible ? "mt-3" : ""} />}
     </div>
   );
 
@@ -267,6 +312,7 @@ export function QuoteForm({ variant = "full", defaultService = "", title }: { va
       encType="multipart/form-data"
       noValidate={enhanced}
       onSubmit={onSubmit}
+      onFocus={turnstile.start}
       onChange={(ev) => {
         // Clear a field's error as soon as the visitor changes it.
         const name = (ev.target as HTMLInputElement).name;
@@ -293,7 +339,8 @@ export function QuoteForm({ variant = "full", defaultService = "", title }: { va
           />
         </>
       )}
-      {/* Honeypot: real visitors never see or fill this. */}
+      {/* Honeypot: hidden from everyone (including screen readers and keyboard users); only bots fill it.
+          The server silently discards any submission where it has a value. */}
       <div className="hidden" aria-hidden="true">
         <label htmlFor={fid("honey")}>Leave this empty</label>
         <input id={fid("honey")} type="text" name="_honey" tabIndex={-1} autoComplete="off" />

@@ -48,6 +48,8 @@ Every page has a short quote form in its header; key pages also have a full form
 2. send the customer an automatic reply summarising their request and saying a member of the team will be in contact in due course (only when they gave an email address);
 3. redirect the visitor to `/thank-you/` (or back to `/contact/?sent=error` if sending failed).
 
+**Spam protection** runs inside the function, before anything is emailed: request/size/origin checks, honeypot, per-IP rate limiting, Cloudflare Turnstile (once keys are set), server-side validation, duplicate detection and a spam score that delivers, flags or holds each enquiry for review. Set-up steps, thresholds, monitoring and test results: [`docs/FORM-SPAM-PROTECTION.md`](docs/FORM-SPAM-PROTECTION.md). Tests: `npm run test:forms`.
+
 **Setup (once):**
 
 1. In Resend, verify the domain `watfordrubbishclearance.co.uk` by adding the DNS records Resend shows (the `resend._domainkey` TXT/DKIM record, plus the SPF/MX records for the `send` subdomain) at your DNS provider.
